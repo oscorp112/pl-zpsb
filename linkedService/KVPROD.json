@@ -1,0 +1,10 @@
+{
+	"name": "KVPROD",
+	"properties": {
+		"annotations": [],
+		"type": "AzureKeyVault",
+		"typeProperties": {
+			"baseUrl": "https://pl-zpsb01-kv.vault.azure.net/"
+		}
+	}
+}
