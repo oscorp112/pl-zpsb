@@ -1,0 +1,9 @@
+{
+	"name": "pl-zpsb-adf-prod",
+	"location": "westeurope",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "0b01ce65-fc6c-44b7-9ef2-302309cf11b1",
+		"tenantId": "df8ce9af-a8a5-466f-89bc-4a1c1ab964b0"
+	}
+}
