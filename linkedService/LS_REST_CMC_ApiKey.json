@@ -4,7 +4,7 @@
 		"annotations": [],
 		"type": "RestService",
 		"typeProperties": {
-			"url": "https://pro-api.coinmarketcap.com",
+			"url": "https://pro-api.coinmarketcap.com//v1/cryptocurrency/listings/latest?start=1&limit=20&sort=market_cap&cryptocurrency_type=all&tag=all",
 			"enableServerCertificateValidation": true,
 			"authenticationType": "Anonymous",
 			"authHeaders": {
