@@ -1,5 +1,5 @@
 {
-	"name": "pipeline1",
+	"name": "ExtractLatest20",
 	"properties": {
 		"activities": [
 			{
@@ -33,7 +33,7 @@
 					"sink": {
 						"type": "JsonSink",
 						"storeSettings": {
-							"type": "AzureBlobStorageWriteSettings"
+							"type": "AzureBlobFSWriteSettings"
 						},
 						"formatSettings": {
 							"type": "JsonWriteSettings"
@@ -49,7 +49,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "Json1",
+						"referenceName": "JsonDataDestination",
 						"type": "DatasetReference"
 					}
 				]
