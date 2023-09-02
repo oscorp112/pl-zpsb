@@ -1,0 +1,15 @@
+{
+	"name": "REST_Latest_Top_20",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_REST_CMC_ApiKey",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"typeProperties": {
+			"relativeUrl": "/v1/cryptocurrency/listings/latest?start=1&limit=20&sort=market_cap&cryptocurrency_type=all&tag=all"
+		},
+		"schema": []
+	}
+}
