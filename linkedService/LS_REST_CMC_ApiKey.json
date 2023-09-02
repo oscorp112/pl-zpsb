@@ -1,0 +1,22 @@
+{
+	"name": "LS_REST_CMC_ApiKey",
+	"properties": {
+		"annotations": [],
+		"type": "RestService",
+		"typeProperties": {
+			"url": "https://pro-api.coinmarketcap.com",
+			"enableServerCertificateValidation": true,
+			"authenticationType": "Anonymous",
+			"authHeaders": {
+				"APIKey": {
+					"type": "AzureKeyVaultSecret",
+					"store": {
+						"referenceName": "KVPROD",
+						"type": "LinkedServiceReference"
+					},
+					"secretName": "CMCAPIKey"
+				}
+			}
+		}
+	}
+}
