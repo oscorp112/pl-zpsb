@@ -8,7 +8,7 @@
 			"enableServerCertificateValidation": true,
 			"authenticationType": "Anonymous",
 			"authHeaders": {
-				"APIKey": {
+				"Authorization": {
 					"type": "AzureKeyVaultSecret",
 					"store": {
 						"referenceName": "KVPROD",
