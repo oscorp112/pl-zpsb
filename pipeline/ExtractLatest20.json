@@ -33,7 +33,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "REST_Latest_Top_20",
+						"referenceName": "CMC",
 						"type": "DatasetReference"
 					}
 				],
