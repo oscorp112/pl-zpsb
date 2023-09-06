@@ -5,6 +5,12 @@
 			"referenceName": "CMCSource",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"APIKey": {
+				"type": "string",
+				"defaultValue": "3da69972-dab7-4c5e-9960-441649fff4a4"
+			}
+		},
 		"annotations": [],
 		"type": "RestResource",
 		"typeProperties": {
