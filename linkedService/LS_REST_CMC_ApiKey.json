@@ -1,10 +1,16 @@
 {
 	"name": "LS_REST_CMC_ApiKey",
 	"properties": {
+		"parameters": {
+			"Latest20Query": {
+				"type": "String",
+				"defaultValue": "/v1/cryptocurrency/listings/latest?start=1&limit=20&sort=market_cap&cryptocurrency_type=all&tag=all"
+			}
+		},
 		"annotations": [],
 		"type": "RestService",
 		"typeProperties": {
-			"url": "https://pro-api.coinmarketcap.com",
+			"url": "@{linkedService().Latest20Query}",
 			"enableServerCertificateValidation": true,
 			"authenticationType": "Anonymous",
 			"authHeaders": {
