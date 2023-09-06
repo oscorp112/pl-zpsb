@@ -14,7 +14,7 @@
 			"enableServerCertificateValidation": true,
 			"authenticationType": "Anonymous",
 			"authHeaders": {
-				"APIKey": {
+				"X-API-Key": {
 					"type": "AzureKeyVaultSecret",
 					"store": {
 						"referenceName": "KVPROD",
