@@ -8,7 +8,7 @@
 			"enableServerCertificateValidation": true,
 			"authenticationType": "Anonymous",
 			"authHeaders": {
-				"APIKey": {
+				"X-CMC_PRO_API_KEY": {
 					"type": "AzureKeyVaultSecret",
 					"store": {
 						"referenceName": "KVPROD",
