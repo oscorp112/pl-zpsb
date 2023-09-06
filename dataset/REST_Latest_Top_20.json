@@ -3,12 +3,15 @@
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "LS_REST_CMC_ApiKey",
-			"type": "LinkedServiceReference"
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"Latest20Query": "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?start=1&limit=20&sort=market_cap&cryptocurrency_type=all&tag=all"
+			}
 		},
 		"annotations": [],
 		"type": "RestResource",
 		"typeProperties": {
-			"relativeUrl": "/v1/cryptocurrency/listings/latest?start=1&limit=20&sort=market_cap&cryptocurrency_type=all&tag=all"
+			"relativeUrl": ""
 		},
 		"schema": []
 	}
