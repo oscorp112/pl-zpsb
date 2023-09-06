@@ -31,13 +31,9 @@
 						}
 					},
 					"sink": {
-						"type": "JsonSink",
-						"storeSettings": {
-							"type": "AzureBlobFSWriteSettings"
-						},
-						"formatSettings": {
-							"type": "JsonWriteSettings"
-						}
+						"type": "AzureSqlSink",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false
 					},
 					"enableStaging": false
 				},
@@ -49,7 +45,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "JsonDataDestination",
+						"referenceName": "AzureSqlTable1",
 						"type": "DatasetReference"
 					}
 				]
