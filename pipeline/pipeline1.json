@@ -1,6 +1,56 @@
 {
 	"name": "pipeline1",
 	"properties": {
+		"activities": [
+			{
+				"name": "Execute Extract",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Set variable1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "Extract_Top20LatesCryptos",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"RestCMCApiKey": {
+							"value": "@variables('RestCMCApiKey')",
+							"type": "Expression"
+						}
+					}
+				}
+			},
+			{
+				"name": "Set variable1",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": true,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "RestCMCApiKey",
+					"value": {
+						"value": "@Microsoft.KeyVault(SecretUri=https://pl-zpsb01-kv.vault.azure.net/secrets/CMCAPIKey/e1f3f049401f48178a0c066f3981f70c) ",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"variables": {
+			"RestCMCApiKey": {
+				"type": "String"
+			}
+		},
 		"annotations": []
 	}
 }

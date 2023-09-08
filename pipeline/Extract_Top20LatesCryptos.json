@@ -1,18 +1,11 @@
 {
-	"name": "ExtractLatest20",
+	"name": "Extract_Top20LatesCryptos",
 	"properties": {
 		"activities": [
 			{
 				"name": "Copy data1",
 				"type": "Copy",
-				"dependsOn": [
-					{
-						"activity": "Current datetime",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -58,27 +51,10 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "Json2",
+						"referenceName": "Top20Latest",
 						"type": "DatasetReference"
 					}
 				]
-			},
-			{
-				"name": "Current datetime",
-				"type": "SetVariable",
-				"dependsOn": [],
-				"policy": {
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "CurrentDate",
-					"value": {
-						"value": "@utcnow()",
-						"type": "Expression"
-					}
-				}
 			}
 		],
 		"parameters": {
@@ -88,6 +64,9 @@
 		},
 		"variables": {
 			"CurrentDate": {
+				"type": "String"
+			},
+			"RestCMCApiKey": {
 				"type": "String"
 			}
 		},
