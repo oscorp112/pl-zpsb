@@ -37,6 +37,45 @@
 						"mappings": [
 							{
 								"source": {
+									"path": "$['status']['timestamp']"
+								},
+								"sink": {
+									"name": "timestamp",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"path": "$['status']['error_code']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['status']['error_message']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['status']['elapsed']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['status']['credit_count']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['status']['notice']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['status']['total_count']"
+								}
+							},
+							{
+								"source": {
 									"path": "['id']"
 								},
 								"sink": {
@@ -87,6 +126,11 @@
 								"sink": {
 									"name": "date_added",
 									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"path": "['tags'][0]"
 								}
 							},
 							{
@@ -304,18 +348,10 @@
 									"name": "last_updated",
 									"type": "DateTime"
 								}
-							},
-							{
-								"source": {
-									"path": "$['status']['timestamp']"
-								},
-								"sink": {
-									"name": "timestamp",
-									"type": "DateTime"
-								}
 							}
 						],
-						"collectionReference": "$['data']"
+						"collectionReference": "$['data']",
+						"mapComplexValuesToString": true
 					}
 				},
 				"inputs": [
