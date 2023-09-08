@@ -10,7 +10,7 @@
 		"schema": [],
 		"typeProperties": {
 			"schema": "",
-			"table": "ODS_Latest20Crypto"
+			"table": "ODS_Top20LatestCryptocurrency"
 		}
 	}
 }
