@@ -10,7 +10,10 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "top20latestcryptos.json",
+				"fileName": {
+					"value": "@concat('top20currentcryptos_', formatDateTime(utcnow(), 'yyyyMMdd'), '.json')\n",
+					"type": "Expression"
+				},
 				"container": "zpsb"
 			}
 		},
