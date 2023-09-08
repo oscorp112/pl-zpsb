@@ -65,7 +65,7 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"url": "https://pl-zpsb01-kv.vault.azure.net/secrets/CMCAPIKey/",
+					"url": "https://pl-zpsb01-kv.vault.azure.net/secrets/CMCAPIKey/?api-version=7.0",
 					"method": "GET",
 					"authentication": {
 						"type": "MSI",
