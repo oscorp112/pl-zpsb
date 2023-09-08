@@ -311,15 +311,6 @@
 									"name": "tvl",
 									"type": "Decimal"
 								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['quote']['USD']['last_updated']"
-								},
-								"sink": {
-									"name": "last_updated",
-									"type": "DateTime"
-								}
 							}
 						],
 						"collectionReference": "",
