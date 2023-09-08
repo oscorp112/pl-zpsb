@@ -1,5 +1,5 @@
 {
-	"name": "AzureSqlTable1",
+	"name": "ODS_Top20Latest",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "SQLPROD",
