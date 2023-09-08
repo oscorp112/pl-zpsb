@@ -19,7 +19,13 @@
 						"referenceName": "Extract_Top20LatesCryptos",
 						"type": "PipelineReference"
 					},
-					"waitOnCompletion": true
+					"waitOnCompletion": true,
+					"parameters": {
+						"RestCMCApiKey": {
+							"value": "@variables('RestCMCApiKey')",
+							"type": "Expression"
+						}
+					}
 				}
 			},
 			{
