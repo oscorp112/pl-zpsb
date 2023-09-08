@@ -5,7 +5,14 @@
 			{
 				"name": "Load Top20Latest",
 				"type": "Copy",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Truncate Top20Latest stg",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -345,10 +352,10 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"storedProcedureName": "[mgmt].[TruncateTable]",
+					"storedProcedureName": "[mgmt].[TruncateTableBySchema]",
 					"storedProcedureParameters": {
-						"TableName": {
-							"value": "ods.Top20LatestCryptocurrency",
+						"schemaAndTableName": {
+							"value": "ODS.Top20LatestCryptocurrency",
 							"type": "String"
 						}
 					}
