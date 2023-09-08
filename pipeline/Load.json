@@ -1,0 +1,340 @@
+{
+	"name": "Load",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy data1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "JsonSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "JsonReadSettings"
+						}
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "['id']"
+								},
+								"sink": {
+									"name": "id",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"path": "['name']"
+								},
+								"sink": {
+									"name": "name",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['symbol']"
+								},
+								"sink": {
+									"name": "symbol",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['slug']"
+								},
+								"sink": {
+									"name": "slug",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['num_market_pairs']"
+								},
+								"sink": {
+									"name": "num_market_pairs",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"path": "['date_added']"
+								},
+								"sink": {
+									"name": "date_added",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"path": "['max_supply']"
+								},
+								"sink": {
+									"name": "max_supply",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "['circulating_supply']"
+								},
+								"sink": {
+									"name": "circulating_supply",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "['total_supply']"
+								},
+								"sink": {
+									"name": "total_supply",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "['infinite_supply']"
+								},
+								"sink": {
+									"name": "infinite_supply",
+									"type": "Boolean"
+								}
+							},
+							{
+								"source": {
+									"path": "['platform']"
+								},
+								"sink": {
+									"name": "platform",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['cmc_rank']"
+								},
+								"sink": {
+									"name": "cmc_rank",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"path": "['self_reported_circulating_supply']"
+								},
+								"sink": {
+									"name": "self_reported_circulating_supply",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "['self_reported_market_cap']"
+								},
+								"sink": {
+									"name": "self_reported_market_cap",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "['tvl_ratio']"
+								},
+								"sink": {
+									"name": "tvl_ratio",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "['last_updated']"
+								},
+								"sink": {
+									"name": "last_updated",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"path": "['quote']['USD']['price']"
+								},
+								"sink": {
+									"name": "price",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "['quote']['USD']['volume_24h']"
+								},
+								"sink": {
+									"name": "volume_24h",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "['quote']['USD']['volume_change_24h']"
+								},
+								"sink": {
+									"name": "volume_change_24h",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "['quote']['USD']['percent_change_1h']"
+								},
+								"sink": {
+									"name": "percent_change_1h",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "['quote']['USD']['percent_change_24h']"
+								},
+								"sink": {
+									"name": "percent_change_24h",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "['quote']['USD']['percent_change_7d']"
+								},
+								"sink": {
+									"name": "percent_change_7d",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "['quote']['USD']['percent_change_30d']"
+								},
+								"sink": {
+									"name": "percent_change_30d",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "['quote']['USD']['percent_change_60d']"
+								},
+								"sink": {
+									"name": "percent_change_60d",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "['quote']['USD']['percent_change_90d']"
+								},
+								"sink": {
+									"name": "percent_change_90d",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "['quote']['USD']['market_cap']"
+								},
+								"sink": {
+									"name": "market_cap",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "['quote']['USD']['market_cap_dominance']"
+								},
+								"sink": {
+									"name": "market_cap_dominance",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "['quote']['USD']['fully_diluted_market_cap']"
+								},
+								"sink": {
+									"name": "fully_diluted_market_cap",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "['quote']['USD']['tvl']"
+								},
+								"sink": {
+									"name": "tvl",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "['quote']['USD']['last_updated']"
+								},
+								"sink": {
+									"name": "last_updated",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"path": "$['status']['timestamp']"
+								},
+								"sink": {
+									"name": "timestamp",
+									"type": "DateTime"
+								}
+							}
+						],
+						"collectionReference": "$['data']"
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "Top20Latest",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ODS_Top20Latest",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "Load_ODS"
+		},
+		"annotations": []
+	}
+}
