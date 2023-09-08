@@ -1,5 +1,5 @@
 {
-	"name": "pipeline1",
+	"name": "Extract",
 	"properties": {
 		"activities": [
 			{
@@ -7,7 +7,7 @@
 				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
-						"activity": "Set variable1",
+						"activity": "Set_CMC_API_Key_var",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -19,19 +19,20 @@
 						"referenceName": "Extract_Top20LatesCryptos",
 						"type": "PipelineReference"
 					},
-					"waitOnCompletion": true,
-					"parameters": {
-						"RestCMCApiKey": {
-							"value": "@variables('RestCMCApiKey')",
-							"type": "Expression"
-						}
-					}
+					"waitOnCompletion": true
 				}
 			},
 			{
-				"name": "Set variable1",
+				"name": "Set_CMC_API_Key_var",
 				"type": "SetVariable",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Get_CMC_API_Key",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"secureOutput": true,
 					"secureInput": false
@@ -40,8 +41,29 @@
 				"typeProperties": {
 					"variableName": "RestCMCApiKey",
 					"value": {
-						"value": "@Microsoft.KeyVault(SecretUri=https://pl-zpsb01-kv.vault.azure.net/secrets/CMCAPIKey/e1f3f049401f48178a0c066f3981f70c) ",
+						"value": "@activity('Get_CMC_API_Key').output.value",
 						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Get_CMC_API_Key",
+				"type": "WebActivity",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": true,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"url": "https://pl-zpsb01-kv.vault.azure.net/secrets/CMCAPIKey/",
+					"method": "GET",
+					"authentication": {
+						"type": "MSI",
+						"resource": "https://vault.azure.net"
 					}
 				}
 			}
