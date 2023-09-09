@@ -7,7 +7,7 @@
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "Truncate Top20Latest stg",
+						"activity": "Truncate Top20Latest ods",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -331,7 +331,7 @@
 				]
 			},
 			{
-				"name": "Truncate Top20Latest stg",
+				"name": "Truncate Top20Latest ods",
 				"type": "SqlServerStoredProcedure",
 				"state": "Inactive",
 				"onInactiveMarkAs": "Succeeded",
