@@ -307,6 +307,8 @@
 			{
 				"name": "Truncate Top20Latest ods",
 				"type": "SqlServerStoredProcedure",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
@@ -320,7 +322,7 @@
 					"storedProcedureName": "[mgmt].[TruncateTableBySchema]",
 					"storedProcedureParameters": {
 						"schemaAndTableName": {
-							"value": "ODS.Top20LatestCryptocurrency",
+							"value": "stg.Top20LatestCryptocurrency",
 							"type": "String"
 						}
 					}
