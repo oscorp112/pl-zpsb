@@ -47,7 +47,62 @@
 									"path": "$['status']['timestamp']"
 								},
 								"sink": {
-									"name": "processing_datetime"
+									"name": "status_timestamp",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"path": "$['status']['error_code']"
+								},
+								"sink": {
+									"name": "status_error_code",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"path": "$['status']['error_message']"
+								},
+								"sink": {
+									"name": "status_error_message",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['status']['elapsed']"
+								},
+								"sink": {
+									"name": "status_elapsed",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"path": "$['status']['credit_count']"
+								},
+								"sink": {
+									"name": "status_credit_count",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"path": "$['status']['notice']"
+								},
+								"sink": {
+									"name": "status_notice",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['status']['total_count']"
+								},
+								"sink": {
+									"name": "status_total_count",
+									"type": "Int32"
 								}
 							},
 							{
@@ -110,7 +165,7 @@
 								},
 								"sink": {
 									"name": "max_supply",
-									"type": "Decimal"
+									"type": "Int32"
 								}
 							},
 							{
@@ -119,7 +174,7 @@
 								},
 								"sink": {
 									"name": "circulating_supply",
-									"type": "Decimal"
+									"type": "Int32"
 								}
 							},
 							{
@@ -128,7 +183,7 @@
 								},
 								"sink": {
 									"name": "total_supply",
-									"type": "Decimal"
+									"type": "Int32"
 								}
 							},
 							{
@@ -164,7 +219,7 @@
 								},
 								"sink": {
 									"name": "self_reported_circulating_supply",
-									"type": "Decimal"
+									"type": "Int32"
 								}
 							},
 							{
@@ -173,7 +228,7 @@
 								},
 								"sink": {
 									"name": "self_reported_market_cap",
-									"type": "Decimal"
+									"type": "Int32"
 								}
 							},
 							{
@@ -182,7 +237,7 @@
 								},
 								"sink": {
 									"name": "tvl_ratio",
-									"type": "Decimal"
+									"type": "Int32"
 								}
 							},
 							{
@@ -199,7 +254,7 @@
 									"path": "$['data'][0]['quote']['USD']['price']"
 								},
 								"sink": {
-									"name": "price",
+									"name": "USD_price",
 									"type": "Decimal"
 								}
 							},
@@ -208,7 +263,7 @@
 									"path": "$['data'][0]['quote']['USD']['volume_24h']"
 								},
 								"sink": {
-									"name": "volume_24h",
+									"name": "USD_volume_24h",
 									"type": "Decimal"
 								}
 							},
@@ -217,7 +272,7 @@
 									"path": "$['data'][0]['quote']['USD']['volume_change_24h']"
 								},
 								"sink": {
-									"name": "volume_change_24h",
+									"name": "USD_volume_change_24h",
 									"type": "Decimal"
 								}
 							},
@@ -226,7 +281,7 @@
 									"path": "$['data'][0]['quote']['USD']['percent_change_1h']"
 								},
 								"sink": {
-									"name": "percent_change_1h",
+									"name": "USD_percent_change_1h",
 									"type": "Decimal"
 								}
 							},
@@ -235,7 +290,7 @@
 									"path": "$['data'][0]['quote']['USD']['percent_change_24h']"
 								},
 								"sink": {
-									"name": "percent_change_24h",
+									"name": "USD_percent_change_24h",
 									"type": "Decimal"
 								}
 							},
@@ -244,7 +299,7 @@
 									"path": "$['data'][0]['quote']['USD']['percent_change_7d']"
 								},
 								"sink": {
-									"name": "percent_change_7d",
+									"name": "USD_percent_change_7d",
 									"type": "Decimal"
 								}
 							},
@@ -253,7 +308,7 @@
 									"path": "$['data'][0]['quote']['USD']['percent_change_30d']"
 								},
 								"sink": {
-									"name": "percent_change_30d",
+									"name": "USD_percent_change_30d",
 									"type": "Decimal"
 								}
 							},
@@ -262,7 +317,7 @@
 									"path": "$['data'][0]['quote']['USD']['percent_change_60d']"
 								},
 								"sink": {
-									"name": "percent_change_60d",
+									"name": "USD_percent_change_60d",
 									"type": "Decimal"
 								}
 							},
@@ -271,7 +326,7 @@
 									"path": "$['data'][0]['quote']['USD']['percent_change_90d']"
 								},
 								"sink": {
-									"name": "percent_change_90d",
+									"name": "USD_percent_change_90d",
 									"type": "Decimal"
 								}
 							},
@@ -280,7 +335,7 @@
 									"path": "$['data'][0]['quote']['USD']['market_cap']"
 								},
 								"sink": {
-									"name": "market_cap",
+									"name": "USD_market_cap",
 									"type": "Decimal"
 								}
 							},
@@ -289,7 +344,7 @@
 									"path": "$['data'][0]['quote']['USD']['market_cap_dominance']"
 								},
 								"sink": {
-									"name": "market_cap_dominance",
+									"name": "USD_market_cap_dominance",
 									"type": "Decimal"
 								}
 							},
@@ -298,7 +353,7 @@
 									"path": "$['data'][0]['quote']['USD']['fully_diluted_market_cap']"
 								},
 								"sink": {
-									"name": "fully_diluted_market_cap",
+									"name": "USD_fully_diluted_market_cap",
 									"type": "Decimal"
 								}
 							},
@@ -307,8 +362,17 @@
 									"path": "$['data'][0]['quote']['USD']['tvl']"
 								},
 								"sink": {
-									"name": "tvl",
+									"name": "USD_tvl",
 									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$['data'][0]['quote']['USD']['last_updated']"
+								},
+								"sink": {
+									"name": "last_updated",
+									"type": "DateTime"
 								}
 							}
 						],
