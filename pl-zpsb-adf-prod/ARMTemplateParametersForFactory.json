@@ -1,0 +1,30 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "pl-zpsb-adf-prod"
+		},
+		"SQLPROD_connectionString": {
+			"value": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=pl-zsz-01.database.windows.net;Initial Catalog=pl-zpsb-sql-prod;User ID=AzureADF"
+		},
+		"Storage_connectionString": {
+			"value": ""
+		},
+		"ADL_properties_typeProperties_url": {
+			"value": "https://plzpsbstorage01.dfs.core.windows.net/"
+		},
+		"AzureDLStorage_properties_typeProperties_url": {
+			"value": "https://plzpsbstorage01.dfs.core.windows.net/"
+		},
+		"CMCSource_properties_typeProperties_url": {
+			"value": "https://pro-api.coinmarketcap.com"
+		},
+		"KVPROD_properties_typeProperties_baseUrl": {
+			"value": "https://pl-zpsb01-kv.vault.azure.net/"
+		},
+		"LS_REST_CMC_ApiKey_properties_typeProperties_url": {
+			"value": "@{linkedService().Latest20Query}"
+		}
+	}
+}

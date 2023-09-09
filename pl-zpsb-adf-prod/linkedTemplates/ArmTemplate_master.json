@@ -1,0 +1,92 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "pl-zpsb-adf-prod"
+		},
+		"SQLPROD_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'SQLPROD'",
+			"defaultValue": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=pl-zsz-01.database.windows.net;Initial Catalog=pl-zpsb-sql-prod;User ID=AzureADF"
+		},
+		"Storage_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'Storage'"
+		},
+		"ADL_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://plzpsbstorage01.dfs.core.windows.net/"
+		},
+		"AzureDLStorage_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://plzpsbstorage01.dfs.core.windows.net/"
+		},
+		"CMCSource_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://pro-api.coinmarketcap.com"
+		},
+		"KVPROD_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://pl-zpsb01-kv.vault.azure.net/"
+		},
+		"LS_REST_CMC_ApiKey_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "@{linkedService().Latest20Query}"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "pl-zpsb-adf-prod_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"Storage_connectionString": {
+						"value": "[parameters('Storage_connectionString')]"
+					},
+					"SQLPROD_connectionString": {
+						"value": "[parameters('SQLPROD_connectionString')]"
+					},
+					"ADL_properties_typeProperties_url": {
+						"value": "[parameters('ADL_properties_typeProperties_url')]"
+					},
+					"AzureDLStorage_properties_typeProperties_url": {
+						"value": "[parameters('AzureDLStorage_properties_typeProperties_url')]"
+					},
+					"KVPROD_properties_typeProperties_baseUrl": {
+						"value": "[parameters('KVPROD_properties_typeProperties_baseUrl')]"
+					},
+					"CMCSource_properties_typeProperties_url": {
+						"value": "[parameters('CMCSource_properties_typeProperties_url')]"
+					},
+					"LS_REST_CMC_ApiKey_properties_typeProperties_url": {
+						"value": "[parameters('LS_REST_CMC_ApiKey_properties_typeProperties_url')]"
+					}
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}
