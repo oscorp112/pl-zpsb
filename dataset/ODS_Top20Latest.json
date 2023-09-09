@@ -9,7 +9,7 @@
 		"type": "AzureSqlTable",
 		"schema": [],
 		"typeProperties": {
-			"schema": "ods",
+			"schema": "stg",
 			"table": "Top20LatestCryptocurrency"
 		}
 	}
