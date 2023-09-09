@@ -47,8 +47,7 @@
 									"path": "$['status']['timestamp']"
 								},
 								"sink": {
-									"name": "timestamp",
-									"type": "DateTime"
+									"name": "processing_datetime"
 								}
 							},
 							{
@@ -334,7 +333,7 @@
 				"name": "Truncate Top20Latest ods",
 				"type": "SqlServerStoredProcedure",
 				"state": "Inactive",
-				"onInactiveMarkAs": "Skipped",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
