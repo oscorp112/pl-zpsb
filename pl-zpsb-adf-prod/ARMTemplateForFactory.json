@@ -145,7 +145,7 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "Copy data1",
+						"name": "Extract to DL",
 						"type": "Copy",
 						"dependsOn": [],
 						"policy": {
@@ -604,56 +604,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/Json1')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "ADL",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "Json",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": "top20cryptos.json",
-						"folderPath": "ods",
-						"fileSystem": "zpsb"
-					}
-				},
-				"schema": {}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/ADL')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/JsonDataDestination')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureDLStorage",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "Json",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": "top20cryptos.json",
-						"folderPath": "latest",
-						"fileSystem": "cryptodaily"
-					}
-				},
-				"schema": {}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureDLStorage')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/ODS_Top20Latest')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -672,29 +622,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/SQLPROD')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/REST_Latest_Top_20')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "LS_REST_CMC_ApiKey",
-					"type": "LinkedServiceReference",
-					"parameters": {
-						"Latest20Query": "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?start=1&limit=20&sort=market_cap&cryptocurrency_type=all&tag=all"
-					}
-				},
-				"annotations": [],
-				"type": "RestResource",
-				"typeProperties": {
-					"relativeUrl": ""
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LS_REST_CMC_ApiKey')]"
 			]
 		},
 		{
