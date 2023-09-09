@@ -334,7 +334,7 @@
 				"name": "Truncate Top20Latest ods",
 				"type": "SqlServerStoredProcedure",
 				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
+				"onInactiveMarkAs": "Skipped",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
