@@ -79,6 +79,9 @@
 				"type": "String"
 			}
 		},
+		"folder": {
+			"name": "Extract"
+		},
 		"annotations": []
 	}
 }
