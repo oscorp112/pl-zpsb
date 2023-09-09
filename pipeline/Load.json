@@ -103,7 +103,7 @@
 								},
 								"sink": {
 									"name": "max_supply",
-									"type": "Int32"
+									"type": "Decimal"
 								}
 							},
 							{
@@ -112,7 +112,7 @@
 								},
 								"sink": {
 									"name": "circulating_supply",
-									"type": "Int32"
+									"type": "Decimal"
 								}
 							},
 							{
@@ -121,7 +121,7 @@
 								},
 								"sink": {
 									"name": "total_supply",
-									"type": "Int32"
+									"type": "String"
 								}
 							},
 							{
@@ -157,7 +157,7 @@
 								},
 								"sink": {
 									"name": "USD_price",
-									"type": "String"
+									"type": "Double"
 								}
 							},
 							{
@@ -166,7 +166,7 @@
 								},
 								"sink": {
 									"name": "USD_volume_24h",
-									"type": "String"
+									"type": "Double"
 								}
 							},
 							{
@@ -175,7 +175,7 @@
 								},
 								"sink": {
 									"name": "USD_volume_change_24h",
-									"type": "String"
+									"type": "Double"
 								}
 							},
 							{
@@ -184,7 +184,7 @@
 								},
 								"sink": {
 									"name": "USD_percent_change_1h",
-									"type": "String"
+									"type": "Double"
 								}
 							},
 							{
@@ -193,7 +193,7 @@
 								},
 								"sink": {
 									"name": "USD_percent_change_24h",
-									"type": "String"
+									"type": "Double"
 								}
 							},
 							{
@@ -202,7 +202,7 @@
 								},
 								"sink": {
 									"name": "USD_percent_change_7d",
-									"type": "String"
+									"type": "Double"
 								}
 							},
 							{
@@ -211,7 +211,7 @@
 								},
 								"sink": {
 									"name": "USD_percent_change_30d",
-									"type": "String"
+									"type": "Double"
 								}
 							},
 							{
@@ -220,7 +220,7 @@
 								},
 								"sink": {
 									"name": "USD_percent_change_60d",
-									"type": "String"
+									"type": "Double"
 								}
 							},
 							{
@@ -229,7 +229,7 @@
 								},
 								"sink": {
 									"name": "USD_percent_change_90d",
-									"type": "String"
+									"type": "Double"
 								}
 							},
 							{
@@ -238,7 +238,7 @@
 								},
 								"sink": {
 									"name": "USD_market_cap",
-									"type": "String"
+									"type": "Double"
 								}
 							},
 							{
@@ -247,7 +247,7 @@
 								},
 								"sink": {
 									"name": "USD_market_cap_dominance",
-									"type": "String"
+									"type": "Double"
 								}
 							},
 							{
@@ -256,7 +256,7 @@
 								},
 								"sink": {
 									"name": "USD_fully_diluted_market_cap",
-									"type": "String"
+									"type": "Double"
 								}
 							},
 							{
@@ -307,8 +307,6 @@
 			{
 				"name": "Truncate Top20Latest ods",
 				"type": "SqlServerStoredProcedure",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
