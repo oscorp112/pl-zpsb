@@ -11,7 +11,7 @@
 			"location": {
 				"type": "AzureBlobStorageLocation",
 				"fileName": {
-					"value": "@concat('top20currentcryptos_', formatDateTime(utcnow(), 'HHmm'), '.json')\n",
+					"value": "top20currentcryptos.json",
 					"type": "Expression"
 				},
 				"folderPath": {
