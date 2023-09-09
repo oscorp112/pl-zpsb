@@ -194,7 +194,7 @@
 								},
 								"sink": {
 									"name": "USD_price",
-									"type": "Decimal"
+									"type": "String"
 								}
 							},
 							{
@@ -203,7 +203,7 @@
 								},
 								"sink": {
 									"name": "USD_volume_24h",
-									"type": "Decimal"
+									"type": "String"
 								}
 							},
 							{
@@ -212,7 +212,7 @@
 								},
 								"sink": {
 									"name": "USD_volume_change_24h",
-									"type": "Decimal"
+									"type": "String"
 								}
 							},
 							{
@@ -221,7 +221,7 @@
 								},
 								"sink": {
 									"name": "USD_percent_change_1h",
-									"type": "Decimal"
+									"type": "String"
 								}
 							},
 							{
@@ -230,7 +230,7 @@
 								},
 								"sink": {
 									"name": "USD_percent_change_24h",
-									"type": "Decimal"
+									"type": "String"
 								}
 							},
 							{
@@ -239,7 +239,7 @@
 								},
 								"sink": {
 									"name": "USD_percent_change_7d",
-									"type": "Decimal"
+									"type": "String"
 								}
 							},
 							{
@@ -248,7 +248,7 @@
 								},
 								"sink": {
 									"name": "USD_percent_change_30d",
-									"type": "Decimal"
+									"type": "String"
 								}
 							},
 							{
@@ -257,7 +257,7 @@
 								},
 								"sink": {
 									"name": "USD_percent_change_60d",
-									"type": "Decimal"
+									"type": "String"
 								}
 							},
 							{
@@ -266,7 +266,7 @@
 								},
 								"sink": {
 									"name": "USD_percent_change_90d",
-									"type": "Decimal"
+									"type": "String"
 								}
 							},
 							{
@@ -275,7 +275,7 @@
 								},
 								"sink": {
 									"name": "USD_market_cap",
-									"type": "Decimal"
+									"type": "String"
 								}
 							},
 							{
@@ -284,7 +284,7 @@
 								},
 								"sink": {
 									"name": "USD_market_cap_dominance",
-									"type": "Decimal"
+									"type": "String"
 								}
 							},
 							{
@@ -293,7 +293,7 @@
 								},
 								"sink": {
 									"name": "USD_fully_diluted_market_cap",
-									"type": "Decimal"
+									"type": "String"
 								}
 							},
 							{
@@ -302,7 +302,7 @@
 								},
 								"sink": {
 									"name": "USD_tvl",
-									"type": "Decimal"
+									"type": "String"
 								}
 							}
 						],
