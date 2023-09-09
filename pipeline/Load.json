@@ -35,24 +35,230 @@
 					},
 					"sink": {
 						"type": "AzureSqlSink",
-						"writeBehavior": "upsert",
-						"upsertSettings": {
-							"useTempDB": true,
-							"keys": [
-								"id"
-							]
-						},
+						"writeBehavior": "insert",
 						"sqlWriterUseTableLock": false,
-						"tableOption": {
-							"value": "stg.Top20LatestCryptos",
-							"type": "Expression"
-						},
 						"disableMetricsCollection": false
 					},
 					"enableStaging": false,
 					"translator": {
 						"type": "TabularTranslator",
 						"mappings": [
+							{
+								"source": {
+									"path": "['id']"
+								},
+								"sink": {
+									"name": "id",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"path": "['name']"
+								},
+								"sink": {
+									"name": "name",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['symbol']"
+								},
+								"sink": {
+									"name": "symbol",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['slug']"
+								},
+								"sink": {
+									"name": "slug",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['num_market_pairs']"
+								},
+								"sink": {
+									"name": "num_market_pairs",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"path": "['date_added']"
+								},
+								"sink": {
+									"name": "date_added",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"path": "['max_supply']"
+								},
+								"sink": {
+									"name": "max_supply",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"path": "['circulating_supply']"
+								},
+								"sink": {
+									"name": "circulating_supply",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"path": "['total_supply']"
+								},
+								"sink": {
+									"name": "total_supply",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"path": "['infinite_supply']"
+								},
+								"sink": {
+									"name": "infinite_supply",
+									"type": "Boolean"
+								}
+							},
+							{
+								"source": {
+									"path": "['cmc_rank']"
+								},
+								"sink": {
+									"name": "cmc_rank",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"path": "['last_updated']"
+								},
+								"sink": {
+									"name": "last_updated",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"path": "['quote']['USD']['price']"
+								},
+								"sink": {
+									"name": "USD_price",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['quote']['USD']['volume_24h']"
+								},
+								"sink": {
+									"name": "USD_volume_24h",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['quote']['USD']['volume_change_24h']"
+								},
+								"sink": {
+									"name": "USD_volume_change_24h",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['quote']['USD']['percent_change_1h']"
+								},
+								"sink": {
+									"name": "USD_percent_change_1h",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['quote']['USD']['percent_change_24h']"
+								},
+								"sink": {
+									"name": "USD_percent_change_24h",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['quote']['USD']['percent_change_7d']"
+								},
+								"sink": {
+									"name": "USD_percent_change_7d",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['quote']['USD']['percent_change_30d']"
+								},
+								"sink": {
+									"name": "USD_percent_change_30d",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['quote']['USD']['percent_change_60d']"
+								},
+								"sink": {
+									"name": "USD_percent_change_60d",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['quote']['USD']['percent_change_90d']"
+								},
+								"sink": {
+									"name": "USD_percent_change_90d",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['quote']['USD']['market_cap']"
+								},
+								"sink": {
+									"name": "USD_market_cap",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['quote']['USD']['market_cap_dominance']"
+								},
+								"sink": {
+									"name": "USD_market_cap_dominance",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['quote']['USD']['fully_diluted_market_cap']"
+								},
+								"sink": {
+									"name": "USD_fully_diluted_market_cap",
+									"type": "String"
+								}
+							},
 							{
 								"source": {
 									"path": "$['status']['timestamp']"
@@ -79,234 +285,9 @@
 									"name": "status_error_message",
 									"type": "String"
 								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['id']"
-								},
-								"sink": {
-									"name": "id",
-									"type": "Int32"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['name']"
-								},
-								"sink": {
-									"name": "name",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['symbol']"
-								},
-								"sink": {
-									"name": "symbol",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['slug']"
-								},
-								"sink": {
-									"name": "slug",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['num_market_pairs']"
-								},
-								"sink": {
-									"name": "num_market_pairs",
-									"type": "Int32"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['date_added']"
-								},
-								"sink": {
-									"name": "date_added",
-									"type": "DateTime"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['max_supply']"
-								},
-								"sink": {
-									"name": "max_supply",
-									"type": "Int32"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['circulating_supply']"
-								},
-								"sink": {
-									"name": "circulating_supply",
-									"type": "Int32"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['total_supply']"
-								},
-								"sink": {
-									"name": "total_supply",
-									"type": "Int32"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['infinite_supply']"
-								},
-								"sink": {
-									"name": "infinite_supply",
-									"type": "Boolean"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['cmc_rank']"
-								},
-								"sink": {
-									"name": "cmc_rank",
-									"type": "Int32"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['last_updated']"
-								},
-								"sink": {
-									"name": "last_updated",
-									"type": "DateTime"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['quote']['USD']['price']"
-								},
-								"sink": {
-									"name": "USD_price",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['quote']['USD']['volume_24h']"
-								},
-								"sink": {
-									"name": "USD_volume_24h",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['quote']['USD']['volume_change_24h']"
-								},
-								"sink": {
-									"name": "USD_volume_change_24h",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['quote']['USD']['percent_change_1h']"
-								},
-								"sink": {
-									"name": "USD_percent_change_1h",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['quote']['USD']['percent_change_24h']"
-								},
-								"sink": {
-									"name": "USD_percent_change_24h",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['quote']['USD']['percent_change_7d']"
-								},
-								"sink": {
-									"name": "USD_percent_change_7d",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['quote']['USD']['percent_change_30d']"
-								},
-								"sink": {
-									"name": "USD_percent_change_30d",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['quote']['USD']['percent_change_60d']"
-								},
-								"sink": {
-									"name": "USD_percent_change_60d",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['quote']['USD']['percent_change_90d']"
-								},
-								"sink": {
-									"name": "USD_percent_change_90d",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['quote']['USD']['market_cap']"
-								},
-								"sink": {
-									"name": "USD_market_cap",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['quote']['USD']['market_cap_dominance']"
-								},
-								"sink": {
-									"name": "USD_market_cap_dominance",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['quote']['USD']['fully_diluted_market_cap']"
-								},
-								"sink": {
-									"name": "USD_fully_diluted_market_cap",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['quote']['USD']['tvl']"
-								},
-								"sink": {
-									"name": "USD_tvl",
-									"type": "String"
-								}
 							}
 						],
-						"collectionReference": "",
+						"collectionReference": "$['data']",
 						"mapComplexValuesToString": false
 					}
 				},
