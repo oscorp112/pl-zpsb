@@ -71,42 +71,6 @@
 							},
 							{
 								"source": {
-									"path": "$['status']['elapsed']"
-								},
-								"sink": {
-									"name": "status_elapsed",
-									"type": "Int32"
-								}
-							},
-							{
-								"source": {
-									"path": "$['status']['credit_count']"
-								},
-								"sink": {
-									"name": "status_credit_count",
-									"type": "Int32"
-								}
-							},
-							{
-								"source": {
-									"path": "$['status']['notice']"
-								},
-								"sink": {
-									"name": "status_notice",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$['status']['total_count']"
-								},
-								"sink": {
-									"name": "status_total_count",
-									"type": "Int32"
-								}
-							},
-							{
-								"source": {
 									"path": "$['data'][0]['id']"
 								},
 								"sink": {
@@ -197,46 +161,10 @@
 							},
 							{
 								"source": {
-									"path": "$['data'][0]['platform']"
-								},
-								"sink": {
-									"name": "platform",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
 									"path": "$['data'][0]['cmc_rank']"
 								},
 								"sink": {
 									"name": "cmc_rank",
-									"type": "Int32"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['self_reported_circulating_supply']"
-								},
-								"sink": {
-									"name": "self_reported_circulating_supply",
-									"type": "Int32"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['self_reported_market_cap']"
-								},
-								"sink": {
-									"name": "self_reported_market_cap",
-									"type": "Int32"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['tvl_ratio']"
-								},
-								"sink": {
-									"name": "tvl_ratio",
 									"type": "Int32"
 								}
 							},
