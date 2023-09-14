@@ -1,5 +1,5 @@
 {
-	"name": "Load",
+	"name": "PL_Data_Load",
 	"properties": {
 		"activities": [
 			{
@@ -320,7 +320,10 @@
 					"storedProcedureName": "[mgmt].[TruncateTableBySchema]",
 					"storedProcedureParameters": {
 						"schemaAndTableName": {
-							"value": "stg.Top20LatestCryptocurrency",
+							"value": {
+								"value": "@concat(pipeline().parameters.schemaName,'.',pipeline().parameters.TableName)",
+								"type": "Expression"
+							},
 							"type": "String"
 						}
 					}
@@ -331,8 +334,16 @@
 				}
 			}
 		],
+		"parameters": {
+			"schemaName": {
+				"type": "String"
+			},
+			"TableName": {
+				"type": "String"
+			}
+		},
 		"folder": {
-			"name": "Load_STG"
+			"name": "Load"
 		},
 		"annotations": []
 	}

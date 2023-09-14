@@ -1,60 +1,10 @@
 {
-	"name": "Extract",
+	"name": "PL_Master_Extract",
 	"properties": {
 		"activities": [
 			{
 				"name": "Execute Extract",
 				"type": "ExecutePipeline",
-				"dependsOn": [
-					{
-						"activity": "Set_CMC_API_Key_var",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"userProperties": [],
-				"typeProperties": {
-					"pipeline": {
-						"referenceName": "Extract_Top20LatesCryptos",
-						"type": "PipelineReference"
-					},
-					"waitOnCompletion": true,
-					"parameters": {
-						"RestCMCApiKey": {
-							"value": "@variables('RestCMCApiKey')",
-							"type": "Expression"
-						}
-					}
-				}
-			},
-			{
-				"name": "Set_CMC_API_Key_var",
-				"type": "SetVariable",
-				"dependsOn": [
-					{
-						"activity": "Get_CMC_API_Key",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"secureOutput": true,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "RestCMCApiKey",
-					"value": {
-						"value": "@activity('Get_CMC_API_Key').output.value",
-						"type": "Expression"
-					}
-				}
-			},
-			{
-				"name": "Get_CMC_API_Key",
-				"type": "WebActivity",
 				"dependsOn": [
 					{
 						"activity": "GetConfiguration",
@@ -63,26 +13,26 @@
 						]
 					}
 				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": true,
-					"secureInput": false
-				},
 				"userProperties": [],
 				"typeProperties": {
-					"url": "https://pl-zpsb01-kv.vault.azure.net/secrets/CMCAPIKey/?api-version=7.0",
-					"method": "GET",
-					"authentication": {
-						"type": "MSI",
-						"resource": "https://vault.azure.net"
+					"pipeline": {
+						"referenceName": "PL_Data_Extract",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"RelativeUrlToRequest": {
+							"value": "@activity('GetConfiguration').output",
+							"type": "Expression"
+						}
 					}
 				}
 			},
 			{
 				"name": "GetConfiguration",
 				"type": "SqlServerStoredProcedure",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
@@ -98,7 +48,7 @@
 				}
 			},
 			{
-				"name": "Fail1",
+				"name": "GetConfigError",
 				"type": "Fail",
 				"dependsOn": [
 					{

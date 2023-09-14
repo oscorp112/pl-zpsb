@@ -1,5 +1,5 @@
 {
-	"name": "Extract_Top20LatesCryptos",
+	"name": "PL_Data_Extract",
 	"properties": {
 		"activities": [
 			{
@@ -20,12 +20,6 @@
 						"httpRequestTimeout": "00:01:40",
 						"requestInterval": "00.00:00:00.010",
 						"requestMethod": "GET",
-						"additionalHeaders": {
-							"APIKey": {
-								"value": "@pipeline().parameters.RestCMCApiKey",
-								"type": "Expression"
-							}
-						},
 						"paginationRules": {
 							"supportRFC5988": "true"
 						}
@@ -64,19 +58,8 @@
 			}
 		],
 		"parameters": {
-			"RestCMCApiKey": {
-				"type": "String"
-			},
 			"RelativeUrlToRequest": {
 				"type": "string"
-			}
-		},
-		"variables": {
-			"CurrentDate": {
-				"type": "String"
-			},
-			"RestCMCApiKey": {
-				"type": "String"
 			}
 		},
 		"folder": {
