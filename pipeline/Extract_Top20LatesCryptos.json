@@ -48,7 +48,10 @@
 						"referenceName": "CMC",
 						"type": "DatasetReference",
 						"parameters": {
-							"RelativeUrlParam": "/v1/cryptocurrency/listings/latest?start=1&limit=20&sort=market_cap&cryptocurrency_type=all&tag=all"
+							"RelativeUrlParam": {
+								"value": "@pipeline().parameters.RelativeUrlToRequest",
+								"type": "Expression"
+							}
 						}
 					}
 				],
