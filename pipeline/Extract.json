@@ -55,7 +55,14 @@
 			{
 				"name": "Get_CMC_API_Key",
 				"type": "WebActivity",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "GetConfiguration",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -70,6 +77,43 @@
 					"authentication": {
 						"type": "MSI",
 						"resource": "https://vault.azure.net"
+					}
+				}
+			},
+			{
+				"name": "GetConfiguration",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SQLPROD",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "Fail1",
+				"type": "Fail",
+				"dependsOn": [
+					{
+						"activity": "GetConfiguration",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"message": "Something went wrong during configuration extraction",
+					"errorCode": {
+						"value": "@activity('GetConfiguration').output",
+						"type": "Expression"
 					}
 				}
 			}
