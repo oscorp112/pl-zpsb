@@ -1,0 +1,19 @@
+{
+	"name": "GeoDBC",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "RestService",
+		"typeProperties": {
+			"url": "https://wft-geo-db.p.rapidapi.com/v1/geo/cities?countryIds=US,CA&minPopulation=100000",
+			"enableServerCertificateValidation": true,
+			"authenticationType": "Anonymous",
+			"authHeaders": {
+				"X-RapidAPI-Key": {
+					"type": "SecureString",
+					"value": "**********"
+				}
+			}
+		}
+	}
+}
