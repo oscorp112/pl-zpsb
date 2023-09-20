@@ -7,6 +7,9 @@
 		},
 		"annotations": [],
 		"type": "RestResource",
+		"typeProperties": {
+			"relativeUrl": "metar/lat/53.44/lon/14.549737/decoded"
+		},
 		"schema": []
 	}
 }
