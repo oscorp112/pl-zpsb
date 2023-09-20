@@ -1,0 +1,21 @@
+{
+	"name": "SQL",
+	"properties": {
+		"annotations": [],
+		"type": "AzureSqlDatabase",
+		"typeProperties": {
+			"connectionString": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=pl-zsz-01.database.windows.net;Initial Catalog=pl-zpsb-sql-prod;User ID=AzureADF",
+			"password": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "KV",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "SQLAzureADFSecret"
+			},
+			"alwaysEncryptedSettings": {
+				"alwaysEncryptedAkvAuthType": "ManagedIdentity"
+			}
+		}
+	}
+}
