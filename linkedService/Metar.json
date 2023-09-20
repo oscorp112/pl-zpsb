@@ -1,6 +1,5 @@
 {
 	"name": "Metar",
-	"type": "Microsoft.DataFactory/factories/linkedservices",
 	"properties": {
 		"annotations": [],
 		"type": "RestService",
@@ -10,10 +9,15 @@
 			"authenticationType": "Anonymous",
 			"authHeaders": {
 				"X-API-Key": {
-					"type": "SecureString",
-					"value": "**********"
+					"type": "AzureKeyVaultSecret",
+					"store": {
+						"referenceName": "KV",
+						"type": "LinkedServiceReference"
+					},
+					"secretName": "MetarAPIKey"
 				}
 			}
 		}
-	}
+	},
+	"type": "Microsoft.DataFactory/factories/linkedservices"
 }
