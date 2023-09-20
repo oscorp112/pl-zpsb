@@ -1,0 +1,10 @@
+{
+	"name": "Storage",
+	"properties": {
+		"annotations": [],
+		"type": "AzureBlobFS",
+		"typeProperties": {
+			"url": "https://plzpsbstorage01.dfs.core.windows.net/"
+		}
+	}
+}
