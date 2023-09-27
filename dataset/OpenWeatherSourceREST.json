@@ -1,5 +1,5 @@
 {
-	"name": "OpenWeather",
+	"name": "OpenWeatherSourceREST",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "OpenWeatherSource",
