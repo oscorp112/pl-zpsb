@@ -13,7 +13,7 @@
 						]
 					},
 					{
-						"activity": "LocationArray",
+						"activity": "GetObjectsToExtract",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -22,7 +22,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@variables('LocationsArray')",
+						"value": "@activity('GetObjectsToExtract').output",
 						"type": "Expression"
 					},
 					"isSequential": false,
@@ -103,8 +103,8 @@
 				}
 			},
 			{
-				"name": "GetLocationLatLong",
-				"type": "SqlServerStoredProcedure",
+				"name": "GetObjectsToExtract",
+				"type": "Lookup",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
@@ -115,35 +115,17 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"storedProcedureName": "[config].[GetObjectsToExtract]"
-				},
-				"linkedServiceName": {
-					"referenceName": "SQL",
-					"type": "LinkedServiceReference"
-				}
-			},
-			{
-				"name": "LocationArray",
-				"type": "SetVariable",
-				"dependsOn": [
-					{
-						"activity": "GetLocationLatLong",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "LocationsArray",
-					"value": {
-						"value": "@activity('GetLocationLatLong').output",
-						"type": "Expression"
-					}
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderStoredProcedureName": "[config].[GetObjectsToExtract]",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "GetLocationsToExtract",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": true
 				}
 			}
 		],
