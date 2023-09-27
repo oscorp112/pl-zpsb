@@ -1,0 +1,12 @@
+{
+	"name": "OpenWeather",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "OpenWeatherSource",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}
