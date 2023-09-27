@@ -1,0 +1,132 @@
+{
+	"name": "PL_Master_Extract",
+	"properties": {
+		"activities": [
+			{
+				"name": "ForEach Location",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "SetOpenWeatherAPIKey",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "GetLocationLatLong",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('GetLocationLatLong').output",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Execute PL_Data_Extract",
+							"type": "ExecutePipeline",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "PL_Data_Extract",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true,
+								"parameters": {
+									"LocationLatitude": {
+										"value": "@item().Latitude.value",
+										"type": "Expression"
+									},
+									"LocationLongitude": {
+										"value": "@item().Longitude.value",
+										"type": "Expression"
+									},
+									"APIKey": {
+										"value": "@variables('OpenWeatherAPIKey')",
+										"type": "Expression"
+									}
+								}
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "SetOpenWeatherAPIKey",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "GetOpenWeatherAPIKey",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "OpenWeatherAPIKey",
+					"value": {
+						"value": "@activity('GetOpenWeatherAPIKey').output.value",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "GetOpenWeatherAPIKey",
+				"type": "WebActivity",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"url": "https://pl-zpsb01-kv.vault.azure.net/secrets/OpenWeatherAPIKey/dff1513a6abc49ec8701b45716a5b9f1",
+					"method": "GET",
+					"authentication": {
+						"type": "MSI",
+						"resource": "https://valut.azure.net"
+					}
+				}
+			},
+			{
+				"name": "GetLocationLatLong",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[config].[GetObjectsToExtract]"
+				},
+				"linkedServiceName": {
+					"referenceName": "SQL",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"variables": {
+			"OpenWeatherAPIKey": {
+				"type": "String"
+			}
+		},
+		"annotations": []
+	}
+}

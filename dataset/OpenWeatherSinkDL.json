@@ -1,5 +1,5 @@
 {
-	"name": "OpenWeatherSink",
+	"name": "OpenWeatherSinkDL",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "Storage",

@@ -1,5 +1,5 @@
 {
-	"name": "Extract",
+	"name": "PL_Data_Extract",
 	"properties": {
 		"activities": [
 			{
@@ -37,13 +37,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "OpenWeather",
+						"referenceName": "OpenWeatherSourceREST",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "OpenWeatherSink",
+						"referenceName": "OpenWeatherSinkDL",
 						"type": "DatasetReference"
 					}
 				]
@@ -58,6 +58,11 @@
 			},
 			"APIKey": {
 				"type": "string"
+			}
+		},
+		"variables": {
+			"OpenWeatherAPIKey": {
+				"type": "String"
 			}
 		},
 		"annotations": []
