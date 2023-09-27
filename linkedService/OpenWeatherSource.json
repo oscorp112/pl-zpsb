@@ -1,0 +1,12 @@
+{
+	"name": "OpenWeatherSource",
+	"properties": {
+		"annotations": [],
+		"type": "RestService",
+		"typeProperties": {
+			"url": "https://api.openweathermap.org/data/2.5/weather?lat={LATPARAMETER}&lon={LONPARAMETER}&appid={APIKEY}",
+			"enableServerCertificateValidation": true,
+			"authenticationType": "Anonymous"
+		}
+	}
+}
