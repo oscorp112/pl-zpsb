@@ -61,8 +61,8 @@
 			}
 		},
 		"variables": {
-			"OpenWeatherAPIKey": {
-				"type": "String"
+			"LocationsArray": {
+				"type": "Array"
 			}
 		},
 		"annotations": []
