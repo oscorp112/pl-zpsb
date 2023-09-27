@@ -25,6 +25,7 @@
 						"value": "@activity('GetLocationLatLong').output",
 						"type": "Expression"
 					},
+					"isSequential": false,
 					"activities": [
 						{
 							"name": "Execute PL_Data_Extract",
@@ -97,7 +98,7 @@
 					"method": "GET",
 					"authentication": {
 						"type": "MSI",
-						"resource": "https://valut.azure.net"
+						"resource": "https://vault.azure.net"
 					}
 				}
 			},
