@@ -39,11 +39,11 @@
 								"waitOnCompletion": true,
 								"parameters": {
 									"LocationLatitude": {
-										"value": "@item().Latitude.value",
+										"value": "@item().Latitude",
 										"type": "Expression"
 									},
 									"LocationLongitude": {
-										"value": "@item().Longitude.value",
+										"value": "@item().Longitude",
 										"type": "Expression"
 									},
 									"APIKey": {
