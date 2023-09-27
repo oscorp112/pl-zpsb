@@ -7,34 +7,22 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "pl-zpsb-adf-prod"
 		},
-		"SQLPROD_connectionString": {
+		"SQL_connectionString": {
 			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'SQLPROD'",
+			"metadata": "Secure string for 'connectionString' of 'SQL'",
 			"defaultValue": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=pl-zsz-01.database.windows.net;Initial Catalog=pl-zpsb-sql-prod;User ID=AzureADF"
 		},
-		"Storage_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'Storage'"
-		},
-		"ADL_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://plzpsbstorage01.dfs.core.windows.net/"
-		},
-		"AzureDLStorage_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://plzpsbstorage01.dfs.core.windows.net/"
-		},
-		"CMCSource_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://pro-api.coinmarketcap.com"
-		},
-		"KVPROD_properties_typeProperties_baseUrl": {
+		"KV_properties_typeProperties_baseUrl": {
 			"type": "string",
 			"defaultValue": "https://pl-zpsb01-kv.vault.azure.net/"
 		},
-		"LS_REST_CMC_ApiKey_properties_typeProperties_url": {
+		"OpenWeatherSource_properties_typeProperties_url": {
 			"type": "string",
-			"defaultValue": "@{linkedService().Latest20Query}"
+			"defaultValue": "https://api.openweathermap.org/data/2.5/weather?lat=@{parameters('LocationLatitude')}&lon=@{parameters('LocationLongitude')}&appid=@{parameters('APIKey')}"
+		},
+		"Storage_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://plzpsbstorage01.dfs.core.windows.net/"
 		},
 		"containerUri": {
 			"type": "string",
@@ -63,26 +51,17 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
-					"Storage_connectionString": {
-						"value": "[parameters('Storage_connectionString')]"
+					"SQL_connectionString": {
+						"value": "[parameters('SQL_connectionString')]"
 					},
-					"SQLPROD_connectionString": {
-						"value": "[parameters('SQLPROD_connectionString')]"
+					"KV_properties_typeProperties_baseUrl": {
+						"value": "[parameters('KV_properties_typeProperties_baseUrl')]"
 					},
-					"ADL_properties_typeProperties_url": {
-						"value": "[parameters('ADL_properties_typeProperties_url')]"
+					"Storage_properties_typeProperties_url": {
+						"value": "[parameters('Storage_properties_typeProperties_url')]"
 					},
-					"AzureDLStorage_properties_typeProperties_url": {
-						"value": "[parameters('AzureDLStorage_properties_typeProperties_url')]"
-					},
-					"KVPROD_properties_typeProperties_baseUrl": {
-						"value": "[parameters('KVPROD_properties_typeProperties_baseUrl')]"
-					},
-					"CMCSource_properties_typeProperties_url": {
-						"value": "[parameters('CMCSource_properties_typeProperties_url')]"
-					},
-					"LS_REST_CMC_ApiKey_properties_typeProperties_url": {
-						"value": "[parameters('LS_REST_CMC_ApiKey_properties_typeProperties_url')]"
+					"OpenWeatherSource_properties_typeProperties_url": {
+						"value": "[parameters('OpenWeatherSource_properties_typeProperties_url')]"
 					}
 				}
 			},

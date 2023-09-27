@@ -7,34 +7,22 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "pl-zpsb-adf-prod"
 		},
-		"Storage_connectionString": {
+		"SQL_connectionString": {
 			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'Storage'"
-		},
-		"SQLPROD_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'SQLPROD'",
+			"metadata": "Secure string for 'connectionString' of 'SQL'",
 			"defaultValue": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=pl-zsz-01.database.windows.net;Initial Catalog=pl-zpsb-sql-prod;User ID=AzureADF"
 		},
-		"ADL_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://plzpsbstorage01.dfs.core.windows.net/"
-		},
-		"AzureDLStorage_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://plzpsbstorage01.dfs.core.windows.net/"
-		},
-		"KVPROD_properties_typeProperties_baseUrl": {
+		"KV_properties_typeProperties_baseUrl": {
 			"type": "string",
 			"defaultValue": "https://pl-zpsb01-kv.vault.azure.net/"
 		},
-		"CMCSource_properties_typeProperties_url": {
+		"Storage_properties_typeProperties_url": {
 			"type": "string",
-			"defaultValue": "https://pro-api.coinmarketcap.com"
+			"defaultValue": "https://plzpsbstorage01.dfs.core.windows.net/"
 		},
-		"LS_REST_CMC_ApiKey_properties_typeProperties_url": {
+		"OpenWeatherSource_properties_typeProperties_url": {
 			"type": "string",
-			"defaultValue": "@{linkedService().Latest20Query}"
+			"defaultValue": "https://api.openweathermap.org/data/2.5/weather?lat=@{parameters('LocationLatitude')}&lon=@{parameters('LocationLongitude')}&appid=@{parameters('APIKey')}"
 		}
 	},
 	"variables": {
@@ -42,40 +30,14 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/ADL')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureBlobFS",
-				"typeProperties": {
-					"url": "[parameters('ADL_properties_typeProperties_url')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureDLStorage')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureBlobFS",
-				"typeProperties": {
-					"url": "[parameters('AzureDLStorage_properties_typeProperties_url')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/KVPROD')]",
+			"name": "[concat(parameters('factoryName'), '/KV')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"annotations": [],
 				"type": "AzureKeyVault",
 				"typeProperties": {
-					"baseUrl": "[parameters('KVPROD_properties_typeProperties_baseUrl')]"
+					"baseUrl": "[parameters('KV_properties_typeProperties_baseUrl')]"
 				}
 			},
 			"dependsOn": []
@@ -86,95 +48,330 @@
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"annotations": [],
-				"type": "AzureBlobStorage",
+				"type": "AzureBlobFS",
 				"typeProperties": {
-					"connectionString": "[parameters('Storage_connectionString')]"
+					"url": "[parameters('Storage_properties_typeProperties_url')]"
 				}
 			},
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/CMCSource')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"name": "[concat(parameters('factoryName'), '/OpenWeatherSinkDL')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"annotations": [],
-				"type": "RestService",
-				"typeProperties": {
-					"url": "[parameters('CMCSource_properties_typeProperties_url')]",
-					"enableServerCertificateValidation": true,
-					"authenticationType": "Anonymous",
-					"authHeaders": {
-						"X-CMC_PRO_API_KEY": {
-							"type": "AzureKeyVaultSecret",
-							"store": {
-								"referenceName": "KVPROD",
-								"type": "LinkedServiceReference"
-							},
-							"secretName": "CMCAPIKey",
-							"secretVersion": "e1f3f049401f48178a0c066f3981f70c"
-						}
-					}
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/KVPROD')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/LS_REST_CMC_ApiKey')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"parameters": {
-					"Latest20Query": {
-						"type": "String",
-						"defaultValue": "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?start=1&limit=20&sort=market_cap&cryptocurrency_type=all&tag=all"
-					}
+				"linkedServiceName": {
+					"referenceName": "Storage",
+					"type": "LinkedServiceReference"
 				},
 				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileSystem": "zpsb"
+					}
+				},
+				"schema": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Storage')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/OpenWeatherSource')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
 				"type": "RestService",
 				"typeProperties": {
-					"url": "[parameters('LS_REST_CMC_ApiKey_properties_typeProperties_url')]",
+					"url": "[parameters('OpenWeatherSource_properties_typeProperties_url')]",
 					"enableServerCertificateValidation": true,
 					"authenticationType": "Anonymous",
 					"authHeaders": {
-						"X-API-Key": {
+						"APIKey": {
 							"type": "AzureKeyVaultSecret",
 							"store": {
-								"referenceName": "KVPROD",
+								"referenceName": "KV",
 								"type": "LinkedServiceReference"
 							},
-							"secretName": "CMCAPIKey"
+							"secretName": "OpenWeatherAPIKey"
 						}
 					}
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/KVPROD')]"
+				"[concat(variables('factoryId'), '/linkedServices/KV')]"
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/SQLPROD')]",
+			"name": "[concat(parameters('factoryName'), '/SQL')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"annotations": [],
 				"type": "AzureSqlDatabase",
 				"typeProperties": {
-					"connectionString": "[parameters('SQLPROD_connectionString')]",
+					"connectionString": "[parameters('SQL_connectionString')]",
 					"password": {
 						"type": "AzureKeyVaultSecret",
 						"store": {
-							"referenceName": "KVPROD",
+							"referenceName": "KV",
 							"type": "LinkedServiceReference"
 						},
 						"secretName": "SQLAzureADFSecret"
+					},
+					"alwaysEncryptedSettings": {
+						"alwaysEncryptedAkvAuthType": "ManagedIdentity"
 					}
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/KVPROD')]"
+				"[concat(variables('factoryId'), '/linkedServices/KV')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/OpenWeatherSourceREST')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "OpenWeatherSource",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "RestResource",
+				"typeProperties": {},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/OpenWeatherSource')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/PL_Data_Extract')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "ExtractCurrentWeather",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "RestSource",
+								"httpRequestTimeout": "00:01:40",
+								"requestInterval": "00.00:00:00.010",
+								"requestMethod": "GET",
+								"paginationRules": {
+									"supportRFC5988": "true"
+								}
+							},
+							"sink": {
+								"type": "JsonSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "JsonWriteSettings"
+								}
+							},
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "OpenWeatherSourceREST",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "OpenWeatherSinkDL",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"LocationLatitude": {
+						"type": "string"
+					},
+					"LocationLongitude": {
+						"type": "string"
+					},
+					"APIKey": {
+						"type": "string"
+					}
+				},
+				"variables": {
+					"OpenWeatherAPIKey": {
+						"type": "String"
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/OpenWeatherSourceREST')]",
+				"[concat(variables('factoryId'), '/datasets/OpenWeatherSinkDL')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/PL_Master_Extract')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "ForEach Location",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "SetOpenWeatherAPIKey",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "GetLocationLatLong",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('GetLocationLatLong').output",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "Execute PL_Data_Extract",
+									"type": "ExecutePipeline",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "PL_Data_Extract",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true,
+										"parameters": {
+											"LocationLatitude": {
+												"value": "@item().Latitude",
+												"type": "Expression"
+											},
+											"LocationLongitude": {
+												"value": "@item().Longitude",
+												"type": "Expression"
+											},
+											"APIKey": {
+												"value": "@variables('OpenWeatherAPIKey')",
+												"type": "Expression"
+											}
+										}
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "SetOpenWeatherAPIKey",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "GetOpenWeatherAPIKey",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "OpenWeatherAPIKey",
+							"value": {
+								"value": "@activity('GetOpenWeatherAPIKey').output.value",
+								"type": "Expression"
+							}
+						}
+					},
+					{
+						"name": "GetOpenWeatherAPIKey",
+						"type": "WebActivity",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"url": "https://pl-zpsb01-kv.vault.azure.net/secrets/OpenWeatherAPIKey/dff1513a6abc49ec8701b45716a5b9f1",
+							"method": "GET",
+							"headers": {},
+							"authentication": {
+								"type": "MSI",
+								"resource": "https://valut.azure.net"
+							}
+						}
+					},
+					{
+						"name": "GetLocationLatLong",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[config].[GetObjectsToExtract]"
+						},
+						"linkedServiceName": {
+							"referenceName": "SQL",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"variables": {
+					"OpenWeatherAPIKey": {
+						"type": "String"
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SQL')]",
+				"[concat(variables('factoryId'), '/pipelines/PL_Data_Extract')]"
 			]
 		}
 	]
