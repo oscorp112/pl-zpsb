@@ -220,8 +220,8 @@
 					}
 				},
 				"variables": {
-					"OpenWeatherAPIKey": {
-						"type": "String"
+					"LocationsArray": {
+						"type": "Array"
 					}
 				},
 				"annotations": []
@@ -248,7 +248,7 @@
 								]
 							},
 							{
-								"activity": "GetLocationLatLong",
+								"activity": "LocationArray",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -257,7 +257,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"items": {
-								"value": "@activity('GetLocationLatLong').output.value",
+								"value": "@variables('LocationsArray')",
 								"type": "Expression"
 							},
 							"isSequential": false,
@@ -324,7 +324,7 @@
 							"timeout": "0.12:00:00",
 							"retry": 0,
 							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
+							"secureOutput": true,
 							"secureInput": false
 						},
 						"userProperties": [],
@@ -357,6 +357,30 @@
 							"referenceName": "SQL",
 							"type": "LinkedServiceReference"
 						}
+					},
+					{
+						"name": "LocationArray",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "GetLocationLatLong",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "LocationsArray",
+							"value": {
+								"value": "@activity('GetLocationLatLong').output",
+								"type": "Expression"
+							}
+						}
 					}
 				],
 				"policy": {
@@ -366,6 +390,9 @@
 				"variables": {
 					"OpenWeatherAPIKey": {
 						"type": "String"
+					},
+					"LocationsArray": {
+						"type": "Array"
 					}
 				},
 				"annotations": []
