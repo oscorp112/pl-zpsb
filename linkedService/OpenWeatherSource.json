@@ -1,23 +1,22 @@
 {
 	"name": "OpenWeatherSource",
 	"properties": {
-		"parameters": {
-			"LocationLatitude": {
-				"type": "string"
-			},
-			"LocationLongitude": {
-				"type": "string"
-			},
-			"APIKey": {
-				"type": "string"
-			}
-		},
 		"annotations": [],
 		"type": "RestService",
 		"typeProperties": {
-			"url": "https://api.openweathermap.org/data/2.5/weather?lat={LATPARAMETER}&lon={LONPARAMETER}&appid={APIKEY}",
+			"url": "https://api.openweathermap.org/data/2.5/weather",
 			"enableServerCertificateValidation": true,
-			"authenticationType": "Anonymous"
+			"authenticationType": "Anonymous",
+			"authHeaders": {
+				"APIKey": {
+					"type": "AzureKeyVaultSecret",
+					"store": {
+						"referenceName": "KV",
+						"type": "LinkedServiceReference"
+					},
+					"secretName": "OpenWeatherAPIKey"
+				}
+			}
 		}
 	}
 }
