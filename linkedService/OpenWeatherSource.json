@@ -1,10 +1,21 @@
 {
 	"name": "OpenWeatherSource",
 	"properties": {
+		"parameters": {
+			"LatitudeParameter": {
+				"type": "string"
+			},
+			"LongitudeParameter": {
+				"type": "string"
+			},
+			"APIKeyParameter": {
+				"type": "string"
+			}
+		},
 		"annotations": [],
 		"type": "RestService",
 		"typeProperties": {
-			"url": "https://api.openweathermap.org/data/2.5/weather",
+			"url": "https://api.openweathermap.org/data/2.5/weather?lat=@{parameters('LatitudeParameter')}&lon=@{parameters('LongitudeParameter')}&appid=@{parameters('APIKeyParameter')}",
 			"enableServerCertificateValidation": true,
 			"authenticationType": "Anonymous",
 			"authHeaders": {
