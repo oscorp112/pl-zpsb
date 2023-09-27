@@ -1,10 +1,6 @@
 {
 	"name": "METARAPISource",
 	"properties": {
-		"linkedServiceName": {
-			"referenceName": "Metar",
-			"type": "LinkedServiceReference"
-		},
 		"annotations": [],
 		"type": "RestResource",
 		"typeProperties": {
