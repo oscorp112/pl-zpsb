@@ -1,17 +1,6 @@
 {
 	"name": "OpenWeatherSource",
 	"properties": {
-		"parameters": {
-			"LatitudeParameter": {
-				"type": "string"
-			},
-			"LongitudeParameter": {
-				"type": "string"
-			},
-			"APIKeyParameter": {
-				"type": "string"
-			}
-		},
 		"annotations": [],
 		"type": "RestService",
 		"typeProperties": {
