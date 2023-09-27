@@ -94,7 +94,7 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"url": "https://pl-zpsb01-kv.vault.azure.net/secrets/OpenWeatherAPIKey/dff1513a6abc49ec8701b45716a5b9f1",
+					"url": "https://pl-zpsb01-kv.vault.azure.net/secrets/OpenWeatherAPIKey/dff1513a6abc49ec8701b45716a5b9f1?api-version=7.0",
 					"method": "GET",
 					"authentication": {
 						"type": "MSI",
