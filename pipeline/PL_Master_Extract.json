@@ -22,7 +22,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('GetObjectsToExtract').output",
+						"value": "@activity('GetObjectsToExtract').output.firstRow",
 						"type": "Expression"
 					},
 					"isSequential": false,
