@@ -7,12 +7,6 @@
 				"type": "ForEach",
 				"dependsOn": [
 					{
-						"activity": "SetOpenWeatherAPIKey",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					},
-					{
 						"activity": "GetObjectsToExtract",
 						"dependencyConditions": [
 							"Succeeded"
@@ -22,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('GetObjectsToExtract').output.firstRow",
+						"value": "@activity('GetObjectsToExtract').output.value",
 						"type": "Expression"
 					},
 					"isSequential": false,
@@ -105,7 +99,14 @@
 			{
 				"name": "GetObjectsToExtract",
 				"type": "Lookup",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "SetOpenWeatherAPIKey",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -125,7 +126,7 @@
 						"referenceName": "GetLocationsToExtract",
 						"type": "DatasetReference"
 					},
-					"firstRowOnly": true
+					"firstRowOnly": false
 				}
 			}
 		],
