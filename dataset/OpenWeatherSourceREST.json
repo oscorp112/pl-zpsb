@@ -20,7 +20,7 @@
 		"type": "RestResource",
 		"typeProperties": {
 			"relativeUrl": {
-				"value": "@concat('lat=',dataset().Latitude, '&lon=',dataset().Longitude, '&appid=',dataset().APIKey)",
+				"value": "@concat('/weather?lat=',dataset().Latitude, '&lon=',dataset().Longitude, '&appid=',dataset().APIKey)",
 				"type": "Expression"
 			}
 		},
