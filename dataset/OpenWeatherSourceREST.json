@@ -5,17 +5,6 @@
 			"referenceName": "OpenWeatherSource",
 			"type": "LinkedServiceReference"
 		},
-		"parameters": {
-			"LocationLatitude": {
-				"type": "float"
-			},
-			"LocationLongitude": {
-				"type": "float"
-			},
-			"APIKey": {
-				"type": "securestring"
-			}
-		},
 		"annotations": [],
 		"type": "RestResource",
 		"schema": []
