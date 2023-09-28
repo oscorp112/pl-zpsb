@@ -12,7 +12,7 @@
 			"value": "https://pl-zpsb01-kv.vault.azure.net/"
 		},
 		"OpenWeatherSource_properties_typeProperties_url": {
-			"value": "https://api.openweathermap.org/data/2.5/weather?lat=@{parameters('LocationLatitude')}&lon=@{parameters('LocationLongitude')}&appid=@{parameters('APIKey')}"
+			"value": "https://api.openweathermap.org/data/2.5/weather?"
 		},
 		"Storage_properties_typeProperties_url": {
 			"value": "https://plzpsbstorage01.dfs.core.windows.net/"

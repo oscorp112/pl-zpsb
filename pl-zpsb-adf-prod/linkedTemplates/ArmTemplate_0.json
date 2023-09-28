@@ -22,7 +22,7 @@
 		},
 		"OpenWeatherSource_properties_typeProperties_url": {
 			"type": "string",
-			"defaultValue": "https://api.openweathermap.org/data/2.5/weather?lat=@{parameters('LocationLatitude')}&lon=@{parameters('LocationLongitude')}&appid=@{parameters('APIKey')}"
+			"defaultValue": "https://api.openweathermap.org/data/2.5/weather?"
 		}
 	},
 	"variables": {
@@ -178,9 +178,25 @@
 					"referenceName": "OpenWeatherSource",
 					"type": "LinkedServiceReference"
 				},
+				"parameters": {
+					"Latitude": {
+						"type": "string"
+					},
+					"Longitude": {
+						"type": "string"
+					},
+					"APIKey": {
+						"type": "string"
+					}
+				},
 				"annotations": [],
 				"type": "RestResource",
-				"typeProperties": {},
+				"typeProperties": {
+					"relativeUrl": {
+						"value": "@concat('lat=',dataset().Latitude, '&lon=',dataset().Longitude, '&appid=',dataset().APIKey)",
+						"type": "Expression"
+					}
+				},
 				"schema": []
 			},
 			"dependsOn": [
@@ -230,7 +246,20 @@
 							{
 								"referenceName": "OpenWeatherSourceREST",
 								"type": "DatasetReference",
-								"parameters": {}
+								"parameters": {
+									"Latitude": {
+										"value": "@pipeline().parameters.LocationLatitude",
+										"type": "Expression"
+									},
+									"Longitude": {
+										"value": "@pipeline().parameters.LocationLongitude",
+										"type": "Expression"
+									},
+									"APIKey": {
+										"value": "@pipeline().parameters.APIKey",
+										"type": "Expression"
+									}
+								}
 							}
 						],
 						"outputs": [
@@ -278,8 +307,6 @@
 					{
 						"name": "ForEach Location",
 						"type": "ForEach",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "GetObjectsToExtract",
