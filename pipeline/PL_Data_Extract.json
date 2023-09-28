@@ -38,7 +38,21 @@
 				"inputs": [
 					{
 						"referenceName": "OpenWeatherSourceREST",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"Latitude": {
+								"value": "@pipeline().parameters.LocationLatitude",
+								"type": "Expression"
+							},
+							"Longitude": {
+								"value": "@pipeline().parameters.LocationLongitude",
+								"type": "Expression"
+							},
+							"APIKey": {
+								"value": "@pipeline().parameters.APIKey",
+								"type": "Expression"
+							}
+						}
 					}
 				],
 				"outputs": [
