@@ -1,15 +1,10 @@
 {
 	"name": "OpenWeatherSource",
 	"properties": {
-		"parameters": {
-			"ds_param_baseURL": {
-				"type": "string"
-			}
-		},
 		"annotations": [],
 		"type": "RestService",
 		"typeProperties": {
-			"url": "@{linkedService().ds_param_baseURL}",
+			"url": "@{dataset().ds_param_baseURL}",
 			"enableServerCertificateValidation": true,
 			"authenticationType": "Anonymous",
 			"authHeaders": {
