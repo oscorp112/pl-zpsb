@@ -1,16 +1,10 @@
 {
 	"name": "OpenWeatherSource",
 	"properties": {
-		"parameters": {
-			"baseURL": {
-				"type": "string",
-				"defaultValue": "https://api.openweathermap.org/data/2.5/weather?"
-			}
-		},
 		"annotations": [],
 		"type": "RestService",
 		"typeProperties": {
-			"url": "@{linkedService().baseURL}",
+			"url": "https://api.openweathermap.org",
 			"enableServerCertificateValidation": true,
 			"authenticationType": "Anonymous",
 			"authHeaders": {
