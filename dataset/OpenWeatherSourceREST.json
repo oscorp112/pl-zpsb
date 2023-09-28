@@ -5,8 +5,22 @@
 			"referenceName": "OpenWeatherSource",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"ds_param_baseURL": {
+				"type": "string"
+			},
+			"ds_param_relativeURL": {
+				"type": "string"
+			}
+		},
 		"annotations": [],
 		"type": "RestResource",
+		"typeProperties": {
+			"relativeUrl": {
+				"value": "@dataset().ds_param_relativeURL",
+				"type": "Expression"
+			}
+		},
 		"schema": []
 	}
 }
