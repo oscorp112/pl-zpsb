@@ -1,10 +1,15 @@
 {
 	"name": "OpenWeatherSource",
 	"properties": {
+		"parameters": {
+			"ds_param_baseURL": {
+				"type": "string"
+			}
+		},
 		"annotations": [],
 		"type": "RestService",
 		"typeProperties": {
-			"url": "https://api.openweathermap.org/data/2.5/weather?lat=@{parameters('LocationLatitude')}&lon=@{parameters('LocationLongitude')}&appid=@{parameters('APIKey')}",
+			"url": "@{linkedService().ds_param_baseURL}",
 			"enableServerCertificateValidation": true,
 			"authenticationType": "Anonymous",
 			"authHeaders": {
