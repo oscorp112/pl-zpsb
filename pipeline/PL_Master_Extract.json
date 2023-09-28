@@ -5,6 +5,8 @@
 			{
 				"name": "ForEach Location",
 				"type": "ForEach",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "GetObjectsToExtract",
@@ -63,8 +65,8 @@
 					}
 				],
 				"policy": {
-					"secureOutput": false,
-					"secureInput": false
+					"secureOutput": true,
+					"secureInput": true
 				},
 				"userProperties": [],
 				"typeProperties": {
