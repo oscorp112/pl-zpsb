@@ -19,7 +19,11 @@
 			"location": {
 				"type": "AzureBlobFSLocation",
 				"fileName": {
-					"value": "@concat(dataset().LocationName,'_','.json')",
+					"value": "@concat(dataset().LocationName,'_',utcnow(),'.json')",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "@dataset().FolderPath",
 					"type": "Expression"
 				},
 				"fileSystem": "zpsb"
