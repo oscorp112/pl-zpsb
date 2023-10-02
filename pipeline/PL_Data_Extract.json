@@ -142,7 +142,10 @@
 				"userProperties": [],
 				"typeProperties": {
 					"variableName": "CurrentHour",
-					"value": "@formatDateTime(utcnow(), 'HH')"
+					"value": {
+						"value": "@formatDateTime(variables('CurrentDateTime'), 'HH')",
+						"type": "Expression"
+					}
 				}
 			}
 		],
