@@ -74,6 +74,10 @@
 							"FolderPath": {
 								"value": "@variables('FolderPath')",
 								"type": "Expression"
+							},
+							"ExtractHour": {
+								"value": "@variables('CurrentHour')",
+								"type": "Expression"
 							}
 						}
 					}
