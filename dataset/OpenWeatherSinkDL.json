@@ -8,6 +8,9 @@
 		"parameters": {
 			"LocationName": {
 				"type": "String"
+			},
+			"FolderPath": {
+				"type": "string"
 			}
 		},
 		"annotations": [],

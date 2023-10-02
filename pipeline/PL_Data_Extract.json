@@ -70,6 +70,10 @@
 							"LocationName": {
 								"value": "@pipeline().parameters.LocationName",
 								"type": "Expression"
+							},
+							"FolderPath": {
+								"value": "@variables('FolderPath')",
+								"type": "Expression"
 							}
 						}
 					}
