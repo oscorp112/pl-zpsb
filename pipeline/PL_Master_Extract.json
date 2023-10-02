@@ -44,6 +44,10 @@
 									"APIKey": {
 										"value": "@variables('OpenWeatherAPIKey')",
 										"type": "Expression"
+									},
+									"LocationName": {
+										"value": "@item().Location",
+										"type": "Expression"
 									}
 								}
 							}
