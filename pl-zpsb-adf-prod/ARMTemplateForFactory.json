@@ -107,10 +107,38 @@
 									"FolderPath": {
 										"value": "@variables('FolderPath')",
 										"type": "Expression"
+									},
+									"ExtractHour": {
+										"value": "@variables('CurrentHour')",
+										"type": "Expression"
 									}
 								}
 							}
 						]
+					},
+					{
+						"name": "Set FolderPath",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "Set CurrentHour",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "FolderPath",
+							"value": {
+								"value": "@{formatDateTime(variables('CurrentDateTime'), 'yyyy/MM/dd/HH')}",
+								"type": "Expression"
+							}
+						}
 					},
 					{
 						"name": "Set CurrentDateTime",
@@ -124,13 +152,13 @@
 						"typeProperties": {
 							"variableName": "CurrentDateTime",
 							"value": {
-								"value": "@utcnow()",
+								"value": "@convertTimeZone(utcnow(), 'UTC', 'Central Europe Standard Time')",
 								"type": "Expression"
 							}
 						}
 					},
 					{
-						"name": "Set FolderPath",
+						"name": "Set CurrentHour",
 						"type": "SetVariable",
 						"dependsOn": [
 							{
@@ -146,9 +174,9 @@
 						},
 						"userProperties": [],
 						"typeProperties": {
-							"variableName": "FolderPath",
+							"variableName": "CurrentHour",
 							"value": {
-								"value": "@concat(formatDateTime(variables('CurrentDateTime'),'yyyy/MM/dd'))",
+								"value": "@formatDateTime(variables('CurrentDateTime'), 'HH')",
 								"type": "Expression"
 							}
 						}
@@ -172,10 +200,13 @@
 					}
 				},
 				"variables": {
+					"FolderPath": {
+						"type": "String"
+					},
 					"CurrentDateTime": {
 						"type": "String"
 					},
-					"FolderPath": {
+					"CurrentHour": {
 						"type": "String"
 					}
 				},
@@ -397,6 +428,9 @@
 					},
 					"FolderPath": {
 						"type": "string"
+					},
+					"ExtractHour": {
+						"type": "string"
 					}
 				},
 				"annotations": [],
@@ -405,7 +439,7 @@
 					"location": {
 						"type": "AzureBlobFSLocation",
 						"fileName": {
-							"value": "@concat(dataset().LocationName,'_',utcnow(),'.json')",
+							"value": "@concat(dataset().LocationName,'_',dataset().ExtractHour,'.json')",
 							"type": "Expression"
 						},
 						"folderPath": {
@@ -533,6 +567,36 @@
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Extract')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Stopped",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "PL_Master_Extract",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					}
+				],
+				"type": "ScheduleTrigger",
+				"typeProperties": {
+					"recurrence": {
+						"frequency": "Hour",
+						"interval": 1,
+						"startTime": "2023-10-03T23:00:00",
+						"timeZone": "Central European Standard Time"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/PL_Master_Extract')]"
+			]
 		}
 	]
 }
