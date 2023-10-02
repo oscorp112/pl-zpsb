@@ -102,13 +102,13 @@
 				"typeProperties": {
 					"variableName": "FolderPath",
 					"value": {
-						"value": "@concat(variables('CurrentMonth'), '/', variables('CurrentDay'), '/', variables('CurrentHour'))",
+						"value": "@{formatDateTime(variables('CurrentDateTime'), 'yyyy/MM/dd/HH')}",
 						"type": "Expression"
 					}
 				}
 			},
 			{
-				"name": "Set CurrentMonth",
+				"name": "Set CurrentDateTime",
 				"type": "SetVariable",
 				"dependsOn": [],
 				"policy": {
@@ -117,29 +117,11 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"variableName": "CurrentMonth",
-					"value": "@formatDateTime(utcnow(), 'MM')"
-				}
-			},
-			{
-				"name": "Set CurrentDay",
-				"type": "SetVariable",
-				"dependsOn": [
-					{
-						"activity": "Set CurrentMonth",
-						"dependencyConditions": [
-							"Succeeded"
-						]
+					"variableName": "CurrentDateTime",
+					"value": {
+						"value": "@convertTimeZone(utcnow(), 'UTC', 'Central Europe Standard Time')",
+						"type": "Expression"
 					}
-				],
-				"policy": {
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "CurrentDay",
-					"value": "@formatDateTime(utcnow(), 'dd')"
 				}
 			},
 			{
@@ -147,7 +129,7 @@
 				"type": "SetVariable",
 				"dependsOn": [
 					{
-						"activity": "Set CurrentDay",
+						"activity": "Set CurrentDateTime",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -182,10 +164,7 @@
 			"FolderPath": {
 				"type": "String"
 			},
-			"CurrentMonth": {
-				"type": "String"
-			},
-			"CurrentDay": {
+			"CurrentDateTime": {
 				"type": "String"
 			},
 			"CurrentHour": {
