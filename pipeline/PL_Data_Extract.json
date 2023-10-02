@@ -5,7 +5,14 @@
 			{
 				"name": "ExtractCurrentWeather",
 				"type": "Copy",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Set FolderPath",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -58,9 +65,56 @@
 				"outputs": [
 					{
 						"referenceName": "OpenWeatherSinkDL",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"LocationName": {
+								"value": "@pipeline().parameters.LocationName",
+								"type": "Expression"
+							}
+						}
 					}
 				]
+			},
+			{
+				"name": "Set CurrentDateTime",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "CurrentDateTime",
+					"value": {
+						"value": "@utcnow()",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Set FolderPath",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Set CurrentDateTime",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "FolderPath",
+					"value": {
+						"value": "@concat('/', formatDateTime(variables('CurrentDateTime'), 'yyyy/MM/dd'))",
+						"type": "Expression"
+					}
+				}
 			}
 		],
 		"parameters": {
@@ -72,11 +126,17 @@
 			},
 			"APIKey": {
 				"type": "string"
+			},
+			"LocationName": {
+				"type": "string"
 			}
 		},
 		"variables": {
-			"LocationsArray": {
-				"type": "Array"
+			"CurrentDateTime": {
+				"type": "String"
+			},
+			"FolderPath": {
+				"type": "String"
 			}
 		},
 		"annotations": []

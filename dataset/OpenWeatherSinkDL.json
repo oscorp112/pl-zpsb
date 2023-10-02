@@ -5,11 +5,20 @@
 			"referenceName": "Storage",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"LocationName": {
+				"type": "String"
+			}
+		},
 		"annotations": [],
 		"type": "Json",
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@concat(dataset().LocationName,'_','.json')",
+					"type": "Expression"
+				},
 				"fileSystem": "zpsb"
 			}
 		},
