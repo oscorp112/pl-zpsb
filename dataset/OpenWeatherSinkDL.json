@@ -11,6 +11,9 @@
 			},
 			"FolderPath": {
 				"type": "string"
+			},
+			"ExtractHour": {
+				"type": "string"
 			}
 		},
 		"annotations": [],
@@ -19,7 +22,7 @@
 			"location": {
 				"type": "AzureBlobFSLocation",
 				"fileName": {
-					"value": "@concat(dataset().LocationName,'_',utcnow(),'.json')",
+					"value": "@concat(dataset().LocationName,'_',dataset().ExtractHour,'.json')",
 					"type": "Expression"
 				},
 				"folderPath": {
