@@ -22,7 +22,7 @@
 		},
 		"OpenWeatherSource_properties_typeProperties_url": {
 			"type": "string",
-			"defaultValue": "https://api.openweathermap.org/data/2.5/weather?"
+			"defaultValue": "https://api.openweathermap.org"
 		}
 	},
 	"variables": {
@@ -64,11 +64,27 @@
 					"referenceName": "Storage",
 					"type": "LinkedServiceReference"
 				},
+				"parameters": {
+					"LocationName": {
+						"type": "String"
+					},
+					"FolderPath": {
+						"type": "string"
+					}
+				},
 				"annotations": [],
 				"type": "Json",
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
+						"fileName": {
+							"value": "@concat(dataset().LocationName,'_',utcnow(),'.json')",
+							"type": "Expression"
+						},
+						"folderPath": {
+							"value": "@dataset().FolderPath",
+							"type": "Expression"
+						},
 						"fileSystem": "zpsb"
 					}
 				},
@@ -193,7 +209,7 @@
 				"type": "RestResource",
 				"typeProperties": {
 					"relativeUrl": {
-						"value": "@concat('lat=',dataset().Latitude, '&lon=',dataset().Longitude, '&appid=',dataset().APIKey)",
+						"value": "@concat('/data/2.5/weather?lat=',dataset().Latitude, '&lon=',dataset().Longitude, '&appid=',dataset().APIKey,'&units=metric')",
 						"type": "Expression"
 					}
 				},
@@ -212,13 +228,20 @@
 					{
 						"name": "ExtractCurrentWeather",
 						"type": "Copy",
-						"dependsOn": [],
+						"dependsOn": [
+							{
+								"activity": "Set FolderPath",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
 						"policy": {
 							"timeout": "0.12:00:00",
 							"retry": 0,
 							"retryIntervalInSeconds": 30,
 							"secureOutput": false,
-							"secureInput": false
+							"secureInput": true
 						},
 						"userProperties": [],
 						"typeProperties": {
@@ -266,14 +289,63 @@
 							{
 								"referenceName": "OpenWeatherSinkDL",
 								"type": "DatasetReference",
-								"parameters": {}
+								"parameters": {
+									"LocationName": {
+										"value": "@pipeline().parameters.LocationName",
+										"type": "Expression"
+									},
+									"FolderPath": {
+										"value": "@variables('FolderPath')",
+										"type": "Expression"
+									}
+								}
 							}
 						]
+					},
+					{
+						"name": "Set CurrentDateTime",
+						"type": "SetVariable",
+						"dependsOn": [],
+						"policy": {
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "CurrentDateTime",
+							"value": {
+								"value": "@utcnow()",
+								"type": "Expression"
+							}
+						}
+					},
+					{
+						"name": "Set FolderPath",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "Set CurrentDateTime",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "FolderPath",
+							"value": {
+								"value": "@concat(formatDateTime(variables('CurrentDateTime'),'yyyy/MM/dd'))",
+								"type": "Expression"
+							}
+						}
 					}
 				],
 				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
+					"elapsedTimeMetric": {}
 				},
 				"parameters": {
 					"LocationLatitude": {
@@ -284,11 +356,17 @@
 					},
 					"APIKey": {
 						"type": "string"
+					},
+					"LocationName": {
+						"type": "string"
 					}
 				},
 				"variables": {
-					"LocationsArray": {
-						"type": "Array"
+					"CurrentDateTime": {
+						"type": "String"
+					},
+					"FolderPath": {
+						"type": "String"
 					}
 				},
 				"annotations": []
@@ -345,6 +423,10 @@
 											},
 											"APIKey": {
 												"value": "@variables('OpenWeatherAPIKey')",
+												"type": "Expression"
+											},
+											"LocationName": {
+												"value": "@item().Location",
 												"type": "Expression"
 											}
 										}
@@ -435,8 +517,7 @@
 					}
 				],
 				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
+					"elapsedTimeMetric": {}
 				},
 				"variables": {
 					"OpenWeatherAPIKey": {

@@ -18,7 +18,7 @@
 		},
 		"OpenWeatherSource_properties_typeProperties_url": {
 			"type": "string",
-			"defaultValue": "https://api.openweathermap.org/data/2.5/weather?"
+			"defaultValue": "https://api.openweathermap.org"
 		},
 		"Storage_properties_typeProperties_url": {
 			"type": "string",
