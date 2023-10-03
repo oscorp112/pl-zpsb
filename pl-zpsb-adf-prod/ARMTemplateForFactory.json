@@ -569,12 +569,12 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/Extract')]",
+			"name": "[concat(parameters('factoryName'), '/PL_Master_Extract')]",
 			"type": "Microsoft.DataFactory/factories/triggers",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"annotations": [],
-				"runtimeState": "Stopped",
+				"runtimeState": "Started",
 				"pipelines": [
 					{
 						"pipelineReference": {
@@ -589,7 +589,7 @@
 					"recurrence": {
 						"frequency": "Hour",
 						"interval": 1,
-						"startTime": "2023-10-03T23:00:00",
+						"startTime": "2023-10-03T20:00:00",
 						"timeZone": "Central European Standard Time"
 					}
 				}
