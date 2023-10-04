@@ -19,11 +19,11 @@
 			"location": {
 				"type": "AzureBlobFSLocation",
 				"fileName": {
-					"value": "@concat(dataset().LocationName,'_',utcnow('HH'),'.json')",
+					"value": "@{concat(dataset().LocationName,'_',convertTimeZone(utcnow('HH'), 'UTC', 'Central Europe Standard Time'),'.json')}",
 					"type": "Expression"
 				},
 				"folderPath": {
-					"value": "@{concat(\n    'extract/',\n    '/year=' ,utcnow('yyyy'),\n    '/month=' ,utcnow('MM'),\n    '/day=' ,utcnow('dd'),\n    '/hour=' ,utcnow('HH'))}",
+					"value": "@{concat(\n    'extract/',\n    '/year=' ,convertTimeZone(utcnow('yyyy'), 'UTC', 'Central Europe Standard Time'),\n    '/month=' ,convertTimeZone(utcnow('MM'), 'UTC', 'Central Europe Standard Time'),\n    '/day=' ,convertTimeZone(utcnow('dd'), 'UTC', 'Central Europe Standard Time'),\n    '/hour=' ,convertTimeZone(utcnow('HH'), 'UTC', 'Central Europe Standard Time'))}",
 					"type": "Expression"
 				},
 				"fileSystem": "zpsb"
