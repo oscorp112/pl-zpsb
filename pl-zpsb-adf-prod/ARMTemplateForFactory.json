@@ -30,6 +30,197 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/PL_Data_Extract')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "ExtractCurrentWeather",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "Set FolderPath",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": true
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "RestSource",
+								"httpRequestTimeout": "00:01:40",
+								"requestInterval": "00.00:00:00.010",
+								"requestMethod": "GET",
+								"paginationRules": {
+									"supportRFC5988": "true"
+								}
+							},
+							"sink": {
+								"type": "JsonSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "JsonWriteSettings"
+								}
+							},
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "OpenWeatherSourceREST",
+								"type": "DatasetReference",
+								"parameters": {
+									"Latitude": {
+										"value": "@pipeline().parameters.LocationLatitude",
+										"type": "Expression"
+									},
+									"Longitude": {
+										"value": "@pipeline().parameters.LocationLongitude",
+										"type": "Expression"
+									},
+									"APIKey": {
+										"value": "@pipeline().parameters.APIKey",
+										"type": "Expression"
+									}
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "OpenWeatherSinkDL",
+								"type": "DatasetReference",
+								"parameters": {
+									"LocationName": {
+										"value": "@pipeline().parameters.LocationName",
+										"type": "Expression"
+									},
+									"FolderPath": {
+										"value": "@variables('FolderPath')",
+										"type": "Expression"
+									},
+									"ExtractHour": {
+										"value": "@variables('CurrentHour')",
+										"type": "Expression"
+									}
+								}
+							}
+						]
+					},
+					{
+						"name": "Set FolderPath",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "Set CurrentHour",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "FolderPath",
+							"value": {
+								"value": "@{formatDateTime(variables('CurrentDateTime'), 'yyyy/MM/dd/HH')}",
+								"type": "Expression"
+							}
+						}
+					},
+					{
+						"name": "Set CurrentDateTime",
+						"type": "SetVariable",
+						"dependsOn": [],
+						"policy": {
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "CurrentDateTime",
+							"value": {
+								"value": "@convertTimeZone(utcnow(), 'UTC', 'Central Europe Standard Time')",
+								"type": "Expression"
+							}
+						}
+					},
+					{
+						"name": "Set CurrentHour",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "Set CurrentDateTime",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "CurrentHour",
+							"value": {
+								"value": "@formatDateTime(variables('CurrentDateTime'), 'HH')",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"parameters": {
+					"LocationLatitude": {
+						"type": "string"
+					},
+					"LocationLongitude": {
+						"type": "string"
+					},
+					"APIKey": {
+						"type": "string"
+					},
+					"LocationName": {
+						"type": "string"
+					}
+				},
+				"variables": {
+					"FolderPath": {
+						"type": "String"
+					},
+					"CurrentDateTime": {
+						"type": "String"
+					},
+					"CurrentHour": {
+						"type": "String"
+					}
+				},
+				"folder": {
+					"name": "Extract"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/OpenWeatherSourceREST')]",
+				"[concat(variables('factoryId'), '/datasets/OpenWeatherSinkDL')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/PL_Master_Extract')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -260,11 +451,11 @@
 					"location": {
 						"type": "AzureBlobFSLocation",
 						"fileName": {
-							"value": "@{concat(dataset().LocationName,'_',convertTimeZone(utcnow('HH'), 'UTC', 'Central Europe Standard Time'),'.json')}",
+							"value": "@{concat(dataset().LocationName,'_',dataset().ExtractHour,'.json')}",
 							"type": "Expression"
 						},
 						"folderPath": {
-							"value": "@{concat(\n    'extract/',\n    '/year=' ,convertTimeZone(utcnow('yyyy'), 'UTC', 'Central Europe Standard Time'),\n    '/month=' ,convertTimeZone(utcnow('MM'), 'UTC', 'Central Europe Standard Time'),\n    '/day=' ,convertTimeZone(utcnow('dd'), 'UTC', 'Central Europe Standard Time'),\n    '/hour=' ,convertTimeZone(utcnow('HH'), 'UTC', 'Central Europe Standard Time'))}",
+							"value": "@dataset().FolderPath",
 							"type": "Expression"
 						},
 						"fileSystem": "zpsb"
@@ -420,194 +611,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/pipelines/PL_Master_Extract')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/PL_Data_Extract')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "ExtractCurrentWeather",
-						"type": "Copy",
-						"dependsOn": [
-							{
-								"activity": "Set FolderPath",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": true
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "RestSource",
-								"httpRequestTimeout": "00:01:40",
-								"requestInterval": "00.00:00:00.010",
-								"requestMethod": "GET",
-								"paginationRules": {
-									"supportRFC5988": "true"
-								}
-							},
-							"sink": {
-								"type": "JsonSink",
-								"storeSettings": {
-									"type": "AzureBlobFSWriteSettings"
-								},
-								"formatSettings": {
-									"type": "JsonWriteSettings"
-								}
-							},
-							"enableStaging": false
-						},
-						"inputs": [
-							{
-								"referenceName": "OpenWeatherSourceREST",
-								"type": "DatasetReference",
-								"parameters": {
-									"Latitude": {
-										"value": "@pipeline().parameters.LocationLatitude",
-										"type": "Expression"
-									},
-									"Longitude": {
-										"value": "@pipeline().parameters.LocationLongitude",
-										"type": "Expression"
-									},
-									"APIKey": {
-										"value": "@pipeline().parameters.APIKey",
-										"type": "Expression"
-									}
-								}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "OpenWeatherSinkDL",
-								"type": "DatasetReference",
-								"parameters": {
-									"LocationName": {
-										"value": "@pipeline().parameters.LocationName",
-										"type": "Expression"
-									},
-									"FolderPath": {
-										"value": "@variables('FolderPath')",
-										"type": "Expression"
-									},
-									"ExtractHour": {
-										"value": "@variables('CurrentHour')",
-										"type": "Expression"
-									}
-								}
-							}
-						]
-					},
-					{
-						"name": "Set FolderPath",
-						"type": "SetVariable",
-						"dependsOn": [
-							{
-								"activity": "Set CurrentHour",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"variableName": "FolderPath",
-							"value": {
-								"value": "@{formatDateTime(variables('CurrentDateTime'), 'yyyy/MM/dd/HH')}",
-								"type": "Expression"
-							}
-						}
-					},
-					{
-						"name": "Set CurrentDateTime",
-						"type": "SetVariable",
-						"dependsOn": [],
-						"policy": {
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"variableName": "CurrentDateTime",
-							"value": {
-								"value": "@convertTimeZone(utcnow(), 'UTC', 'Central Europe Standard Time')",
-								"type": "Expression"
-							}
-						}
-					},
-					{
-						"name": "Set CurrentHour",
-						"type": "SetVariable",
-						"dependsOn": [
-							{
-								"activity": "Set CurrentDateTime",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"variableName": "CurrentHour",
-							"value": {
-								"value": "@formatDateTime(variables('CurrentDateTime'), 'HH')",
-								"type": "Expression"
-							}
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"parameters": {
-					"LocationLatitude": {
-						"type": "string"
-					},
-					"LocationLongitude": {
-						"type": "string"
-					},
-					"APIKey": {
-						"type": "string"
-					},
-					"LocationName": {
-						"type": "string"
-					}
-				},
-				"variables": {
-					"FolderPath": {
-						"type": "String"
-					},
-					"CurrentDateTime": {
-						"type": "String"
-					},
-					"CurrentHour": {
-						"type": "String"
-					}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/OpenWeatherSourceREST')]",
-				"[concat(variables('factoryId'), '/datasets/OpenWeatherSinkDL')]"
 			]
 		}
 	]

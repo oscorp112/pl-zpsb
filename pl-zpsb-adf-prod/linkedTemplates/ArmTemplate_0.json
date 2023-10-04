@@ -84,11 +84,11 @@
 					"location": {
 						"type": "AzureBlobFSLocation",
 						"fileName": {
-							"value": "@{concat(dataset().LocationName,'_',convertTimeZone(utcnow('HH'), 'UTC', 'Central Europe Standard Time'),'.json')}",
+							"value": "@{concat(dataset().LocationName,'_',dataset().ExtractHour,'.json')}",
 							"type": "Expression"
 						},
 						"folderPath": {
-							"value": "@{concat(\n    'extract/',\n    '/year=' ,convertTimeZone(utcnow('yyyy'), 'UTC', 'Central Europe Standard Time'),\n    '/month=' ,convertTimeZone(utcnow('MM'), 'UTC', 'Central Europe Standard Time'),\n    '/day=' ,convertTimeZone(utcnow('dd'), 'UTC', 'Central Europe Standard Time'),\n    '/hour=' ,convertTimeZone(utcnow('HH'), 'UTC', 'Central Europe Standard Time'))}",
+							"value": "@dataset().FolderPath",
 							"type": "Expression"
 						},
 						"fileSystem": "zpsb"
@@ -229,167 +229,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/OpenWeatherSource')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/PL_Master_Extract')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "ForEach Location",
-						"type": "ForEach",
-						"dependsOn": [
-							{
-								"activity": "GetObjectsToExtract",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"items": {
-								"value": "@activity('GetObjectsToExtract').output.value",
-								"type": "Expression"
-							},
-							"isSequential": false,
-							"activities": [
-								{
-									"name": "Execute PL_Data_Extract",
-									"type": "ExecutePipeline",
-									"dependsOn": [],
-									"userProperties": [],
-									"typeProperties": {
-										"pipeline": {
-											"referenceName": "PL_Data_Extract",
-											"type": "PipelineReference"
-										},
-										"waitOnCompletion": true,
-										"parameters": {
-											"LocationLatitude": {
-												"value": "@item().Latitude",
-												"type": "Expression"
-											},
-											"LocationLongitude": {
-												"value": "@item().Longitude",
-												"type": "Expression"
-											},
-											"APIKey": {
-												"value": "@variables('OpenWeatherAPIKey')",
-												"type": "Expression"
-											},
-											"LocationName": {
-												"value": "@item().Location",
-												"type": "Expression"
-											}
-										}
-									}
-								}
-							]
-						}
-					},
-					{
-						"name": "SetOpenWeatherAPIKey",
-						"type": "SetVariable",
-						"dependsOn": [
-							{
-								"activity": "GetOpenWeatherAPIKey",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"secureOutput": true,
-							"secureInput": true
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"variableName": "OpenWeatherAPIKey",
-							"value": {
-								"value": "@activity('GetOpenWeatherAPIKey').output.value",
-								"type": "Expression"
-							}
-						}
-					},
-					{
-						"name": "GetOpenWeatherAPIKey",
-						"type": "WebActivity",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": true,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"url": "https://pl-zpsb01-kv.vault.azure.net/secrets/OpenWeatherAPIKey/dff1513a6abc49ec8701b45716a5b9f1?api-version=7.0",
-							"method": "GET",
-							"headers": {},
-							"authentication": {
-								"type": "MSI",
-								"resource": "https://vault.azure.net"
-							}
-						}
-					},
-					{
-						"name": "GetObjectsToExtract",
-						"type": "Lookup",
-						"dependsOn": [
-							{
-								"activity": "SetOpenWeatherAPIKey",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"sqlReaderStoredProcedureName": "[[config].[GetObjectsToExtract]",
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
-							},
-							"dataset": {
-								"referenceName": "GetLocationsToExtract",
-								"type": "DatasetReference",
-								"parameters": {}
-							},
-							"firstRowOnly": false
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"variables": {
-					"OpenWeatherAPIKey": {
-						"type": "String"
-					},
-					"LocationsArray": {
-						"type": "Array"
-					}
-				},
-				"folder": {
-					"name": "Extract"
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/GetLocationsToExtract')]",
-				"[concat(variables('factoryId'), '/pipelines/PL_Data_Extract')]"
 			]
 		},
 		{
@@ -573,11 +412,175 @@
 						"type": "String"
 					}
 				},
+				"folder": {
+					"name": "Extract"
+				},
 				"annotations": []
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/OpenWeatherSourceREST')]",
 				"[concat(variables('factoryId'), '/datasets/OpenWeatherSinkDL')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/PL_Master_Extract')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "ForEach Location",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "GetObjectsToExtract",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('GetObjectsToExtract').output.value",
+								"type": "Expression"
+							},
+							"isSequential": false,
+							"activities": [
+								{
+									"name": "Execute PL_Data_Extract",
+									"type": "ExecutePipeline",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "PL_Data_Extract",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true,
+										"parameters": {
+											"LocationLatitude": {
+												"value": "@item().Latitude",
+												"type": "Expression"
+											},
+											"LocationLongitude": {
+												"value": "@item().Longitude",
+												"type": "Expression"
+											},
+											"APIKey": {
+												"value": "@variables('OpenWeatherAPIKey')",
+												"type": "Expression"
+											},
+											"LocationName": {
+												"value": "@item().Location",
+												"type": "Expression"
+											}
+										}
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "SetOpenWeatherAPIKey",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "GetOpenWeatherAPIKey",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureOutput": true,
+							"secureInput": true
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "OpenWeatherAPIKey",
+							"value": {
+								"value": "@activity('GetOpenWeatherAPIKey').output.value",
+								"type": "Expression"
+							}
+						}
+					},
+					{
+						"name": "GetOpenWeatherAPIKey",
+						"type": "WebActivity",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": true,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"url": "https://pl-zpsb01-kv.vault.azure.net/secrets/OpenWeatherAPIKey/dff1513a6abc49ec8701b45716a5b9f1?api-version=7.0",
+							"method": "GET",
+							"headers": {},
+							"authentication": {
+								"type": "MSI",
+								"resource": "https://vault.azure.net"
+							}
+						}
+					},
+					{
+						"name": "GetObjectsToExtract",
+						"type": "Lookup",
+						"dependsOn": [
+							{
+								"activity": "SetOpenWeatherAPIKey",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderStoredProcedureName": "[[config].[GetObjectsToExtract]",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "GetLocationsToExtract",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"variables": {
+					"OpenWeatherAPIKey": {
+						"type": "String"
+					},
+					"LocationsArray": {
+						"type": "Array"
+					}
+				},
+				"folder": {
+					"name": "Extract"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/GetLocationsToExtract')]",
+				"[concat(variables('factoryId'), '/pipelines/PL_Data_Extract')]"
 			]
 		},
 		{
