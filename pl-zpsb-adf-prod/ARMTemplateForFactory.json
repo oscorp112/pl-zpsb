@@ -199,6 +199,9 @@
 						"type": "String"
 					}
 				},
+				"folder": {
+					"name": "Extract"
+				},
 				"annotations": []
 			},
 			"dependsOn": [
@@ -356,6 +359,9 @@
 					"LocationsArray": {
 						"type": "Array"
 					}
+				},
+				"folder": {
+					"name": "Extract"
 				},
 				"annotations": []
 			},
