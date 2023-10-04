@@ -103,14 +103,6 @@
 									"LocationName": {
 										"value": "@pipeline().parameters.LocationName",
 										"type": "Expression"
-									},
-									"FolderPath": {
-										"value": "@variables('FolderPath')",
-										"type": "Expression"
-									},
-									"ExtractHour": {
-										"value": "@variables('CurrentHour')",
-										"type": "Expression"
 									}
 								}
 							}
@@ -134,10 +126,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"variableName": "FolderPath",
-							"value": {
-								"value": "@{formatDateTime(variables('CurrentDateTime'), 'yyyy/MM/dd/HH')}",
-								"type": "Expression"
-							}
+							"value": "[[object Object]"
 						}
 					},
 					{
@@ -384,6 +373,9 @@
 					"referenceName": "SQL",
 					"type": "LinkedServiceReference"
 				},
+				"folder": {
+					"name": "Extract"
+				},
 				"annotations": [],
 				"type": "AzureSqlTable",
 				"schema": [
@@ -425,13 +417,10 @@
 				"parameters": {
 					"LocationName": {
 						"type": "String"
-					},
-					"FolderPath": {
-						"type": "string"
-					},
-					"ExtractHour": {
-						"type": "string"
 					}
+				},
+				"folder": {
+					"name": "Extract"
 				},
 				"annotations": [],
 				"type": "Json",
@@ -439,11 +428,11 @@
 					"location": {
 						"type": "AzureBlobFSLocation",
 						"fileName": {
-							"value": "@concat(dataset().LocationName,'_',dataset().ExtractHour,'.json')",
+							"value": "@concat(dataset().LocationName,'_',utcnow('HH'),'.json')",
 							"type": "Expression"
 						},
 						"folderPath": {
-							"value": "@dataset().FolderPath",
+							"value": "@{concat(\n    'extract/',\n    '/year=' ,utcnow('yyyy'),\n    '/month=' ,utcnow('MM'),\n    '/day=' ,utcnow('dd'),\n    '/hour=' ,utcnow('HH'))}",
 							"type": "Expression"
 						},
 						"fileSystem": "zpsb"
@@ -474,6 +463,9 @@
 					"APIKey": {
 						"type": "string"
 					}
+				},
+				"folder": {
+					"name": "Extract"
 				},
 				"annotations": [],
 				"type": "RestResource",
