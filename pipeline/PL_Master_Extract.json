@@ -142,6 +142,9 @@
 				"type": "Array"
 			}
 		},
+		"folder": {
+			"name": "Extract"
+		},
 		"annotations": []
 	}
 }
