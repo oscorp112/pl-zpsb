@@ -8,12 +8,6 @@
 		"parameters": {
 			"LocationName": {
 				"type": "String"
-			},
-			"FolderPath": {
-				"type": "string"
-			},
-			"ExtractHour": {
-				"type": "string"
 			}
 		},
 		"folder": {
@@ -25,11 +19,11 @@
 			"location": {
 				"type": "AzureBlobFSLocation",
 				"fileName": {
-					"value": "@concat(dataset().LocationName,'_',dataset().ExtractHour,'.json')",
+					"value": "@concat(dataset().LocationName,'_',utcnow('HH'),'.json')",
 					"type": "Expression"
 				},
 				"folderPath": {
-					"value": "@dataset().FolderPath",
+					"value": "@{concat(\n    'extract/',\n    '/year=' ,utcnow('yyyy'),\n    '/month=' ,utcnow('MM'),\n    '/day=' ,utcnow('dd'),\n    '/hour=' ,utcnow('HH'))}",
 					"type": "Expression"
 				},
 				"fileSystem": "zpsb"
