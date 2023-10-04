@@ -16,6 +16,9 @@
 				"type": "string"
 			}
 		},
+		"folder": {
+			"name": "Extract"
+		},
 		"annotations": [],
 		"type": "RestResource",
 		"typeProperties": {

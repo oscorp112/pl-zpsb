@@ -5,6 +5,9 @@
 			"referenceName": "SQL",
 			"type": "LinkedServiceReference"
 		},
+		"folder": {
+			"name": "Extract"
+		},
 		"annotations": [],
 		"type": "AzureSqlTable",
 		"schema": [
