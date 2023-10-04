@@ -8,6 +8,12 @@
 		"parameters": {
 			"LocationName": {
 				"type": "String"
+			},
+			"FolderPath": {
+				"type": "string"
+			},
+			"ExtractHour": {
+				"type": "string"
 			}
 		},
 		"folder": {

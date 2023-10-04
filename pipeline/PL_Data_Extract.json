@@ -70,6 +70,14 @@
 							"LocationName": {
 								"value": "@pipeline().parameters.LocationName",
 								"type": "Expression"
+							},
+							"FolderPath": {
+								"value": "@variables('FolderPath')",
+								"type": "Expression"
+							},
+							"ExtractHour": {
+								"value": "@variables('CurrentHour')",
+								"type": "Expression"
 							}
 						}
 					}
@@ -93,7 +101,10 @@
 				"userProperties": [],
 				"typeProperties": {
 					"variableName": "FolderPath",
-					"value": "[object Object]"
+					"value": {
+						"value": "@{formatDateTime(variables('CurrentDateTime'), 'yyyy/MM/dd/HH')}",
+						"type": "Expression"
+					}
 				}
 			},
 			{
@@ -162,9 +173,6 @@
 			"CurrentHour": {
 				"type": "String"
 			}
-		},
-		"folder": {
-			"name": "Extract"
 		},
 		"annotations": []
 	}
