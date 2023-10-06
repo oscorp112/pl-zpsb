@@ -172,7 +172,7 @@
 					"storedProcedureParameters": {
 						"ExtractionDate": {
 							"value": {
-								"value": "@formatDateTime(utcnow(), 'yyyy-MM-ddTHH:mm:ss.fffZ')",
+								"value": "@variables('CurrentDateTime')",
 								"type": "Expression"
 							},
 							"type": "DateTime"
