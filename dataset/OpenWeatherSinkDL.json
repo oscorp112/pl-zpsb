@@ -14,6 +14,9 @@
 			},
 			"ExtractHour": {
 				"type": "string"
+			},
+			"FileName": {
+				"type": "string"
 			}
 		},
 		"folder": {
