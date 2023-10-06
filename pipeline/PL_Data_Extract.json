@@ -34,7 +34,12 @@
 					"sink": {
 						"type": "JsonSink",
 						"storeSettings": {
-							"type": "AzureBlobFSWriteSettings"
+							"type": "AzureBlobFSWriteSettings",
+							"metadata": [
+								{
+									"value": ""
+								}
+							]
 						},
 						"formatSettings": {
 							"type": "JsonWriteSettings"
@@ -147,6 +152,42 @@
 						"type": "Expression"
 					}
 				}
+			},
+			{
+				"name": "UpdateExtractionTable",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "ExtractCurrentWeather",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SQL",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "INSERT INTO logging.ExtractedFiles (FileName, FilePath, ExtractionDate)\nVALUES\n    (@{concat(pipeline().parameters.LocationName,'_',variables('CurrentHour'))},variables('FolderPath'),utcnow())\n",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
 			}
 		],
 		"parameters": {
@@ -172,6 +213,12 @@
 			},
 			"CurrentHour": {
 				"type": "String"
+			},
+			"Array": {
+				"type": "Array"
+			},
+			"ItemName": {
+				"type": "Array"
 			}
 		},
 		"folder": {
