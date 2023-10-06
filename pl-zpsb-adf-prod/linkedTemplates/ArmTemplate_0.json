@@ -234,43 +234,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/OpenWeatherSourceREST')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "OpenWeatherSource",
-					"type": "LinkedServiceReference"
-				},
-				"parameters": {
-					"Latitude": {
-						"type": "string"
-					},
-					"Longitude": {
-						"type": "string"
-					},
-					"APIKey": {
-						"type": "string"
-					}
-				},
-				"folder": {
-					"name": "Extract"
-				},
-				"annotations": [],
-				"type": "RestResource",
-				"typeProperties": {
-					"relativeUrl": {
-						"value": "@concat('/data/2.5/weather?lat=',dataset().Latitude, '&lon=',dataset().Longitude, '&appid=',dataset().APIKey,'&units=metric')",
-						"type": "Expression"
-					}
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/OpenWeatherSource')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/ODS')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -429,6 +392,43 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/SQL')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/OpenWeatherSourceREST')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "OpenWeatherSource",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"Latitude": {
+						"type": "string"
+					},
+					"Longitude": {
+						"type": "string"
+					},
+					"APIKey": {
+						"type": "string"
+					}
+				},
+				"folder": {
+					"name": "Extract"
+				},
+				"annotations": [],
+				"type": "RestResource",
+				"typeProperties": {
+					"relativeUrl": {
+						"value": "@concat('/data/2.5/weather?lat=',dataset().Latitude, '&lon=',dataset().Longitude, '&appid=',dataset().APIKey,'&units=metric')",
+						"type": "Expression"
+					}
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/OpenWeatherSource')]"
 			]
 		},
 		{
@@ -1336,36 +1336,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/pipelines/PL_Master_Extract')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/PL_Master_Load')]",
-			"type": "Microsoft.DataFactory/factories/triggers",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"runtimeState": "Stopped",
-				"pipelines": [
-					{
-						"pipelineReference": {
-							"referenceName": "PL_Master_Load",
-							"type": "PipelineReference"
-						},
-						"parameters": {}
-					}
-				],
-				"type": "ScheduleTrigger",
-				"typeProperties": {
-					"recurrence": {
-						"frequency": "Hour",
-						"interval": 1,
-						"startTime": "2023-10-07T02:10:00",
-						"timeZone": "Central European Standard Time"
-					}
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/PL_Master_Load')]"
 			]
 		}
 	]
