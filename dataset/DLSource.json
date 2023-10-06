@@ -1,0 +1,20 @@
+{
+	"name": "DLSource",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Storage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "Bialystok_00.json",
+				"folderPath": "2023/10/04/00",
+				"fileSystem": "zpsb"
+			}
+		},
+		"schema": {}
+	}
+}
