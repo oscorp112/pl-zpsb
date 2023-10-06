@@ -154,6 +154,31 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/DLSource')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Storage",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "Bialystok_00.json",
+						"folderPath": "2023/10/04/00",
+						"fileSystem": "zpsb"
+					}
+				},
+				"schema": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Storage')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/GetLocationsToExtract')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -382,6 +407,42 @@
 								"type": "Expression"
 							}
 						}
+					},
+					{
+						"name": "UpdateExtractionTable",
+						"type": "Script",
+						"dependsOn": [
+							{
+								"activity": "ExtractCurrentWeather",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"linkedServiceName": {
+							"referenceName": "SQL",
+							"type": "LinkedServiceReference"
+						},
+						"typeProperties": {
+							"scripts": [
+								{
+									"type": "Query",
+									"text": {
+										"value": "INSERT INTO logging.ExtractedFiles (FileName, FilePath, ExtractionDate)\nVALUES\n    (@{concat(pipeline().parameters.LocationName,'_',variables('CurrentHour'))},variables('FolderPath'),utcnow())\n",
+										"type": "Expression"
+									}
+								}
+							],
+							"scriptBlockExecutionTimeout": "02:00:00"
+						}
 					}
 				],
 				"policy": {
@@ -410,6 +471,12 @@
 					},
 					"CurrentHour": {
 						"type": "String"
+					},
+					"Array": {
+						"type": "Array"
+					},
+					"ItemName": {
+						"type": "Array"
 					}
 				},
 				"folder": {
@@ -419,7 +486,8 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/OpenWeatherSourceREST')]",
-				"[concat(variables('factoryId'), '/datasets/OpenWeatherSinkDL')]"
+				"[concat(variables('factoryId'), '/datasets/OpenWeatherSinkDL')]",
+				"[concat(variables('factoryId'), '/linkedServices/SQL')]"
 			]
 		},
 		{
@@ -570,6 +638,12 @@
 						"type": "String"
 					},
 					"LocationsArray": {
+						"type": "Array"
+					},
+					"Array": {
+						"type": "Array"
+					},
+					"ItemName": {
 						"type": "Array"
 					}
 				},
