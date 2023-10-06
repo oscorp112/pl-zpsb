@@ -409,8 +409,8 @@
 						}
 					},
 					{
-						"name": "UpdateExtractionTable",
-						"type": "Script",
+						"name": "Stored procedure1",
+						"type": "SqlServerStoredProcedure",
 						"dependsOn": [
 							{
 								"activity": "ExtractCurrentWeather",
@@ -427,50 +427,35 @@
 							"secureInput": false
 						},
 						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[logging].[InsertExtractedFile]",
+							"storedProcedureParameters": {
+								"ExtractionDate": {
+									"value": {
+										"value": "@formatDateTime(utcnow(), 'yyyy-MM-ddTHH:mm:ss.fffZ')",
+										"type": "Expression"
+									},
+									"type": "DateTime"
+								},
+								"FileName": {
+									"value": {
+										"value": "@{concat(pipeline().parameters.LocationName,'_',variables('CurrentHour'))}",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"FilePath": {
+									"value": {
+										"value": "@variables('FolderPath')",
+										"type": "Expression"
+									},
+									"type": "String"
+								}
+							}
+						},
 						"linkedServiceName": {
 							"referenceName": "SQL",
 							"type": "LinkedServiceReference"
-						},
-						"typeProperties": {
-							"scripts": [
-								{
-									"parameters": [
-										{
-											"name": "FileName",
-											"type": "String",
-											"value": {
-												"value": "@{concat(pipeline().parameters.LocationName,'_',variables('CurrentHour'))}",
-												"type": "Expression"
-											},
-											"direction": "Input"
-										},
-										{
-											"name": "FilePath",
-											"type": "String",
-											"value": {
-												"value": "@variables('FolderPath')",
-												"type": "Expression"
-											},
-											"direction": "Input"
-										},
-										{
-											"name": "ExtractionDate",
-											"type": "Datetime",
-											"value": {
-												"value": "@formatDateTime(utcnow(), 'yyyy-MM-ddTHH:mm:ss.fffZ')",
-												"type": "Expression"
-											},
-											"direction": "Input"
-										}
-									],
-									"type": "Query",
-									"text": {
-										"value": "INSERT INTO logging.ExtractedFiles (FileName, FilePath, ExtractionDate)\nVALUES\n    (?,?,?)\n",
-										"type": "Expression"
-									}
-								}
-							],
-							"scriptBlockExecutionTimeout": "02:00:00"
 						}
 					}
 				],
