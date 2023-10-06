@@ -1,0 +1,86 @@
+{
+	"name": "PL_Master_Load",
+	"properties": {
+		"activities": [
+			{
+				"name": "GetObjectsToLoad",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderStoredProcedureName": "[config].[GetObjectsToLoad]",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "GetLocationsToExtract",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "ForEach_Object",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "GetObjectsToLoad",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('GetObjectsToLoad').output.value",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "Execute PL_Data_Load",
+							"type": "ExecutePipeline",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "PL_Data_Load",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true,
+								"parameters": {
+									"FileID": {
+										"value": "@item().FileID",
+										"type": "Expression"
+									},
+									"FileName": {
+										"value": "@item().FileName",
+										"type": "Expression"
+									},
+									"FilePath": {
+										"value": "@item().FilePath",
+										"type": "Expression"
+									}
+								}
+							}
+						}
+					]
+				}
+			}
+		],
+		"folder": {
+			"name": "Load"
+		},
+		"annotations": []
+	}
+}
