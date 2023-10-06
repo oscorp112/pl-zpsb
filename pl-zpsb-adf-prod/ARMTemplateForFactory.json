@@ -205,7 +205,7 @@
 							"storedProcedureParameters": {
 								"ExtractionDate": {
 									"value": {
-										"value": "@formatDateTime(utcnow(), 'yyyy-MM-ddTHH:mm:ss.fffZ')",
+										"value": "@variables('CurrentDateTime')",
 										"type": "Expression"
 									},
 									"type": "DateTime"
@@ -426,12 +426,6 @@
 					},
 					"LocationsArray": {
 						"type": "Array"
-					},
-					"Array": {
-						"type": "Array"
-					},
-					"ItemName": {
-						"type": "Array"
 					}
 				},
 				"folder": {
@@ -442,6 +436,29 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/GetLocationsToExtract')]",
 				"[concat(variables('factoryId'), '/pipelines/PL_Data_Extract')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DLSource')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Storage",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileSystem": "zpsb"
+					}
+				},
+				"schema": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Storage')]"
 			]
 		},
 		{
@@ -674,31 +691,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/pipelines/PL_Master_Extract')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DLSource')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Storage",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "Json",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": "Bialystok_00.json",
-						"folderPath": "2023/10/04/00",
-						"fileSystem": "zpsb"
-					}
-				},
-				"schema": {}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/Storage')]"
 			]
 		}
 	]
