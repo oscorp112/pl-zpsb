@@ -303,6 +303,43 @@
 						"type": "DatasetReference"
 					}
 				]
+			},
+			{
+				"name": "ExecuteUpdateExtractedFiles",
+				"description": "Updates logging.ExtractedFiles table",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "Load To SQL",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[logging].[UpdateIsLoaded]",
+					"storedProcedureParameters": {
+						"FileID": {
+							"value": {
+								"value": "@pipeline().parameters.FileID",
+								"type": "Expression"
+							},
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "SQL",
+					"type": "LinkedServiceReference"
+				}
 			}
 		],
 		"parameters": {
