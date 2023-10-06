@@ -31,7 +31,255 @@
 						"writeBehavior": "insert",
 						"sqlWriterUseTableLock": false
 					},
-					"enableStaging": false
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "$['coord']['lon']"
+								},
+								"sink": {
+									"name": "Lon",
+									"type": "Double"
+								}
+							},
+							{
+								"source": {
+									"path": "$['coord']['lat']"
+								},
+								"sink": {
+									"name": "Lat",
+									"type": "Double"
+								}
+							},
+							{
+								"source": {
+									"path": "$['weather'][0]['id']"
+								},
+								"sink": {
+									"name": "WeatherId",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"path": "$['weather'][0]['main']"
+								},
+								"sink": {
+									"name": "WeatherMain",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['weather'][0]['description']"
+								},
+								"sink": {
+									"name": "WeatherDescription",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['weather'][0]['icon']"
+								},
+								"sink": {
+									"name": "WeatherIcon",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['base']"
+								},
+								"sink": {
+									"name": "Base",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['main']['temp']"
+								},
+								"sink": {
+									"name": "Temp",
+									"type": "Double"
+								}
+							},
+							{
+								"source": {
+									"path": "$['main']['feels_like']"
+								},
+								"sink": {
+									"name": "FeelsLike",
+									"type": "Double"
+								}
+							},
+							{
+								"source": {
+									"path": "$['main']['temp_min']"
+								},
+								"sink": {
+									"name": "TempMin",
+									"type": "Double"
+								}
+							},
+							{
+								"source": {
+									"path": "$['main']['temp_max']"
+								},
+								"sink": {
+									"name": "TempMax",
+									"type": "Double"
+								}
+							},
+							{
+								"source": {
+									"path": "$['main']['pressure']"
+								},
+								"sink": {
+									"name": "Pressure",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"path": "$['main']['humidity']"
+								},
+								"sink": {
+									"name": "Humidity",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"path": "$['visibility']"
+								},
+								"sink": {
+									"name": "Visibility",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"path": "$['wind']['speed']"
+								},
+								"sink": {
+									"name": "WindSpeed",
+									"type": "Double"
+								}
+							},
+							{
+								"source": {
+									"path": "$['wind']['deg']"
+								},
+								"sink": {
+									"name": "WindDeg",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"path": "$['clouds']['all']"
+								},
+								"sink": {
+									"name": "CloudsAll",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"path": "$['dt']"
+								},
+								"sink": {
+									"name": "Dt",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"path": "$['sys']['type']"
+								},
+								"sink": {
+									"name": "SysType",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"path": "$['sys']['id']"
+								},
+								"sink": {
+									"name": "SysId",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"path": "$['sys']['country']"
+								},
+								"sink": {
+									"name": "SysCountry",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['sys']['sunrise']"
+								},
+								"sink": {
+									"name": "SysSunrise",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"path": "$['sys']['sunset']"
+								},
+								"sink": {
+									"name": "SysSunset",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"path": "$['timezone']"
+								},
+								"sink": {
+									"name": "Timezone",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"path": "$['id']"
+								},
+								"sink": {
+									"name": "CityId",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"path": "$['name']"
+								},
+								"sink": {
+									"name": "CityName",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['cod']"
+								},
+								"sink": {
+									"name": "Cod",
+									"type": "Int32"
+								}
+							}
+						]
+					}
 				},
 				"inputs": [
 					{
