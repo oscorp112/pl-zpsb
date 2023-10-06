@@ -10,8 +10,6 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "Bialystok_00.json",
-				"folderPath": "2023/10/04/00",
 				"fileSystem": "zpsb"
 			}
 		},
