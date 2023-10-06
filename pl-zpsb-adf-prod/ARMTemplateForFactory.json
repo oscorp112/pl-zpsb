@@ -207,9 +207,38 @@
 						"typeProperties": {
 							"scripts": [
 								{
+									"parameters": [
+										{
+											"name": "FileName",
+											"type": "String",
+											"value": {
+												"value": "@{concat(pipeline().parameters.LocationName,'_',variables('CurrentHour'))}",
+												"type": "Expression"
+											},
+											"direction": "Input"
+										},
+										{
+											"name": "FilePath",
+											"type": "String",
+											"value": {
+												"value": "@variables('FolderPath')",
+												"type": "Expression"
+											},
+											"direction": "Input"
+										},
+										{
+											"name": "ExtractionDate",
+											"type": "Datetime",
+											"value": {
+												"value": "@formatDateTime(utcnow(), 'yyyy-MM-ddTHH:mm:ss.fffZ')",
+												"type": "Expression"
+											},
+											"direction": "Input"
+										}
+									],
 									"type": "Query",
 									"text": {
-										"value": "INSERT INTO logging.ExtractedFiles (FileName, FilePath, ExtractionDate)\nVALUES\n    (@{concat(pipeline().parameters.LocationName,'_',variables('CurrentHour'))},variables('FolderPath'),utcnow())\n",
+										"value": "INSERT INTO logging.ExtractedFiles (FileName, FilePath, ExtractionDate)\nVALUES\n    (?,?,?)\n",
 										"type": "Expression"
 									}
 								}
