@@ -26,11 +26,32 @@
 							"type": "JsonReadSettings"
 						}
 					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false
+					},
 					"enableStaging": false
 				},
 				"inputs": [
 					{
 						"referenceName": "DLSource",
+						"type": "DatasetReference",
+						"parameters": {
+							"FilePath": {
+								"value": "@pipeline().parameters.FilePath",
+								"type": "Expression"
+							},
+							"FileName": {
+								"value": "@pipeline().parameters.FileName",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ODS",
 						"type": "DatasetReference"
 					}
 				]
@@ -46,6 +67,9 @@
 			"FilePath": {
 				"type": "string"
 			}
+		},
+		"folder": {
+			"name": "Load"
 		},
 		"annotations": []
 	}
