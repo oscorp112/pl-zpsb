@@ -278,6 +278,92 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/PL_Data_Load')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Load To SQL",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "JsonSource",
+								"storeSettings": {
+									"type": "AzureBlobFSReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "JsonReadSettings"
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false
+							},
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "DLSource",
+								"type": "DatasetReference",
+								"parameters": {
+									"FilePath": {
+										"value": "@pipeline().parameters.FilePath",
+										"type": "Expression"
+									},
+									"FileName": {
+										"value": "@pipeline().parameters.FileName",
+										"type": "Expression"
+									}
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "ODS",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"parameters": {
+					"FileID": {
+						"type": "string"
+					},
+					"FileName": {
+						"type": "string"
+					},
+					"FilePath": {
+						"type": "string"
+					}
+				},
+				"folder": {
+					"name": "Load"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DLSource')]",
+				"[concat(variables('factoryId'), '/datasets/ODS')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/PL_Master_Extract')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -439,6 +525,102 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/PL_Master_Load')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "GetObjectsToLoad",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderStoredProcedureName": "[[config].[GetObjectsToLoad]",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "GetLocationsToExtract",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					},
+					{
+						"name": "ForEach_Object",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "GetObjectsToLoad",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('GetObjectsToLoad').output.value",
+								"type": "Expression"
+							},
+							"isSequential": true,
+							"activities": [
+								{
+									"name": "Execute PL_Data_Load",
+									"type": "ExecutePipeline",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "PL_Data_Load",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true,
+										"parameters": {
+											"FileID": {
+												"value": "@item().FileID",
+												"type": "Expression"
+											},
+											"FileName": {
+												"value": "@concat(item().FileName,'.json') ",
+												"type": "Expression"
+											},
+											"FilePath": {
+												"value": "@item().FilePath",
+												"type": "Expression"
+											}
+										}
+									}
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "Load"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/GetLocationsToExtract')]",
+				"[concat(variables('factoryId'), '/pipelines/PL_Data_Load')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/DLSource')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -447,11 +629,27 @@
 					"referenceName": "Storage",
 					"type": "LinkedServiceReference"
 				},
+				"parameters": {
+					"FilePath": {
+						"type": "String"
+					},
+					"FileName": {
+						"type": "String"
+					}
+				},
 				"annotations": [],
 				"type": "Json",
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
+						"fileName": {
+							"value": "@dataset().FileName",
+							"type": "Expression"
+						},
+						"folderPath": {
+							"value": "@dataset().FilePath",
+							"type": "Expression"
+						},
 						"fileSystem": "zpsb"
 					}
 				},
@@ -691,6 +889,167 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/pipelines/PL_Master_Extract')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ODS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SQL",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Id",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Lon",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "Lat",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "WeatherId",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "WeatherMain",
+						"type": "nvarchar"
+					},
+					{
+						"name": "WeatherDescription",
+						"type": "nvarchar"
+					},
+					{
+						"name": "WeatherIcon",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Base",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Temp",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "FeelsLike",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "TempMin",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "TempMax",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "Pressure",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Humidity",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Visibility",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "WindSpeed",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "WindDeg",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "WindGust",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "CloudsAll",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Dt",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SysType",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SysId",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SysCountry",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SysSunrise",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SysSunset",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Timezone",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "CityId",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "CityName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Cod",
+						"type": "int",
+						"precision": 10
+					}
+				],
+				"typeProperties": {
+					"schema": "ODS",
+					"table": "WeatherData"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SQL')]"
 			]
 		}
 	]
