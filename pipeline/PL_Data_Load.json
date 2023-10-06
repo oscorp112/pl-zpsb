@@ -333,6 +333,13 @@
 								"type": "Expression"
 							},
 							"type": "String"
+						},
+						"UpdatedAt": {
+							"value": {
+								"value": "@formatDateTime(addHours(utcnow(), 2), 'yyyy-MM-ddTHH:mm:ss')\n",
+								"type": "Expression"
+							},
+							"type": "DateTime"
 						}
 					}
 				},
