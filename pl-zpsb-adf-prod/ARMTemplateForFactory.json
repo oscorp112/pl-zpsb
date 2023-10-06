@@ -615,6 +615,13 @@
 										"type": "Expression"
 									},
 									"type": "String"
+								},
+								"UpdatedAt": {
+									"value": {
+										"value": "@formatDateTime(addHours(utcnow(), 2), 'yyyy-MM-ddTHH:mm:ss')\n",
+										"type": "Expression"
+									},
+									"type": "DateTime"
 								}
 							}
 						},
@@ -864,6 +871,33 @@
 							"activities": [
 								{
 									"name": "Execute PL_Data_Load",
+									"type": "ExecutePipeline",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "PL_Data_Load",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true,
+										"parameters": {
+											"FileID": {
+												"value": "@item().FileID",
+												"type": "Expression"
+											},
+											"FileName": {
+												"value": "@concat(item().FileName,'.json') ",
+												"type": "Expression"
+											},
+											"FilePath": {
+												"value": "@item().FilePath",
+												"type": "Expression"
+											}
+										}
+									}
+								},
+								{
+									"name": "Execute PL_Data_Load_copy1",
 									"type": "ExecutePipeline",
 									"dependsOn": [],
 									"userProperties": [],
