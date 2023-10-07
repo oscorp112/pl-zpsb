@@ -247,6 +247,9 @@
 					},
 					"LocationName": {
 						"type": "string"
+					},
+					"LocationId": {
+						"type": "string"
 					}
 				},
 				"variables": {
@@ -701,6 +704,10 @@
 											},
 											"LocationName": {
 												"value": "@item().Location",
+												"type": "Expression"
+											},
+											"LocationId": {
+												"value": "@item().LocationId",
 												"type": "Expression"
 											}
 										}
