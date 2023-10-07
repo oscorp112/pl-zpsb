@@ -108,8 +108,8 @@
 										"value": "@variables('FolderPath')",
 										"type": "Expression"
 									},
-									"ExtractHour": {
-										"value": "@formatDateTime(variables('CurrentDateTime'), 'HH')",
+									"ExtractCurrentDateTime": {
+										"value": "@variables('CurrentFormatted')",
 										"type": "Expression"
 									}
 								}
@@ -1194,7 +1194,7 @@
 					"FolderPath": {
 						"type": "string"
 					},
-					"ExtractHour": {
+					"ExtractCurrentDateTime": {
 						"type": "string"
 					}
 				},
@@ -1207,7 +1207,7 @@
 					"location": {
 						"type": "AzureBlobFSLocation",
 						"fileName": {
-							"value": "@{concat(dataset().LocationName,'_',dataset().ExtractHour,'.json')}",
+							"value": "@{concat(dataset().LocationName,'_',dataset().ExtractCurrentDateTime,'.json')}",
 							"type": "Expression"
 						},
 						"folderPath": {
