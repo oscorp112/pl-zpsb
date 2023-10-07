@@ -12,7 +12,7 @@
 			"FolderPath": {
 				"type": "string"
 			},
-			"ExtractHour": {
+			"ExtractCurrentDateTime": {
 				"type": "string"
 			}
 		},
@@ -25,7 +25,7 @@
 			"location": {
 				"type": "AzureBlobFSLocation",
 				"fileName": {
-					"value": "@{concat(dataset().LocationName,'_',dataset().ExtractHour,'.json')}",
+					"value": "@{concat(dataset().LocationName,'_',dataset().ExtractCurrentDateTime,'.json')}",
 					"type": "Expression"
 				},
 				"folderPath": {

@@ -75,8 +75,8 @@
 								"value": "@variables('FolderPath')",
 								"type": "Expression"
 							},
-							"ExtractHour": {
-								"value": "@formatDateTime(variables('CurrentDateTime'), 'HH')",
+							"ExtractCurrentDateTime": {
+								"value": "@variables('CurrentFormatted')",
 								"type": "Expression"
 							}
 						}
