@@ -76,7 +76,7 @@
 								"type": "Expression"
 							},
 							"ExtractHour": {
-								"value": "@variables('CurrentHour')",
+								"value": "@formatDateTime(variables('CurrentDateTime'), 'HH')",
 								"type": "Expression"
 							}
 						}
@@ -179,7 +179,7 @@
 						},
 						"FileName": {
 							"value": {
-								"value": "@{concat(pipeline().parameters.LocationName,'_',variables('CurrentHour'))}",
+								"value": "@{concat(pipeline().parameters.LocationName,'_',variables('CurrentFormatted'))}",
 								"type": "Expression"
 							},
 							"type": "String"
