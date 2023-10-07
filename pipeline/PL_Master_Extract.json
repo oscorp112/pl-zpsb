@@ -140,6 +140,9 @@
 			},
 			"LocationsArray": {
 				"type": "Array"
+			},
+			"CurrentFormatted": {
+				"type": "String"
 			}
 		},
 		"folder": {

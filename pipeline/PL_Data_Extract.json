@@ -88,7 +88,7 @@
 				"type": "SetVariable",
 				"dependsOn": [
 					{
-						"activity": "Set CurrentHour",
+						"activity": "Set CurrentFormatted",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -125,7 +125,7 @@
 				}
 			},
 			{
-				"name": "Set CurrentHour",
+				"name": "Set CurrentFormatted",
 				"type": "SetVariable",
 				"dependsOn": [
 					{
@@ -141,15 +141,15 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"variableName": "CurrentHour",
+					"variableName": "CurrentFormatted",
 					"value": {
-						"value": "@formatDateTime(variables('CurrentDateTime'), 'HH')",
+						"value": "@formatDateTime(variables('CurrentDateTime'), 'yyyyMMddHH')",
 						"type": "Expression"
 					}
 				}
 			},
 			{
-				"name": "InsertExtractFile",
+				"name": "Stored procedure1",
 				"type": "SqlServerStoredProcedure",
 				"dependsOn": [
 					{
@@ -220,14 +220,8 @@
 			"CurrentDateTime": {
 				"type": "String"
 			},
-			"CurrentHour": {
+			"CurrentFormatted": {
 				"type": "String"
-			},
-			"Array": {
-				"type": "Array"
-			},
-			"ItemName": {
-				"type": "Array"
 			}
 		},
 		"folder": {
