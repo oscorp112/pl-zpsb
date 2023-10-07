@@ -336,7 +336,7 @@
 						},
 						"UpdatedAt": {
 							"value": {
-								"value": "@formatDateTime(addHours(utcnow(), 2), 'yyyy-MM-ddTHH:mm:ss')\n",
+								"value": "@formatDateTime(addHours(utcnow(), 1), 'yyyy-MM-ddTHH:mm:ss')\n",
 								"type": "Expression"
 							},
 							"type": "DateTime"
