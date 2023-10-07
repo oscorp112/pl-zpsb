@@ -584,7 +584,7 @@
 						}
 					},
 					{
-						"name": "Stored procedure1",
+						"name": "Execute InsertExtractedFile",
 						"type": "SqlServerStoredProcedure",
 						"dependsOn": [
 							{
