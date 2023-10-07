@@ -109,7 +109,7 @@
 										"type": "Expression"
 									},
 									"ExtractHour": {
-										"value": "@variables('CurrentHour')",
+										"value": "@formatDateTime(variables('CurrentDateTime'), 'HH')",
 										"type": "Expression"
 									}
 								}
@@ -121,7 +121,7 @@
 						"type": "SetVariable",
 						"dependsOn": [
 							{
-								"activity": "Set CurrentHour",
+								"activity": "Set CurrentFormatted",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -158,7 +158,7 @@
 						}
 					},
 					{
-						"name": "Set CurrentHour",
+						"name": "Set CurrentFormatted",
 						"type": "SetVariable",
 						"dependsOn": [
 							{
@@ -174,9 +174,9 @@
 						},
 						"userProperties": [],
 						"typeProperties": {
-							"variableName": "CurrentHour",
+							"variableName": "CurrentFormatted",
 							"value": {
-								"value": "@formatDateTime(variables('CurrentDateTime'), 'HH')",
+								"value": "@formatDateTime(variables('CurrentDateTime'), 'yyyyMMddHH')",
 								"type": "Expression"
 							}
 						}
@@ -212,7 +212,7 @@
 								},
 								"FileName": {
 									"value": {
-										"value": "@{concat(pipeline().parameters.LocationName,'_',variables('CurrentHour'))}",
+										"value": "@{concat(pipeline().parameters.LocationName,'_',variables('CurrentFormatted'))}",
 										"type": "Expression"
 									},
 									"type": "String"
@@ -256,14 +256,8 @@
 					"CurrentDateTime": {
 						"type": "String"
 					},
-					"CurrentHour": {
+					"CurrentFormatted": {
 						"type": "String"
-					},
-					"Array": {
-						"type": "Array"
-					},
-					"ItemName": {
-						"type": "Array"
 					}
 				},
 				"folder": {
@@ -805,6 +799,9 @@
 					},
 					"LocationsArray": {
 						"type": "Array"
+					},
+					"CurrentFormatted": {
+						"type": "String"
 					}
 				},
 				"folder": {
