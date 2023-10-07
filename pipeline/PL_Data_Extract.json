@@ -211,6 +211,9 @@
 			},
 			"LocationName": {
 				"type": "string"
+			},
+			"LocationId": {
+				"type": "string"
 			}
 		},
 		"variables": {
