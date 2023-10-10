@@ -328,6 +328,7 @@
 								"type": "AzureSqlSink",
 								"writeBehavior": "insert",
 								"sqlWriterUseTableLock": false,
+								"tableOption": "autoCreate",
 								"disableMetricsCollection": false
 							},
 							"enableStaging": false,
@@ -1172,8 +1173,8 @@
 					}
 				],
 				"typeProperties": {
-					"schema": "ODS",
-					"table": "WeatherData"
+					"schema": "ods",
+					"table": "WeatherInfo"
 				}
 			},
 			"dependsOn": [
