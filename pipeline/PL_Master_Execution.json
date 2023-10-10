@@ -1,0 +1,41 @@
+{
+	"name": "PL_Master_Execution",
+	"properties": {
+		"activities": [
+			{
+				"name": "Execute PL_Master_Extract",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_Master_Extract",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Execute PL_Master_Load",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Execute PL_Master_Extract",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_Master_Load",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"annotations": []
+	}
+}
