@@ -312,10 +312,7 @@
 								"additionalColumns": [
 									{
 										"name": "FileName",
-										"value": {
-											"value": "@pipeline().parameters.FileName",
-											"type": "Expression"
-										}
+										"value": "$$FILENAME"
 									}
 								],
 								"storeSettings": {
@@ -579,6 +576,15 @@
 										"sink": {
 											"name": "Cod",
 											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"path": "$['FileName']"
+										},
+										"sink": {
+											"name": "FileName",
+											"type": "String"
 										}
 									}
 								],
@@ -1177,7 +1183,7 @@
 				],
 				"typeProperties": {
 					"schema": "ods",
-					"table": "WeatherInfo"
+					"table": "WeatherDataInfo"
 				}
 			},
 			"dependsOn": [
