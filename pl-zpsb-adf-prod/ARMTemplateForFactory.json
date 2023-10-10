@@ -686,6 +686,58 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/PL_Master_Execution')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Execute PL_Master_Extract",
+						"type": "ExecutePipeline",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "PL_Master_Extract",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "Execute PL_Master_Load",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "Execute PL_Master_Extract",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "PL_Master_Load",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/PL_Master_Extract')]",
+				"[concat(variables('factoryId'), '/pipelines/PL_Master_Load')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/PL_Master_Extract')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -1383,7 +1435,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/PL_Master_Extract')]",
+			"name": "[concat(parameters('factoryName'), '/PL_Master_Execution')]",
 			"type": "Microsoft.DataFactory/factories/triggers",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -1392,7 +1444,7 @@
 				"pipelines": [
 					{
 						"pipelineReference": {
-							"referenceName": "PL_Master_Extract",
+							"referenceName": "PL_Master_Execution",
 							"type": "PipelineReference"
 						},
 						"parameters": {}
@@ -1409,7 +1461,7 @@
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/PL_Master_Extract')]"
+				"[concat(variables('factoryId'), '/pipelines/PL_Master_Execution')]"
 			]
 		}
 	]
