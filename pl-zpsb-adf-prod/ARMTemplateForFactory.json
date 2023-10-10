@@ -231,7 +231,7 @@
 									},
 									"type": "String"
 								},
-								"CompanyId": {
+								"LocationId": {
 									"value": {
 										"value": "@pipeline().parameters.LocationId",
 										"type": "Expression"
