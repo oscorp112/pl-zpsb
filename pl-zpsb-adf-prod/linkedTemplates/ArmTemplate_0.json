@@ -744,7 +744,7 @@
 								"type": "JsonSource",
 								"additionalColumns": [
 									{
-										"name": "FilePath",
+										"name": "PathOfFile",
 										"value": "$$FILEPATH"
 									}
 								],
