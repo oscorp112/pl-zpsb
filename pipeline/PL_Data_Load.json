@@ -285,6 +285,15 @@
 									"name": "Cod",
 									"type": "Int32"
 								}
+							},
+							{
+								"source": {
+									"path": "$['FileName']"
+								},
+								"sink": {
+									"name": "FileName",
+									"type": "String"
+								}
 							}
 						],
 						"mapComplexValuesToString": false
