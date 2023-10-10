@@ -55,41 +55,6 @@
 									}
 								}
 							}
-						},
-						{
-							"name": "Execute PL_Data_Extract_copy1",
-							"type": "ExecutePipeline",
-							"dependsOn": [],
-							"userProperties": [],
-							"typeProperties": {
-								"pipeline": {
-									"referenceName": "PL_Data_Extract",
-									"type": "PipelineReference"
-								},
-								"waitOnCompletion": true,
-								"parameters": {
-									"LocationLatitude": {
-										"value": "@item().Latitude",
-										"type": "Expression"
-									},
-									"LocationLongitude": {
-										"value": "@item().Longitude",
-										"type": "Expression"
-									},
-									"APIKey": {
-										"value": "@variables('OpenWeatherAPIKey')",
-										"type": "Expression"
-									},
-									"LocationName": {
-										"value": "@item().Location",
-										"type": "Expression"
-									},
-									"LocationId": {
-										"value": "@item().LocationId",
-										"type": "Expression"
-									}
-								}
-							}
 						}
 					]
 				}
