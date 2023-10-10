@@ -744,8 +744,11 @@
 								"type": "JsonSource",
 								"additionalColumns": [
 									{
-										"name": "PathOfFile",
-										"value": "$$FILEPATH"
+										"name": "FileName",
+										"value": {
+											"value": "@pipeline().parameters.FileName",
+											"type": "Expression"
+										}
 									}
 								],
 								"storeSettings": {
