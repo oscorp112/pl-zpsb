@@ -19,18 +19,8 @@
 						"type": "JsonSource",
 						"additionalColumns": [
 							{
-								"name": "InsertedFileName",
-								"value": {
-									"value": "@pipeline().parameters.FileName",
-									"type": "Expression"
-								}
-							},
-							{
-								"name": "fileId",
-								"value": {
-									"value": "@pipeline().parameters.FileID",
-									"type": "Expression"
-								}
+								"name": "FilePath",
+								"value": "$$FILEPATH"
 							}
 						],
 						"storeSettings": {
@@ -44,8 +34,7 @@
 					},
 					"sink": {
 						"type": "AzureSqlSink",
-						"writeBehavior": "insert",
-						"sqlWriterUseTableLock": false
+						"disableMetricsCollection": false
 					},
 					"enableStaging": false,
 					"translator": {
@@ -294,7 +283,8 @@
 									"type": "Int32"
 								}
 							}
-						]
+						],
+						"mapComplexValuesToString": false
 					}
 				},
 				"inputs": [
