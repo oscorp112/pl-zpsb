@@ -149,8 +149,8 @@
 			}
 		],
 		"typeProperties": {
-			"schema": "ODS",
-			"table": "WeatherData"
+			"schema": "ods",
+			"table": "WeatherInfo"
 		}
 	}
 }
