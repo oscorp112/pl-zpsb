@@ -197,6 +197,13 @@
 								"type": "Expression"
 							},
 							"type": "String"
+						},
+						"LocationId": {
+							"value": {
+								"value": "@pipeline().parameters.LocationId",
+								"type": "Expression"
+							},
+							"type": "String"
 						}
 					}
 				},
