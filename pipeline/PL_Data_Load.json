@@ -20,10 +20,7 @@
 						"additionalColumns": [
 							{
 								"name": "FileName",
-								"value": {
-									"value": "@pipeline().parameters.FileName",
-									"type": "Expression"
-								}
+								"value": "$$FILENAME"
 							}
 						],
 						"storeSettings": {
