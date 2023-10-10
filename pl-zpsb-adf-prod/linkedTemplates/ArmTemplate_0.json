@@ -663,6 +663,13 @@
 										"type": "Expression"
 									},
 									"type": "String"
+								},
+								"CompanyId": {
+									"value": {
+										"value": "@pipeline().parameters.LocationId",
+										"type": "Expression"
+									},
+									"type": "String"
 								}
 							}
 						},
@@ -735,6 +742,22 @@
 						"typeProperties": {
 							"source": {
 								"type": "JsonSource",
+								"additionalColumns": [
+									{
+										"name": "InsertedFileName",
+										"value": {
+											"value": "@pipeline().parameters.FileName",
+											"type": "Expression"
+										}
+									},
+									{
+										"name": "fileId",
+										"value": {
+											"value": "@pipeline().parameters.FileID",
+											"type": "Expression"
+										}
+									}
+								],
 								"storeSettings": {
 									"type": "AzureBlobFSReadSettings",
 									"recursive": true,
