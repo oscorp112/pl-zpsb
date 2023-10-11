@@ -1,0 +1,159 @@
+{
+	"name": "dwhCityTbl",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SQL",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"CityName": {
+				"type": "String"
+			}
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Lon",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "Lat",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "WeatherId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "WeatherMain",
+				"type": "nvarchar"
+			},
+			{
+				"name": "WeatherDescription",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Temp",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "FeelsLike",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "TempMin",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "TempMax",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "Pressure",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Humidity",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "WindSpeed",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "WindDeg",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CloudsAll",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Dt",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SysId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SysSunrise",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SysSunset",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CityId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CityName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FileName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FileId",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FilePath",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ExtractionDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "IsExtracted",
+				"type": "bit"
+			},
+			{
+				"name": "IsLoaded",
+				"type": "bit"
+			},
+			{
+				"name": "UpdatedAt",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "LocationId",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "dwh",
+			"table": {
+				"value": "@concat('tbl_',dataset().CityName)",
+				"type": "Expression"
+			}
+		}
+	}
+}
