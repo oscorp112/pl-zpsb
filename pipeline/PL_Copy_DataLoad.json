@@ -52,7 +52,7 @@
 							"type": "SqlServerStoredProcedure",
 							"dependsOn": [
 								{
-									"activity": "Set CityName",
+									"activity": "CheckIfTableExists",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -140,15 +140,9 @@
 						{
 							"name": "CopyToCityTables",
 							"type": "Copy",
-							"dependsOn": [
-								{
-									"activity": "CreateTableIfNotExists",
-									"dependencyConditions": [
-										"Succeeded",
-										"Skipped"
-									]
-								}
-							],
+							"state": "Inactive",
+							"onInactiveMarkAs": "Succeeded",
+							"dependsOn": [],
 							"policy": {
 								"timeout": "0.12:00:00",
 								"retry": 0,
@@ -544,6 +538,53 @@
 									}
 								}
 							]
+						},
+						{
+							"name": "CheckIfTableExists",
+							"type": "Script",
+							"dependsOn": [
+								{
+									"activity": "Set CityName",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "SQL",
+								"type": "LinkedServiceReference"
+							},
+							"typeProperties": {
+								"scripts": [
+									{
+										"parameters": [
+											{
+												"name": "SchemaTableName",
+												"type": "String",
+												"value": {
+													"value": "@concat('dwh.tbl_',item().Location)",
+													"type": "Expression"
+												},
+												"direction": "Input"
+											}
+										],
+										"type": "Query",
+										"text": {
+											"value": "IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = @SchemaTableName)",
+											"type": "Expression"
+										}
+									}
+								],
+								"scriptBlockExecutionTimeout": "02:00:00"
+							}
 						}
 					]
 				}
