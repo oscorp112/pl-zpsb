@@ -445,10 +445,8 @@
 						"type": "string"
 					}
 				},
-				"variables": {
-					"CityName": {
-						"type": "String"
-					}
+				"folder": {
+					"name": "Extract/Load"
 				},
 				"annotations": []
 			},
@@ -1586,6 +1584,10 @@
 						"type": "decimal",
 						"precision": 10,
 						"scale": 2
+					},
+					{
+						"name": "LocationId",
+						"type": "nvarchar"
 					}
 				],
 				"typeProperties": {
