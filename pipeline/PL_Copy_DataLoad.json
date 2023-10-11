@@ -45,6 +45,7 @@
 						"value": "@activity('GetLocations').output.value",
 						"type": "Expression"
 					},
+					"isSequential": false,
 					"activities": [
 						{
 							"name": "ForeachLocation",
@@ -69,11 +70,6 @@
 				}
 			}
 		],
-		"parameters": {
-			"CityName": {
-				"type": "string"
-			}
-		},
 		"folder": {
 			"name": "Extract/Load"
 		},
