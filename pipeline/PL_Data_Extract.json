@@ -193,7 +193,7 @@
 						},
 						"FileId": {
 							"value": {
-								"value": "@{binary(concat(variables('CurrentFormatted'),pipeline().parameters.LocationName,pipeline().parameters.LocationId))}",
+								"value": "@{binary(concat(\n    string(variables('CurrentFormatted')),\n    string(pipeline().parameters.LocationName),\n    string(pipeline().parameters.LocationId)\n    ))}\n",
 								"type": "Expression"
 							},
 							"type": "String"
