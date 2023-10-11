@@ -30,6 +30,243 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/PL_Copy_DataLoad')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "GetLocations",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderStoredProcedureName": "[[config].[GetObjectsToExtract]",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "GetLocationsToExtract",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					},
+					{
+						"name": "ForEach1",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "GetLocations",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('GetLocations').output.value",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "CreateTableIfNotExists",
+									"description": "It dynamically creates table dwh.tbl_CityName",
+									"type": "SqlServerStoredProcedure",
+									"state": "Inactive",
+									"onInactiveMarkAs": "Succeeded",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"storedProcedureName": "[[load].[CreateTableIfNotExists]",
+										"storedProcedureParameters": {
+											"CityName": {
+												"value": {
+													"value": "@variables('CityName')",
+													"type": "Expression"
+												},
+												"type": "String"
+											}
+										}
+									},
+									"linkedServiceName": {
+										"referenceName": "SQL",
+										"type": "LinkedServiceReference"
+									}
+								},
+								{
+									"name": "Set CityName",
+									"type": "SetVariable",
+									"dependsOn": [],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "CityName",
+										"value": {
+											"value": "@item().Location",
+											"type": "Expression"
+										}
+									}
+								},
+								{
+									"name": "GetDataByCity",
+									"type": "Lookup",
+									"state": "Inactive",
+									"onInactiveMarkAs": "Succeeded",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "AzureSqlSource",
+											"sqlReaderStoredProcedureName": "[[load].[InsertDataForCity]",
+											"storedProcedureParameters": {
+												"CityName": {
+													"type": "String",
+													"value": {
+														"value": "@variables('CityName')",
+														"type": "Expression"
+													}
+												}
+											},
+											"queryTimeout": "02:00:00",
+											"partitionOption": "None"
+										},
+										"dataset": {
+											"referenceName": "ODS",
+											"type": "DatasetReference",
+											"parameters": {}
+										},
+										"firstRowOnly": false
+									}
+								},
+								{
+									"name": "CopyToCityTables",
+									"type": "Copy",
+									"dependsOn": [
+										{
+											"activity": "Set CityName",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "AzureSqlSource",
+											"sqlReaderStoredProcedureName": "[[load].[InsertDataForCity]",
+											"storedProcedureParameters": {
+												"CityName": {
+													"type": "String",
+													"value": {
+														"value": "@variables('CityName')",
+														"type": "Expression"
+													}
+												}
+											},
+											"queryTimeout": "02:00:00",
+											"partitionOption": "None"
+										},
+										"sink": {
+											"type": "AzureSqlSink",
+											"writeBehavior": "insert",
+											"sqlWriterUseTableLock": false
+										},
+										"enableStaging": false,
+										"translator": {
+											"type": "TabularTranslator",
+											"typeConversion": true,
+											"typeConversionSettings": {
+												"allowDataTruncation": true,
+												"treatBooleanAsNumber": false
+											}
+										}
+									},
+									"inputs": [
+										{
+											"referenceName": "ODS",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "dwhCityTbl",
+											"type": "DatasetReference",
+											"parameters": {
+												"CityName": {
+													"value": "@variables('CityName')",
+													"type": "Expression"
+												}
+											}
+										}
+									]
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"parameters": {
+					"CityName": {
+						"type": "string"
+					}
+				},
+				"variables": {
+					"CityName": {
+						"type": "String"
+					}
+				},
+				"folder": {
+					"name": "Extract/Load"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/GetLocationsToExtract')]",
+				"[concat(variables('factoryId'), '/linkedServices/SQL')]",
+				"[concat(variables('factoryId'), '/datasets/ODS')]",
+				"[concat(variables('factoryId'), '/datasets/dwhCityTbl')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/PL_Data_Extract')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -1322,6 +1559,170 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/OpenWeatherSource')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dwhCityTbl')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SQL",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"CityName": {
+						"type": "String"
+					}
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Lon",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "Lat",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "WeatherId",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "WeatherMain",
+						"type": "nvarchar"
+					},
+					{
+						"name": "WeatherDescription",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Temp",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "FeelsLike",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "TempMin",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "TempMax",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "Pressure",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Humidity",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "WindSpeed",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "WindDeg",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "CloudsAll",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Dt",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SysId",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SysSunrise",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SysSunset",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "CityId",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "CityName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FileName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FileId",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FilePath",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ExtractionDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "IsExtracted",
+						"type": "bit"
+					},
+					{
+						"name": "IsLoaded",
+						"type": "bit"
+					},
+					{
+						"name": "UpdatedAt",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "LocationId",
+						"type": "int",
+						"precision": 10
+					}
+				],
+				"typeProperties": {
+					"schema": "dwh",
+					"table": {
+						"value": "@concat('tbl_',dataset().CityName)",
+						"type": "Expression"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SQL')]"
 			]
 		},
 		{
