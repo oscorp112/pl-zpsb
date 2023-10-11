@@ -79,7 +79,7 @@
 			}
 		],
 		"folder": {
-			"name": "Load"
+			"name": "Extract/Load"
 		},
 		"annotations": []
 	}
