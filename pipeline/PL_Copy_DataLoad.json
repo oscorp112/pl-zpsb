@@ -543,11 +543,6 @@
 				}
 			}
 		],
-		"parameters": {
-			"CityName": {
-				"type": "string"
-			}
-		},
 		"variables": {
 			"CityName": {
 				"type": "String"
