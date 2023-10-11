@@ -81,38 +81,6 @@
 							},
 							"activities": [
 								{
-									"name": "CreateTableIfNotExists",
-									"description": "It dynamically creates table dwh.tbl_CityName",
-									"type": "SqlServerStoredProcedure",
-									"state": "Inactive",
-									"onInactiveMarkAs": "Succeeded",
-									"dependsOn": [],
-									"policy": {
-										"timeout": "0.12:00:00",
-										"retry": 0,
-										"retryIntervalInSeconds": 30,
-										"secureOutput": false,
-										"secureInput": false
-									},
-									"userProperties": [],
-									"typeProperties": {
-										"storedProcedureName": "[[load].[CreateTableIfNotExists]",
-										"storedProcedureParameters": {
-											"CityName": {
-												"value": {
-													"value": "@variables('CityName')",
-													"type": "Expression"
-												},
-												"type": "String"
-											}
-										}
-									},
-									"linkedServiceName": {
-										"referenceName": "SQL",
-										"type": "LinkedServiceReference"
-									}
-								},
-								{
 									"name": "Set CityName",
 									"type": "SetVariable",
 									"dependsOn": [],
@@ -127,44 +95,6 @@
 											"value": "@item().Location",
 											"type": "Expression"
 										}
-									}
-								},
-								{
-									"name": "GetDataByCity",
-									"type": "Lookup",
-									"state": "Inactive",
-									"onInactiveMarkAs": "Succeeded",
-									"dependsOn": [],
-									"policy": {
-										"timeout": "0.12:00:00",
-										"retry": 0,
-										"retryIntervalInSeconds": 30,
-										"secureOutput": false,
-										"secureInput": false
-									},
-									"userProperties": [],
-									"typeProperties": {
-										"source": {
-											"type": "AzureSqlSource",
-											"sqlReaderStoredProcedureName": "[[load].[InsertDataForCity]",
-											"storedProcedureParameters": {
-												"CityName": {
-													"type": "String",
-													"value": {
-														"value": "@variables('CityName')",
-														"type": "Expression"
-													}
-												}
-											},
-											"queryTimeout": "02:00:00",
-											"partitionOption": "None"
-										},
-										"dataset": {
-											"referenceName": "ODS",
-											"type": "DatasetReference",
-											"parameters": {}
-										},
-										"firstRowOnly": false
 									}
 								},
 								{
@@ -594,7 +524,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/GetLocationsToExtract')]",
-				"[concat(variables('factoryId'), '/linkedServices/SQL')]",
 				"[concat(variables('factoryId'), '/datasets/ODS')]",
 				"[concat(variables('factoryId'), '/datasets/dwhCityTbl')]"
 			]
