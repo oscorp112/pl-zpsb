@@ -50,9 +50,14 @@
 							"name": "CreateTableIfNotExists",
 							"description": "It dynamically creates table dwh.tbl_CityName",
 							"type": "SqlServerStoredProcedure",
-							"state": "Inactive",
-							"onInactiveMarkAs": "Succeeded",
-							"dependsOn": [],
+							"dependsOn": [
+								{
+									"activity": "Set CityName",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
 							"policy": {
 								"timeout": "0.12:00:00",
 								"retry": 0,
@@ -137,9 +142,10 @@
 							"type": "Copy",
 							"dependsOn": [
 								{
-									"activity": "Set CityName",
+									"activity": "CreateTableIfNotExists",
 									"dependencyConditions": [
-										"Succeeded"
+										"Succeeded",
+										"Skipped"
 									]
 								}
 							],
