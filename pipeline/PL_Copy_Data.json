@@ -1,9 +1,0 @@
-{
-	"name": "PL_Copy_Data",
-	"properties": {
-		"folder": {
-			"name": "Extract/Load"
-		},
-		"annotations": []
-	}
-}
