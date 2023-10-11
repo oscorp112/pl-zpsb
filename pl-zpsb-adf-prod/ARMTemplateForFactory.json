@@ -30,6 +30,434 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/ForeachLocation')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "CopyToCityTables",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderStoredProcedureName": "[[load].[InsertDataForCity]",
+								"storedProcedureParameters": {
+									"CityName": {
+										"type": "String",
+										"value": {
+											"value": "@pipeline().parameters.CityName",
+											"type": "Expression"
+										}
+									}
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "Lon",
+											"type": "Double",
+											"physicalType": "float"
+										},
+										"sink": {
+											"name": "Lon",
+											"type": "Double",
+											"physicalType": "float"
+										}
+									},
+									{
+										"source": {
+											"name": "Lat",
+											"type": "Double",
+											"physicalType": "float"
+										},
+										"sink": {
+											"name": "Lat",
+											"type": "Double",
+											"physicalType": "float"
+										}
+									},
+									{
+										"source": {
+											"name": "WeatherId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "WeatherId",
+											"type": "Int32",
+											"physicalType": "int"
+										}
+									},
+									{
+										"source": {
+											"name": "WeatherMain",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "WeatherMain",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "WeatherDescription",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "WeatherDescription",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Temp",
+											"type": "Double",
+											"physicalType": "float"
+										},
+										"sink": {
+											"name": "Temp",
+											"type": "Double",
+											"physicalType": "float"
+										}
+									},
+									{
+										"source": {
+											"name": "FeelsLike",
+											"type": "Double",
+											"physicalType": "float"
+										},
+										"sink": {
+											"name": "FeelsLike",
+											"type": "Double",
+											"physicalType": "float"
+										}
+									},
+									{
+										"source": {
+											"name": "TempMin",
+											"type": "Double",
+											"physicalType": "float"
+										},
+										"sink": {
+											"name": "TempMin",
+											"type": "Double",
+											"physicalType": "float"
+										}
+									},
+									{
+										"source": {
+											"name": "TempMax",
+											"type": "Double",
+											"physicalType": "float"
+										},
+										"sink": {
+											"name": "TempMax",
+											"type": "Double",
+											"physicalType": "float"
+										}
+									},
+									{
+										"source": {
+											"name": "Pressure",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "Pressure",
+											"type": "Int32",
+											"physicalType": "int"
+										}
+									},
+									{
+										"source": {
+											"name": "Humidity",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "Humidity",
+											"type": "Int32",
+											"physicalType": "int"
+										}
+									},
+									{
+										"source": {
+											"name": "WindSpeed",
+											"type": "Double",
+											"physicalType": "float"
+										},
+										"sink": {
+											"name": "WindSpeed",
+											"type": "Double",
+											"physicalType": "float"
+										}
+									},
+									{
+										"source": {
+											"name": "WindDeg",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "WindDeg",
+											"type": "Int32",
+											"physicalType": "int"
+										}
+									},
+									{
+										"source": {
+											"name": "CloudsAll",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "CloudsAll",
+											"type": "Int32",
+											"physicalType": "int"
+										}
+									},
+									{
+										"source": {
+											"name": "Dt",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "Dt",
+											"type": "Int32",
+											"physicalType": "int"
+										}
+									},
+									{
+										"source": {
+											"name": "SysId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "SysId",
+											"type": "Int32",
+											"physicalType": "int"
+										}
+									},
+									{
+										"source": {
+											"name": "SysSunrise",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "SysSunrise",
+											"type": "Int32",
+											"physicalType": "int"
+										}
+									},
+									{
+										"source": {
+											"name": "SysSunset",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "SysSunset",
+											"type": "Int32",
+											"physicalType": "int"
+										}
+									},
+									{
+										"source": {
+											"name": "CityId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "CityId",
+											"type": "Int32",
+											"physicalType": "int"
+										}
+									},
+									{
+										"source": {
+											"name": "CityName",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "CityName",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "FileName",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "FileName",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "FileId",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "FileId",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "FilePath",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "FilePath",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "ExtractionDate",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										},
+										"sink": {
+											"name": "ExtractionDate",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										}
+									},
+									{
+										"source": {
+											"name": "IsExtracted",
+											"type": "Boolean",
+											"physicalType": "bit"
+										},
+										"sink": {
+											"name": "IsExtracted",
+											"type": "Boolean",
+											"physicalType": "bit"
+										}
+									},
+									{
+										"source": {
+											"name": "IsLoaded",
+											"type": "Boolean",
+											"physicalType": "bit"
+										},
+										"sink": {
+											"name": "IsLoaded",
+											"type": "Boolean",
+											"physicalType": "bit"
+										}
+									},
+									{
+										"source": {
+											"name": "UpdatedAt",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										},
+										"sink": {
+											"name": "UpdatedAt",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										}
+									},
+									{
+										"source": {
+											"name": "LocationId",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "LocationId",
+											"type": "Int32",
+											"physicalType": "int"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "ODS",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "dwhCityTbl",
+								"type": "DatasetReference",
+								"parameters": {
+									"CityName": {
+										"value": "@pipeline().parameters.CityName",
+										"type": "Expression"
+									}
+								}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"parameters": {
+					"CityName": {
+						"type": "string"
+					}
+				},
+				"variables": {
+					"CityName": {
+						"type": "String"
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ODS')]",
+				"[concat(variables('factoryId'), '/datasets/dwhCityTbl')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/PL_Copy_DataLoad')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -81,429 +509,23 @@
 							},
 							"activities": [
 								{
-									"name": "Set CityName",
-									"type": "SetVariable",
+									"name": "ForeachLocation",
+									"type": "ExecutePipeline",
 									"dependsOn": [],
-									"policy": {
-										"secureOutput": false,
-										"secureInput": false
-									},
 									"userProperties": [],
 									"typeProperties": {
-										"variableName": "CityName",
-										"value": {
-											"value": "@item().Location",
-											"type": "Expression"
+										"pipeline": {
+											"referenceName": "ForeachLocation",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true,
+										"parameters": {
+											"CityName": {
+												"value": "@item().Location",
+												"type": "Expression"
+											}
 										}
 									}
-								},
-								{
-									"name": "CopyToCityTables",
-									"type": "Copy",
-									"dependsOn": [
-										{
-											"activity": "Set CityName",
-											"dependencyConditions": [
-												"Succeeded"
-											]
-										}
-									],
-									"policy": {
-										"timeout": "0.12:00:00",
-										"retry": 0,
-										"retryIntervalInSeconds": 30,
-										"secureOutput": false,
-										"secureInput": false
-									},
-									"userProperties": [],
-									"typeProperties": {
-										"source": {
-											"type": "AzureSqlSource",
-											"sqlReaderStoredProcedureName": "[[load].[InsertDataForCity]",
-											"storedProcedureParameters": {
-												"CityName": {
-													"type": "String",
-													"value": {
-														"value": "@variables('CityName')",
-														"type": "Expression"
-													}
-												}
-											},
-											"queryTimeout": "02:00:00",
-											"partitionOption": "None"
-										},
-										"sink": {
-											"type": "AzureSqlSink",
-											"writeBehavior": "insert",
-											"sqlWriterUseTableLock": false
-										},
-										"enableStaging": false,
-										"translator": {
-											"type": "TabularTranslator",
-											"mappings": [
-												{
-													"source": {
-														"name": "Lon",
-														"type": "Double",
-														"physicalType": "float"
-													},
-													"sink": {
-														"name": "Lon",
-														"type": "Double",
-														"physicalType": "float"
-													}
-												},
-												{
-													"source": {
-														"name": "Lat",
-														"type": "Double",
-														"physicalType": "float"
-													},
-													"sink": {
-														"name": "Lat",
-														"type": "Double",
-														"physicalType": "float"
-													}
-												},
-												{
-													"source": {
-														"name": "WeatherId",
-														"type": "Int32",
-														"physicalType": "int"
-													},
-													"sink": {
-														"name": "WeatherId",
-														"type": "Int32",
-														"physicalType": "int"
-													}
-												},
-												{
-													"source": {
-														"name": "WeatherMain",
-														"type": "String",
-														"physicalType": "nvarchar"
-													},
-													"sink": {
-														"name": "WeatherMain",
-														"type": "String",
-														"physicalType": "nvarchar"
-													}
-												},
-												{
-													"source": {
-														"name": "WeatherDescription",
-														"type": "String",
-														"physicalType": "nvarchar"
-													},
-													"sink": {
-														"name": "WeatherDescription",
-														"type": "String",
-														"physicalType": "nvarchar"
-													}
-												},
-												{
-													"source": {
-														"name": "Temp",
-														"type": "Double",
-														"physicalType": "float"
-													},
-													"sink": {
-														"name": "Temp",
-														"type": "Double",
-														"physicalType": "float"
-													}
-												},
-												{
-													"source": {
-														"name": "FeelsLike",
-														"type": "Double",
-														"physicalType": "float"
-													},
-													"sink": {
-														"name": "FeelsLike",
-														"type": "Double",
-														"physicalType": "float"
-													}
-												},
-												{
-													"source": {
-														"name": "TempMin",
-														"type": "Double",
-														"physicalType": "float"
-													},
-													"sink": {
-														"name": "TempMin",
-														"type": "Double",
-														"physicalType": "float"
-													}
-												},
-												{
-													"source": {
-														"name": "TempMax",
-														"type": "Double",
-														"physicalType": "float"
-													},
-													"sink": {
-														"name": "TempMax",
-														"type": "Double",
-														"physicalType": "float"
-													}
-												},
-												{
-													"source": {
-														"name": "Pressure",
-														"type": "Int32",
-														"physicalType": "int"
-													},
-													"sink": {
-														"name": "Pressure",
-														"type": "Int32",
-														"physicalType": "int"
-													}
-												},
-												{
-													"source": {
-														"name": "Humidity",
-														"type": "Int32",
-														"physicalType": "int"
-													},
-													"sink": {
-														"name": "Humidity",
-														"type": "Int32",
-														"physicalType": "int"
-													}
-												},
-												{
-													"source": {
-														"name": "WindSpeed",
-														"type": "Double",
-														"physicalType": "float"
-													},
-													"sink": {
-														"name": "WindSpeed",
-														"type": "Double",
-														"physicalType": "float"
-													}
-												},
-												{
-													"source": {
-														"name": "WindDeg",
-														"type": "Int32",
-														"physicalType": "int"
-													},
-													"sink": {
-														"name": "WindDeg",
-														"type": "Int32",
-														"physicalType": "int"
-													}
-												},
-												{
-													"source": {
-														"name": "CloudsAll",
-														"type": "Int32",
-														"physicalType": "int"
-													},
-													"sink": {
-														"name": "CloudsAll",
-														"type": "Int32",
-														"physicalType": "int"
-													}
-												},
-												{
-													"source": {
-														"name": "Dt",
-														"type": "Int32",
-														"physicalType": "int"
-													},
-													"sink": {
-														"name": "Dt",
-														"type": "Int32",
-														"physicalType": "int"
-													}
-												},
-												{
-													"source": {
-														"name": "SysId",
-														"type": "Int32",
-														"physicalType": "int"
-													},
-													"sink": {
-														"name": "SysId",
-														"type": "Int32",
-														"physicalType": "int"
-													}
-												},
-												{
-													"source": {
-														"name": "SysSunrise",
-														"type": "Int32",
-														"physicalType": "int"
-													},
-													"sink": {
-														"name": "SysSunrise",
-														"type": "Int32",
-														"physicalType": "int"
-													}
-												},
-												{
-													"source": {
-														"name": "SysSunset",
-														"type": "Int32",
-														"physicalType": "int"
-													},
-													"sink": {
-														"name": "SysSunset",
-														"type": "Int32",
-														"physicalType": "int"
-													}
-												},
-												{
-													"source": {
-														"name": "CityId",
-														"type": "Int32",
-														"physicalType": "int"
-													},
-													"sink": {
-														"name": "CityId",
-														"type": "Int32",
-														"physicalType": "int"
-													}
-												},
-												{
-													"source": {
-														"name": "CityName",
-														"type": "String",
-														"physicalType": "nvarchar"
-													},
-													"sink": {
-														"name": "CityName",
-														"type": "String",
-														"physicalType": "nvarchar"
-													}
-												},
-												{
-													"source": {
-														"name": "FileName",
-														"type": "String",
-														"physicalType": "nvarchar"
-													},
-													"sink": {
-														"name": "FileName",
-														"type": "String",
-														"physicalType": "nvarchar"
-													}
-												},
-												{
-													"source": {
-														"name": "FileId",
-														"type": "String",
-														"physicalType": "nvarchar"
-													},
-													"sink": {
-														"name": "FileId",
-														"type": "String",
-														"physicalType": "nvarchar"
-													}
-												},
-												{
-													"source": {
-														"name": "FilePath",
-														"type": "String",
-														"physicalType": "nvarchar"
-													},
-													"sink": {
-														"name": "FilePath",
-														"type": "String",
-														"physicalType": "nvarchar"
-													}
-												},
-												{
-													"source": {
-														"name": "ExtractionDate",
-														"type": "DateTime",
-														"physicalType": "datetime"
-													},
-													"sink": {
-														"name": "ExtractionDate",
-														"type": "DateTime",
-														"physicalType": "datetime"
-													}
-												},
-												{
-													"source": {
-														"name": "IsExtracted",
-														"type": "Boolean",
-														"physicalType": "bit"
-													},
-													"sink": {
-														"name": "IsExtracted",
-														"type": "Boolean",
-														"physicalType": "bit"
-													}
-												},
-												{
-													"source": {
-														"name": "IsLoaded",
-														"type": "Boolean",
-														"physicalType": "bit"
-													},
-													"sink": {
-														"name": "IsLoaded",
-														"type": "Boolean",
-														"physicalType": "bit"
-													}
-												},
-												{
-													"source": {
-														"name": "UpdatedAt",
-														"type": "DateTime",
-														"physicalType": "datetime"
-													},
-													"sink": {
-														"name": "UpdatedAt",
-														"type": "DateTime",
-														"physicalType": "datetime"
-													}
-												},
-												{
-													"source": {
-														"name": "LocationId",
-														"type": "String",
-														"physicalType": "nvarchar"
-													},
-													"sink": {
-														"name": "LocationId",
-														"type": "Int32",
-														"physicalType": "int"
-													}
-												}
-											],
-											"typeConversion": true,
-											"typeConversionSettings": {
-												"allowDataTruncation": true,
-												"treatBooleanAsNumber": false
-											}
-										}
-									},
-									"inputs": [
-										{
-											"referenceName": "ODS",
-											"type": "DatasetReference",
-											"parameters": {}
-										}
-									],
-									"outputs": [
-										{
-											"referenceName": "dwhCityTbl",
-											"type": "DatasetReference",
-											"parameters": {
-												"CityName": {
-													"value": "@variables('CityName')",
-													"type": "Expression"
-												}
-											}
-										}
-									]
 								}
 							]
 						}
@@ -512,9 +534,9 @@
 				"policy": {
 					"elapsedTimeMetric": {}
 				},
-				"variables": {
+				"parameters": {
 					"CityName": {
-						"type": "String"
+						"type": "string"
 					}
 				},
 				"folder": {
@@ -524,8 +546,7 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/GetLocationsToExtract')]",
-				"[concat(variables('factoryId'), '/datasets/ODS')]",
-				"[concat(variables('factoryId'), '/datasets/dwhCityTbl')]"
+				"[concat(variables('factoryId'), '/pipelines/ForeachLocation')]"
 			]
 		},
 		{
@@ -2103,7 +2124,7 @@
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"annotations": [],
-				"runtimeState": "Started",
+				"runtimeState": "Stopped",
 				"pipelines": [
 					{
 						"pipelineReference": {
