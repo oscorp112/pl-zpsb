@@ -463,6 +463,50 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/PL_Copy_Data')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Lookup1",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "ODS",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "Extract/Load"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ODS')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/PL_Data_Extract')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -1108,7 +1152,7 @@
 					}
 				},
 				"folder": {
-					"name": "Load"
+					"name": "Extract/Load"
 				},
 				"annotations": []
 			},
@@ -1336,7 +1380,7 @@
 								"value": "@activity('GetObjectsToLoad').output.value",
 								"type": "Expression"
 							},
-							"isSequential": true,
+							"isSequential": false,
 							"activities": [
 								{
 									"name": "Execute PL_Data_Load",
@@ -1373,7 +1417,7 @@
 					"elapsedTimeMetric": {}
 				},
 				"folder": {
-					"name": "Load"
+					"name": "Extract/Load"
 				},
 				"annotations": []
 			},
@@ -1431,36 +1475,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/pipelines/PL_Master_Extract')]",
-				"[concat(variables('factoryId'), '/pipelines/PL_Master_Load')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/PL_Master_Load')]",
-			"type": "Microsoft.DataFactory/factories/triggers",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"runtimeState": "Started",
-				"pipelines": [
-					{
-						"pipelineReference": {
-							"referenceName": "PL_Master_Load",
-							"type": "PipelineReference"
-						},
-						"parameters": {}
-					}
-				],
-				"type": "ScheduleTrigger",
-				"typeProperties": {
-					"recurrence": {
-						"frequency": "Minute",
-						"interval": 30,
-						"startTime": "2023-10-10T22:10:00",
-						"timeZone": "Central European Standard Time"
-					}
-				}
-			},
-			"dependsOn": [
 				"[concat(variables('factoryId'), '/pipelines/PL_Master_Load')]"
 			]
 		},
