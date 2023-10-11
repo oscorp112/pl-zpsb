@@ -45,7 +45,7 @@
 						"value": "@activity('GetObjectsToLoad').output.value",
 						"type": "Expression"
 					},
-					"isSequential": true,
+					"isSequential": false,
 					"activities": [
 						{
 							"name": "Execute PL_Data_Load",
