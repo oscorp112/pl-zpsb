@@ -1,5 +1,5 @@
 {
-	"name": "PL_Copy_DataLoad",
+	"name": "Test",
 	"properties": {
 		"activities": [
 			{
@@ -17,7 +17,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
-						"sqlReaderQuery": "SELECT Location\r\nFROM config.ObjectsToExtract",
+						"sqlReaderStoredProcedureName": "[config].[GetObjectsToExtract]",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
@@ -31,8 +31,6 @@
 			{
 				"name": "ForEachLocation",
 				"type": "ForEach",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "GetLocations",
