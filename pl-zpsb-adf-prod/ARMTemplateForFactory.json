@@ -494,47 +494,6 @@
 						}
 					},
 					{
-						"name": "ForEachLocation",
-						"type": "ForEach",
-						"dependsOn": [
-							{
-								"activity": "Set LocationNames",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"items": {
-								"value": "@variables('LocationNames')",
-								"type": "Expression"
-							},
-							"isSequential": false,
-							"activities": [
-								{
-									"name": "ForeachLocation",
-									"type": "ExecutePipeline",
-									"dependsOn": [],
-									"userProperties": [],
-									"typeProperties": {
-										"pipeline": {
-											"referenceName": "PL_Data_Location",
-											"type": "PipelineReference"
-										},
-										"waitOnCompletion": true,
-										"parameters": {
-											"CityName": {
-												"value": "@item().Location",
-												"type": "Expression"
-											}
-										}
-									}
-								}
-							]
-						}
-					},
-					{
 						"name": "Set LocationNames",
 						"type": "SetVariable",
 						"dependsOn": [
@@ -556,6 +515,46 @@
 								"value": "@activity('GetLocations').output.value",
 								"type": "Expression"
 							}
+						}
+					},
+					{
+						"name": "ForEach LocationName",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "Set LocationNames",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@variables('LocationNames')",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "Execute PL_Data_Location",
+									"type": "ExecutePipeline",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "PL_Data_Location",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true,
+										"parameters": {
+											"CityName": {
+												"value": "@item().Location",
+												"type": "Expression"
+											}
+										}
+									}
+								}
+							]
 						}
 					}
 				],
