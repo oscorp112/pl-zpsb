@@ -2222,6 +2222,27 @@
 							"waitOnCompletion": true,
 							"parameters": {}
 						}
+					},
+					{
+						"name": "Execute PL_Copy_DataLoad",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "Execute PL_Master_Load",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "PL_Copy_DataLoad",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
 					}
 				],
 				"policy": {
@@ -2231,7 +2252,8 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/pipelines/PL_Master_Extract')]",
-				"[concat(variables('factoryId'), '/pipelines/PL_Master_Load')]"
+				"[concat(variables('factoryId'), '/pipelines/PL_Master_Load')]",
+				"[concat(variables('factoryId'), '/pipelines/PL_Copy_DataLoad')]"
 			]
 		},
 		{
@@ -2240,7 +2262,7 @@
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"annotations": [],
-				"runtimeState": "Stopped",
+				"runtimeState": "Started",
 				"pipelines": [
 					{
 						"pipelineReference": {
