@@ -281,11 +281,6 @@
 				"type": "AzureSqlTable",
 				"schema": [
 					{
-						"name": "Id",
-						"type": "int",
-						"precision": 10
-					},
-					{
 						"name": "Lon",
 						"type": "float",
 						"precision": 15
@@ -362,11 +357,6 @@
 						"precision": 10
 					},
 					{
-						"name": "WindGust",
-						"type": "float",
-						"precision": 15
-					},
-					{
 						"name": "CloudsAll",
 						"type": "int",
 						"precision": 10
@@ -418,10 +408,18 @@
 						"name": "Cod",
 						"type": "int",
 						"precision": 10
+					},
+					{
+						"name": "FileName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FileId",
+						"type": "nvarchar"
 					}
 				],
 				"typeProperties": {
-					"schema": "tmp",
+					"schema": "ods",
 					"table": "WeatherDataInfo"
 				}
 			},
@@ -667,7 +665,9 @@
 							"sink": {
 								"type": "AzureSqlSink",
 								"writeBehavior": "insert",
-								"sqlWriterUseTableLock": false
+								"sqlWriterUseTableLock": false,
+								"tableOption": "autoCreate",
+								"disableMetricsCollection": false
 							},
 							"enableStaging": false,
 							"translator": {
@@ -1334,6 +1334,13 @@
 									{
 										"name": "FileName",
 										"value": "$$FILENAME"
+									},
+									{
+										"name": "FileId",
+										"value": {
+											"value": "@pipeline().parameters.FileID",
+											"type": "Expression"
+										}
 									}
 								],
 								"storeSettings": {
@@ -1607,6 +1614,15 @@
 											"name": "FileName",
 											"type": "String"
 										}
+									},
+									{
+										"source": {
+											"path": "$['FileId']"
+										},
+										"sink": {
+											"name": "FileId",
+											"type": "String"
+										}
 									}
 								],
 								"mapComplexValuesToString": false
@@ -1745,8 +1761,8 @@
 						}
 					},
 					{
-						"name": "Set LocationNames",
-						"type": "SetVariable",
+						"name": "ForEach LocationName",
+						"type": "ForEach",
 						"dependsOn": [
 							{
 								"activity": "GetLocations",
@@ -1755,36 +1771,14 @@
 								]
 							}
 						],
-						"policy": {
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"variableName": "LocationNames",
-							"value": {
-								"value": "@activity('GetLocations').output.value",
-								"type": "Expression"
-							}
-						}
-					},
-					{
-						"name": "ForEach LocationName",
-						"type": "ForEach",
-						"dependsOn": [
-							{
-								"activity": "Set LocationNames",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
 						"userProperties": [],
 						"typeProperties": {
 							"items": {
-								"value": "@variables('LocationNames')",
+								"value": "@activity('GetLocations').output.value",
 								"type": "Expression"
 							},
+							"isSequential": false,
+							"batchCount": 4,
 							"activities": [
 								{
 									"name": "Execute PL_Data_Location",
@@ -1811,11 +1805,6 @@
 				],
 				"policy": {
 					"elapsedTimeMetric": {}
-				},
-				"variables": {
-					"LocationNames": {
-						"type": "Array"
-					}
 				},
 				"folder": {
 					"name": "Extract/Load"
@@ -2049,6 +2038,7 @@
 								"type": "Expression"
 							},
 							"isSequential": false,
+							"batchCount": 4,
 							"activities": [
 								{
 									"name": "Execute PL_Data_Load",
