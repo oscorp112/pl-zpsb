@@ -502,7 +502,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"items": {
-								"value": "@activity('GetLocations').output.value",
+								"value": "@activity('GetLocations').output",
 								"type": "Expression"
 							},
 							"isSequential": false,
