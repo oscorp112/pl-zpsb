@@ -172,7 +172,7 @@
 					"storedProcedureParameters": {
 						"ExtractionDate": {
 							"value": {
-								"value": "@variables('CurrentDateTime')",
+								"value": "@variables('CurrentFormatted')",
 								"type": "Expression"
 							},
 							"type": "DateTime"
@@ -187,13 +187,6 @@
 						"FilePath": {
 							"value": {
 								"value": "@variables('FolderPath')",
-								"type": "Expression"
-							},
-							"type": "String"
-						},
-						"FileId": {
-							"value": {
-								"value": "@{base64(concat(variables('CurrentFormatted'),pipeline().parameters.LocationName,pipeline().parameters.LocationId))}",
 								"type": "Expression"
 							},
 							"type": "String"
