@@ -717,13 +717,6 @@
 						"typeProperties": {
 							"storedProcedureName": "[[logging].[InsertExtractedFile]",
 							"storedProcedureParameters": {
-								"ExtractionDate": {
-									"value": {
-										"value": "@variables('CurrentDateTime')",
-										"type": "Expression"
-									},
-									"type": "DateTime"
-								},
 								"FileName": {
 									"value": {
 										"value": "@{concat(pipeline().parameters.LocationName,'_',variables('CurrentFormatted'))}",
@@ -734,13 +727,6 @@
 								"FilePath": {
 									"value": {
 										"value": "@variables('FolderPath')",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"FileId": {
-									"value": {
-										"value": "@{base64(concat(variables('CurrentFormatted'),pipeline().parameters.LocationName,pipeline().parameters.LocationId))}",
 										"type": "Expression"
 									},
 									"type": "String"
@@ -1752,7 +1738,7 @@
 					}
 				],
 				"typeProperties": {
-					"schema": "ods",
+					"schema": "tmp",
 					"table": "WeatherDataInfo"
 				}
 			},
