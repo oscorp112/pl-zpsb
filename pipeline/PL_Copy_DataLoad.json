@@ -29,8 +29,8 @@
 				}
 			},
 			{
-				"name": "Set LocationNames",
-				"type": "SetVariable",
+				"name": "ForEach LocationName",
+				"type": "ForEach",
 				"dependsOn": [
 					{
 						"activity": "GetLocations",
@@ -39,36 +39,13 @@
 						]
 					}
 				],
-				"policy": {
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "LocationNames",
-					"value": {
-						"value": "@activity('GetLocations').output.value",
-						"type": "Expression"
-					}
-				}
-			},
-			{
-				"name": "ForEach LocationName",
-				"type": "ForEach",
-				"dependsOn": [
-					{
-						"activity": "Set LocationNames",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@variables('LocationNames')",
+						"value": "@activity('GetLocations').output.value",
 						"type": "Expression"
 					},
+					"isSequential": false,
 					"activities": [
 						{
 							"name": "Execute PL_Data_Location",
@@ -93,11 +70,6 @@
 				}
 			}
 		],
-		"variables": {
-			"LocationNames": {
-				"type": "Array"
-			}
-		},
 		"folder": {
 			"name": "Extract/Load"
 		},
