@@ -408,6 +408,11 @@
 				"type": "string"
 			}
 		},
+		"variables": {
+			"LocationNames": {
+				"type": "Array"
+			}
+		},
 		"folder": {
 			"name": "Extract/Load"
 		},
