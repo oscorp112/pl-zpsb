@@ -9,11 +9,6 @@
 		"type": "AzureSqlTable",
 		"schema": [
 			{
-				"name": "Id",
-				"type": "int",
-				"precision": 10
-			},
-			{
 				"name": "Lon",
 				"type": "float",
 				"precision": 15
@@ -90,11 +85,6 @@
 				"precision": 10
 			},
 			{
-				"name": "WindGust",
-				"type": "float",
-				"precision": 15
-			},
-			{
 				"name": "CloudsAll",
 				"type": "int",
 				"precision": 10
@@ -146,6 +136,14 @@
 				"name": "Cod",
 				"type": "int",
 				"precision": 10
+			},
+			{
+				"name": "FileName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FileId",
+				"type": "nvarchar"
 			}
 		],
 		"typeProperties": {
