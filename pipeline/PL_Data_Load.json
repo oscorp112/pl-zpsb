@@ -21,6 +21,13 @@
 							{
 								"name": "FileName",
 								"value": "$$FILENAME"
+							},
+							{
+								"name": "FileId",
+								"value": {
+									"value": "@pipeline().parameters.FileID",
+									"type": "Expression"
+								}
 							}
 						],
 						"storeSettings": {
@@ -294,6 +301,15 @@
 									"name": "FileName",
 									"type": "String"
 								}
+							},
+							{
+								"source": {
+									"path": "$['FileId']"
+								},
+								"sink": {
+									"name": "FileId",
+									"type": "String"
+								}
 							}
 						],
 						"mapComplexValuesToString": false
@@ -376,6 +392,11 @@
 			},
 			"FilePath": {
 				"type": "string"
+			}
+		},
+		"variables": {
+			"LocationNames": {
+				"type": "Array"
 			}
 		},
 		"folder": {
