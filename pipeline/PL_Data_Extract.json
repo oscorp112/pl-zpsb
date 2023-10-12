@@ -170,13 +170,6 @@
 				"typeProperties": {
 					"storedProcedureName": "[logging].[InsertExtractedFile]",
 					"storedProcedureParameters": {
-						"ExtractionDate": {
-							"value": {
-								"value": "@variables('CurrentDateTime')",
-								"type": "Expression"
-							},
-							"type": "String"
-						},
 						"FileName": {
 							"value": {
 								"value": "@{concat(pipeline().parameters.LocationName,'_',variables('CurrentFormatted'))}",
