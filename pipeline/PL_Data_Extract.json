@@ -172,10 +172,10 @@
 					"storedProcedureParameters": {
 						"ExtractionDate": {
 							"value": {
-								"value": "@variables('CurrentFormatted')",
+								"value": "@variables('CurrentDateTime')",
 								"type": "Expression"
 							},
-							"type": "DateTime"
+							"type": "String"
 						},
 						"FileName": {
 							"value": {
