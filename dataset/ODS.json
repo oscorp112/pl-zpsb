@@ -149,7 +149,7 @@
 			}
 		],
 		"typeProperties": {
-			"schema": "ods",
+			"schema": "tmp",
 			"table": "WeatherDataInfo"
 		}
 	}
