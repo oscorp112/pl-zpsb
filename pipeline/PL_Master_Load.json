@@ -46,6 +46,7 @@
 						"type": "Expression"
 					},
 					"isSequential": false,
+					"batchCount": 4,
 					"activities": [
 						{
 							"name": "Execute PL_Data_Load",
@@ -78,6 +79,11 @@
 				}
 			}
 		],
+		"variables": {
+			"LocationNames": {
+				"type": "Array"
+			}
+		},
 		"folder": {
 			"name": "Extract/Load"
 		},
