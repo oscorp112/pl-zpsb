@@ -445,6 +445,11 @@
 						"type": "string"
 					}
 				},
+				"variables": {
+					"LocationNames": {
+						"type": "Array"
+					}
+				},
 				"folder": {
 					"name": "Extract/Load"
 				},
@@ -493,7 +498,7 @@
 						"type": "ForEach",
 						"dependsOn": [
 							{
-								"activity": "GetLocations",
+								"activity": "Set LocationNames",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -502,7 +507,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"items": {
-								"value": "@activity('GetLocations').output",
+								"value": "@variables('LocationNames')",
 								"type": "Expression"
 							},
 							"isSequential": false,
@@ -528,10 +533,39 @@
 								}
 							]
 						}
+					},
+					{
+						"name": "Set LocationNames",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "GetLocations",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "LocationNames",
+							"value": {
+								"value": "@activity('GetLocations').output.value",
+								"type": "Expression"
+							}
+						}
 					}
 				],
 				"policy": {
 					"elapsedTimeMetric": {}
+				},
+				"variables": {
+					"LocationNames": {
+						"type": "Array"
+					}
 				},
 				"folder": {
 					"name": "Extract/Load"
@@ -775,6 +809,9 @@
 					},
 					"CurrentFormatted": {
 						"type": "String"
+					},
+					"LocationNames": {
+						"type": "Array"
 					}
 				},
 				"folder": {
@@ -1174,6 +1211,11 @@
 						"type": "string"
 					}
 				},
+				"variables": {
+					"LocationNames": {
+						"type": "Array"
+					}
+				},
 				"folder": {
 					"name": "Extract/Load"
 				},
@@ -1393,6 +1435,9 @@
 					},
 					"CurrentFormatted": {
 						"type": "String"
+					},
+					"LocationNames": {
+						"type": "Array"
 					}
 				},
 				"folder": {
@@ -1490,6 +1535,11 @@
 				],
 				"policy": {
 					"elapsedTimeMetric": {}
+				},
+				"variables": {
+					"LocationNames": {
+						"type": "Array"
+					}
 				},
 				"folder": {
 					"name": "Extract/Load"
@@ -2209,6 +2259,11 @@
 				],
 				"policy": {
 					"elapsedTimeMetric": {}
+				},
+				"variables": {
+					"LocationNames": {
+						"type": "Array"
+					}
 				},
 				"folder": {
 					"name": "Extract/Load"
