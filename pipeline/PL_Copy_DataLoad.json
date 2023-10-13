@@ -66,6 +66,26 @@
 									}
 								}
 							}
+						},
+						{
+							"name": "Execute PL_Load_Fact",
+							"type": "ExecutePipeline",
+							"dependsOn": [
+								{
+									"activity": "Execute PL_Data_Location",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "PL_Load_Fact",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true
+							}
 						}
 					]
 				}
