@@ -38,6 +38,8 @@
 			{
 				"name": "Execute PL_Copy_DataLoad",
 				"type": "ExecutePipeline",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Execute PL_Master_Load",
