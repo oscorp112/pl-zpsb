@@ -788,8 +788,8 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "Merge",
-						"type": "Script",
+						"name": "ExecuteProcedures",
+						"type": "SqlServerStoredProcedure",
 						"dependsOn": [],
 						"policy": {
 							"timeout": "0.12:00:00",
@@ -799,38 +799,15 @@
 							"secureInput": false
 						},
 						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": {
+								"value": "@concat('dwh.Insert_',pipeline().parameters.CityName)",
+								"type": "Expression"
+							}
+						},
 						"linkedServiceName": {
 							"referenceName": "SQL",
 							"type": "LinkedServiceReference"
-						},
-						"typeProperties": {
-							"scripts": [
-								{
-									"parameters": [
-										{
-											"name": "TableName",
-											"type": "String",
-											"value": {
-												"value": "@concat('dwh.tbl_',pipeline().parameters.CityName)",
-												"type": "Expression"
-											},
-											"direction": "Input"
-										},
-										{
-											"name": "CityName",
-											"type": "String",
-											"value": {
-												"value": "@pipeline().parameters.CityName",
-												"type": "Expression"
-											},
-											"direction": "Input"
-										}
-									],
-									"type": "Query",
-									"text": "MERGE INTO @TableName AS target\n\tUSING (\n    SELECT ods.Lon, \n        ods.Lat,\n        ods.WeatherId,\n        ods.WeatherMain,\n        ods.WeatherDescription,\n        ods.Temp, \n        ods.FeelsLike, \n        ods.TempMin, \n        ods.TempMax, \n        ods.Pressure, \n        ods.Humidity,\n        ods.WindSpeed, \n        ods.WindDeg, \n        ods.CloudsAll, \n        ods.Dt, \n        ods.SysId,\n        ods.SysSunrise,\n        ods.SysSunset,\n        ods.CityId,\n        ods.CityName,\n        logging.FileName,\n        logging.FileId,\n        logging.FilePath,\n        logging.ExtractionDate,\n        logging.IsExtracted,\n        logging.IsLoaded,\n        logging.UpdatedAt,\n        logging.LocationId\n    FROM ods.WeatherDataInfo AS ods\n    LEFT JOIN logging.ExtractionAndLoadingLog AS logging\n        ON ods.FileId = logging.FileId\n    WHERE logging.IsExtracted = '1'\n        AND logging.IsLoaded = '1'\n        AND logging.FileName LIKE @CityName + '_%')\n) AS source\nON target.FileId = source.FileId\nWHEN NOT MATCHED THEN\nINSERT (Lon, Lat, WeatherId, WeatherMain, WeatherDescription, Temp, FeelsLike, TempMin, TempMax, Pressure, Humidity, WindSpeed, WindDeg, CloudsAll, Dt, SysId, SysSunrise, SysSunset, CityId, CityName, FileName, FileId, FilePath, ExtractionDate, IsExtracted, IsLoaded, UpdatedAt, LocationId)\nVALUES (source.Lon, source.Lat, source.WeatherId, source.WeatherMain, source.WeatherDescription, source.Temp, source.FeelsLike, source.TempMin, source.TempMax, source.Pressure, source.Humidity, source.WindSpeed, source.WindDeg, source.CloudsAll, source.Dt, source.SysId, source.SysSunrise, source.SysSunset, source.CityId, source.CityName, source.FileName, source.FileId, source.FilePath, source.ExtractionDate, source.IsExtracted, source.IsLoaded, source.UpdatedAt, source.LocationId);\n"
-								}
-							],
-							"scriptBlockExecutionTimeout": "02:00:00"
 						}
 					}
 				],
