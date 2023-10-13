@@ -30,439 +30,6 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/PL_Data_Location')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "CopyToCityTables",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"sqlReaderStoredProcedureName": "[[load].[InsertDataForCity]",
-								"storedProcedureParameters": {
-									"CityName": {
-										"type": "String",
-										"value": {
-											"value": "@pipeline().parameters.CityName",
-											"type": "Expression"
-										}
-									}
-								},
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "AzureSqlSink",
-								"writeBehavior": "insert",
-								"sqlWriterUseTableLock": false,
-								"tableOption": "autoCreate",
-								"disableMetricsCollection": false
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "Lon",
-											"type": "Double",
-											"physicalType": "float"
-										},
-										"sink": {
-											"name": "Lon",
-											"type": "Double",
-											"physicalType": "float"
-										}
-									},
-									{
-										"source": {
-											"name": "Lat",
-											"type": "Double",
-											"physicalType": "float"
-										},
-										"sink": {
-											"name": "Lat",
-											"type": "Double",
-											"physicalType": "float"
-										}
-									},
-									{
-										"source": {
-											"name": "WeatherId",
-											"type": "Int32",
-											"physicalType": "int"
-										},
-										"sink": {
-											"name": "WeatherId",
-											"type": "Int32",
-											"physicalType": "int"
-										}
-									},
-									{
-										"source": {
-											"name": "WeatherMain",
-											"type": "String",
-											"physicalType": "nvarchar"
-										},
-										"sink": {
-											"name": "WeatherMain",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "WeatherDescription",
-											"type": "String",
-											"physicalType": "nvarchar"
-										},
-										"sink": {
-											"name": "WeatherDescription",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Temp",
-											"type": "Double",
-											"physicalType": "float"
-										},
-										"sink": {
-											"name": "Temp",
-											"type": "Double",
-											"physicalType": "float"
-										}
-									},
-									{
-										"source": {
-											"name": "FeelsLike",
-											"type": "Double",
-											"physicalType": "float"
-										},
-										"sink": {
-											"name": "FeelsLike",
-											"type": "Double",
-											"physicalType": "float"
-										}
-									},
-									{
-										"source": {
-											"name": "TempMin",
-											"type": "Double",
-											"physicalType": "float"
-										},
-										"sink": {
-											"name": "TempMin",
-											"type": "Double",
-											"physicalType": "float"
-										}
-									},
-									{
-										"source": {
-											"name": "TempMax",
-											"type": "Double",
-											"physicalType": "float"
-										},
-										"sink": {
-											"name": "TempMax",
-											"type": "Double",
-											"physicalType": "float"
-										}
-									},
-									{
-										"source": {
-											"name": "Pressure",
-											"type": "Int32",
-											"physicalType": "int"
-										},
-										"sink": {
-											"name": "Pressure",
-											"type": "Int32",
-											"physicalType": "int"
-										}
-									},
-									{
-										"source": {
-											"name": "Humidity",
-											"type": "Int32",
-											"physicalType": "int"
-										},
-										"sink": {
-											"name": "Humidity",
-											"type": "Int32",
-											"physicalType": "int"
-										}
-									},
-									{
-										"source": {
-											"name": "WindSpeed",
-											"type": "Double",
-											"physicalType": "float"
-										},
-										"sink": {
-											"name": "WindSpeed",
-											"type": "Double",
-											"physicalType": "float"
-										}
-									},
-									{
-										"source": {
-											"name": "WindDeg",
-											"type": "Int32",
-											"physicalType": "int"
-										},
-										"sink": {
-											"name": "WindDeg",
-											"type": "Int32",
-											"physicalType": "int"
-										}
-									},
-									{
-										"source": {
-											"name": "CloudsAll",
-											"type": "Int32",
-											"physicalType": "int"
-										},
-										"sink": {
-											"name": "CloudsAll",
-											"type": "Int32",
-											"physicalType": "int"
-										}
-									},
-									{
-										"source": {
-											"name": "Dt",
-											"type": "Int32",
-											"physicalType": "int"
-										},
-										"sink": {
-											"name": "Dt",
-											"type": "Int32",
-											"physicalType": "int"
-										}
-									},
-									{
-										"source": {
-											"name": "SysId",
-											"type": "Int32",
-											"physicalType": "int"
-										},
-										"sink": {
-											"name": "SysId",
-											"type": "Int32",
-											"physicalType": "int"
-										}
-									},
-									{
-										"source": {
-											"name": "SysSunrise",
-											"type": "Int32",
-											"physicalType": "int"
-										},
-										"sink": {
-											"name": "SysSunrise",
-											"type": "Int32",
-											"physicalType": "int"
-										}
-									},
-									{
-										"source": {
-											"name": "SysSunset",
-											"type": "Int32",
-											"physicalType": "int"
-										},
-										"sink": {
-											"name": "SysSunset",
-											"type": "Int32",
-											"physicalType": "int"
-										}
-									},
-									{
-										"source": {
-											"name": "CityId",
-											"type": "Int32",
-											"physicalType": "int"
-										},
-										"sink": {
-											"name": "CityId",
-											"type": "Int32",
-											"physicalType": "int"
-										}
-									},
-									{
-										"source": {
-											"name": "CityName",
-											"type": "String",
-											"physicalType": "nvarchar"
-										},
-										"sink": {
-											"name": "CityName",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "FileName",
-											"type": "String",
-											"physicalType": "nvarchar"
-										},
-										"sink": {
-											"name": "FileName",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "FileId",
-											"type": "String",
-											"physicalType": "nvarchar"
-										},
-										"sink": {
-											"name": "FileId",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "FilePath",
-											"type": "String",
-											"physicalType": "nvarchar"
-										},
-										"sink": {
-											"name": "FilePath",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "ExtractionDate",
-											"type": "DateTime",
-											"physicalType": "datetime"
-										},
-										"sink": {
-											"name": "ExtractionDate",
-											"type": "DateTime",
-											"physicalType": "datetime"
-										}
-									},
-									{
-										"source": {
-											"name": "IsExtracted",
-											"type": "Boolean",
-											"physicalType": "bit"
-										},
-										"sink": {
-											"name": "IsExtracted",
-											"type": "Boolean",
-											"physicalType": "bit"
-										}
-									},
-									{
-										"source": {
-											"name": "IsLoaded",
-											"type": "Boolean",
-											"physicalType": "bit"
-										},
-										"sink": {
-											"name": "IsLoaded",
-											"type": "Boolean",
-											"physicalType": "bit"
-										}
-									},
-									{
-										"source": {
-											"name": "UpdatedAt",
-											"type": "DateTime",
-											"physicalType": "datetime"
-										},
-										"sink": {
-											"name": "UpdatedAt",
-											"type": "DateTime",
-											"physicalType": "datetime"
-										}
-									},
-									{
-										"source": {
-											"name": "LocationId",
-											"type": "String",
-											"physicalType": "nvarchar"
-										},
-										"sink": {
-											"name": "LocationId",
-											"type": "Int32",
-											"physicalType": "int"
-										}
-									}
-								],
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "ODS",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "dwhCityTbl",
-								"type": "DatasetReference",
-								"parameters": {
-									"CityName": {
-										"value": "@pipeline().parameters.CityName",
-										"type": "Expression"
-									}
-								}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"parameters": {
-					"CityName": {
-						"type": "string"
-					}
-				},
-				"variables": {
-					"LocationNames": {
-						"type": "Array"
-					}
-				},
-				"folder": {
-					"name": "Extract/Load"
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/ODS')]",
-				"[concat(variables('factoryId'), '/datasets/dwhCityTbl')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/PL_Copy_DataLoad')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -783,9 +350,6 @@
 					},
 					"CurrentFormatted": {
 						"type": "String"
-					},
-					"LocationNames": {
-						"type": "Array"
 					}
 				},
 				"folder": {
@@ -1218,6 +782,81 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/PL_Data_Location')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Merge",
+						"type": "Script",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"linkedServiceName": {
+							"referenceName": "SQL",
+							"type": "LinkedServiceReference"
+						},
+						"typeProperties": {
+							"scripts": [
+								{
+									"parameters": [
+										{
+											"name": "TableName",
+											"type": "String",
+											"value": {
+												"value": "@concat('dwh.tbl_',pipeline().parameters.CityName)",
+												"type": "Expression"
+											},
+											"direction": "Input"
+										},
+										{
+											"name": "CityName",
+											"type": "String",
+											"value": {
+												"value": "@pipeline().parameters.CityName",
+												"type": "Expression"
+											},
+											"direction": "Input"
+										}
+									],
+									"type": "Query",
+									"text": "MERGE INTO ? AS target\n\tUSING (\n    SELECT ods.Lon, \n        ods.Lat,\n        ods.WeatherId,\n        ods.WeatherMain,\n        ods.WeatherDescription,\n        ods.Temp, \n        ods.FeelsLike, \n        ods.TempMin, \n        ods.TempMax, \n        ods.Pressure, \n        ods.Humidity,\n        ods.WindSpeed, \n        ods.WindDeg, \n        ods.CloudsAll, \n        ods.Dt, \n        ods.SysId,\n        ods.SysSunrise,\n        ods.SysSunset,\n        ods.CityId,\n        ods.CityName,\n        logging.FileName,\n        logging.FileId,\n        logging.FilePath,\n        logging.ExtractionDate,\n        logging.IsExtracted,\n        logging.IsLoaded,\n        logging.UpdatedAt,\n        logging.LocationId\n    FROM ods.WeatherDataInfo AS ods\n    LEFT JOIN logging.ExtractionAndLoadingLog AS logging\n        ON ods.FileId = logging.FileId\n    WHERE logging.IsExtracted = '1'\n        AND logging.IsLoaded = '1'\n        AND logging.FileName LIKE (? + '_%')\n) AS source\nON target.FileId = source.FileId\nWHEN NOT MATCHED THEN\nINSERT (Lon, Lat, WeatherId, WeatherMain, WeatherDescription, Temp, FeelsLike, TempMin, TempMax, Pressure, Humidity, WindSpeed, WindDeg, CloudsAll, Dt, SysId, SysSunrise, SysSunset, CityId, CityName, FileName, FileId, FilePath, ExtractionDate, IsExtracted, IsLoaded, UpdatedAt, LocationId)\nVALUES (source.Lon, source.Lat, source.WeatherId, source.WeatherMain, source.WeatherDescription, source.Temp, source.FeelsLike, source.TempMin, source.TempMax, source.Pressure, source.Humidity, source.WindSpeed, source.WindDeg, source.CloudsAll, source.Dt, source.SysId, source.SysSunrise, source.SysSunset, source.CityId, source.CityName, source.FileName, source.FileId, source.FilePath, source.ExtractionDate, source.IsExtracted, source.IsLoaded, source.UpdatedAt, source.LocationId);\n"
+								}
+							],
+							"scriptBlockExecutionTimeout": "02:00:00"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"parameters": {
+					"CityName": {
+						"type": "string"
+					}
+				},
+				"variables": {
+					"LocationNames": {
+						"type": "Array"
+					}
+				},
+				"folder": {
+					"name": "Extract/Load"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SQL')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/PL_Master_Execution')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -1261,6 +900,8 @@
 					{
 						"name": "Execute PL_Copy_DataLoad",
 						"type": "ExecutePipeline",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "Execute PL_Master_Load",
@@ -1447,9 +1088,6 @@
 					},
 					"CurrentFormatted": {
 						"type": "String"
-					},
-					"LocationNames": {
-						"type": "Array"
 					}
 				},
 				"folder": {
@@ -1562,6 +1200,94 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/GetLocationsToExtract')]",
 				"[concat(variables('factoryId'), '/pipelines/PL_Data_Load')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Test')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "GetLocations",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderStoredProcedureName": "[[config].[GetObjectsToExtract]",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "GetLocationsToExtract",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					},
+					{
+						"name": "ForEachLocation",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "GetLocations",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('GetLocations').output.value",
+								"type": "Expression"
+							},
+							"isSequential": false,
+							"activities": [
+								{
+									"name": "ForeachLocation",
+									"type": "ExecutePipeline",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "PL_Data_Location",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true,
+										"parameters": {
+											"CityName": {
+												"value": "@item().Location",
+												"type": "Expression"
+											}
+										}
+									}
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "Extract/Load"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/GetLocationsToExtract')]",
+				"[concat(variables('factoryId'), '/pipelines/PL_Data_Location')]"
 			]
 		},
 		{
@@ -2191,99 +1917,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/pipelines/PL_Master_Execution')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Test')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "GetLocations",
-						"type": "Lookup",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"sqlReaderStoredProcedureName": "[[config].[GetObjectsToExtract]",
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
-							},
-							"dataset": {
-								"referenceName": "GetLocationsToExtract",
-								"type": "DatasetReference",
-								"parameters": {}
-							},
-							"firstRowOnly": false
-						}
-					},
-					{
-						"name": "ForEachLocation",
-						"type": "ForEach",
-						"dependsOn": [
-							{
-								"activity": "GetLocations",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"items": {
-								"value": "@activity('GetLocations').output.value",
-								"type": "Expression"
-							},
-							"isSequential": false,
-							"activities": [
-								{
-									"name": "ForeachLocation",
-									"type": "ExecutePipeline",
-									"dependsOn": [],
-									"userProperties": [],
-									"typeProperties": {
-										"pipeline": {
-											"referenceName": "PL_Data_Location",
-											"type": "PipelineReference"
-										},
-										"waitOnCompletion": true,
-										"parameters": {
-											"CityName": {
-												"value": "@item().Location",
-												"type": "Expression"
-											}
-										}
-									}
-								}
-							]
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"variables": {
-					"LocationNames": {
-						"type": "Array"
-					}
-				},
-				"folder": {
-					"name": "Extract/Load"
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/GetLocationsToExtract')]",
-				"[concat(variables('factoryId'), '/pipelines/PL_Data_Location')]"
 			]
 		}
 	]
