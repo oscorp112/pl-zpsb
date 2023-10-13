@@ -1,0 +1,108 @@
+{
+	"name": "factTable",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SQL",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Longitude",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "Latitude",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "WeatherMain",
+				"type": "nvarchar"
+			},
+			{
+				"name": "WeatherDescription",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Temp",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "FeelsLike",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "TempMin",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "TempMax",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "Pressure",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Humidity",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "WindSpeed",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "WindDeg",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CloudsAll",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CityId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CityName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FileName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FileId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FilePath",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ExtractionDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			}
+		],
+		"typeProperties": {
+			"schema": "fact",
+			"table": "WeatherAllCities"
+		}
+	}
+}

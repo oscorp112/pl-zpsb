@@ -84,7 +84,13 @@
 									"referenceName": "PL_Load_Fact",
 									"type": "PipelineReference"
 								},
-								"waitOnCompletion": true
+								"waitOnCompletion": true,
+								"parameters": {
+									"CityName": {
+										"value": "@item().Location",
+										"type": "Expression"
+									}
+								}
 							}
 						}
 					]
