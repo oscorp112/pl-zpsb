@@ -190,6 +190,13 @@
 								"type": "Expression"
 							},
 							"type": "String"
+						},
+						"LocationName": {
+							"value": {
+								"value": "@pipeline().parameters.LocationName",
+								"type": "Expression"
+							},
+							"type": "String"
 						}
 					}
 				},
