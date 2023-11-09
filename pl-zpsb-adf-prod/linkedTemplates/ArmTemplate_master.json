@@ -4,12 +4,12 @@
 	"parameters": {
 		"factoryName": {
 			"type": "string",
-			"metadata": "Data Factory name",
+			"metadata": "Nazwa fabryki danych",
 			"defaultValue": "pl-zpsb-adf-prod"
 		},
 		"SQL_connectionString": {
 			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'SQL'",
+			"metadata": "Bezpieczny ciąg dla elementu „connectionString” — „SQL”",
 			"defaultValue": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=pl-zsz-01.database.windows.net;Initial Catalog=pl-zpsb-sql-prod;User ID=AzureADF"
 		},
 		"KV_properties_typeProperties_baseUrl": {
@@ -26,11 +26,11 @@
 		},
 		"containerUri": {
 			"type": "string",
-			"metadata": "URI to storage account containing linked ARM templates"
+			"metadata": "Identyfikator URI konta magazynu zawierającego połączone szablony usługi ARM"
 		},
 		"containerSasToken": {
 			"type": "string",
-			"metadata": "Sas token to storage account containing linked ARM templates"
+			"metadata": "Token SAS dla konta magazynu zawierającego połączone szablony usługi ARM"
 		}
 	},
 	"variables": {

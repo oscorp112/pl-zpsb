@@ -4,12 +4,12 @@
 	"parameters": {
 		"factoryName": {
 			"type": "string",
-			"metadata": "Data Factory name",
+			"metadata": "Nazwa fabryki danych",
 			"defaultValue": "pl-zpsb-adf-prod"
 		},
 		"SQL_connectionString": {
 			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'SQL'",
+			"metadata": "Bezpieczny ciąg dla elementu „connectionString” — „SQL”",
 			"defaultValue": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=pl-zsz-01.database.windows.net;Initial Catalog=pl-zpsb-sql-prod;User ID=AzureADF"
 		},
 		"KV_properties_typeProperties_baseUrl": {
@@ -120,7 +120,7 @@
 					"elapsedTimeMetric": {}
 				},
 				"folder": {
-					"name": "Extract/Load"
+					"name": "Load"
 				},
 				"annotations": []
 			},
@@ -788,7 +788,7 @@
 					}
 				},
 				"folder": {
-					"name": "Extract/Load"
+					"name": "Load"
 				},
 				"annotations": []
 			},
@@ -842,7 +842,7 @@
 					}
 				},
 				"folder": {
-					"name": "Extract/Load"
+					"name": "Load"
 				},
 				"annotations": []
 			},
@@ -1185,7 +1185,7 @@
 					}
 				},
 				"folder": {
-					"name": "Extract/Load"
+					"name": "Load"
 				},
 				"annotations": []
 			},
